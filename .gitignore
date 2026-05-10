@@ -1,0 +1,40 @@
+# Ambiente e segredos
+env
+.env
+.env.*
+!.env.example
+
+# Dependências
+vendor/
+
+# Cache e logs do CI4
+writable/cache/*
+writable/logs/*
+writable/session/*
+writable/uploads/*
+writable/debugbar/*
+
+# Manter a estrutura das pastas writable
+!writable/cache/.gitkeep
+!writable/logs/.gitkeep
+!writable/session/.gitkeep
+!writable/uploads/.gitkeep
+
+# IDEs e editores
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Node (se usar assets com npm)
+node_modules/
+npm-debug.log
+
+# Composer
+composer.phar
