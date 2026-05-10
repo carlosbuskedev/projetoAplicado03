@@ -24,4 +24,4 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 775 /var/www/html/writable
 
-EXPOSE 3333
+EXPOSE 80
