@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.pixel-menu-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  font-family: 'Press Start 2P', cursive;
+  position: relative;
+}
+
+/* Header */
+.pixel-header {
+  background: #f9f5f0;
+  border-bottom: 4px solid #e8dfd6;
+  box-shadow: 0 4px 0 #e8dfd6;
+}
+
+.pixel-title {
+  font-size: 1.5rem;
+  color: #9d8189;
+  text-shadow: 3px 3px 0 #d4c5c7;
+  letter-spacing: 2px;
+}
+
+/* Botão Login */
+.pixel-btn-login {
+  background: #e6d8e0;
+  border: 3px solid #d4c5c7;
+  color: #7d6b7d;
+  padding: 8px 24px;
+  font-size: 0.75rem;
+  box-shadow: 4px 4px 0 #d4c5c7;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-btn-login:hover {
+  background: #d4c5c7;
+  color: #5d4e5d;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+/* Menu Box */
+.pixel-menu-box {
+  background: #faf8f5;
+  border: 5px solid #e8dfd6;
+  border-radius: 0;
+  padding: 3rem 2rem;
+  box-shadow: 8px 8px 0 #e8dfd6;
+  position: relative;
+}
+
+.pixel-menu-title {
+  font-size: 1.75rem;
+  color: #a88f8f;
+  text-shadow: 3px 3px 0 #e8dfd6;
+  letter-spacing: 2px;
+}
+
+/* Menu Items */
+.pixel-menu-item {
+  width: 100%;
+  background: #f5ebe0;
+  border: 4px solid #d9c5b0;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 6px 6px 0 #d9c5b0;
+  text-decoration: none;
+  position: relative;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-menu-item:hover,
+.pixel-menu-item.selected {
+  background: #ede0d4;
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+.pixel-menu-item-content {
+  text-align: center;
+  flex: 1;
+}
+
+.pixel-menu-item-title {
+  font-size: 1.1rem;
+  color: #8b7355;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.pixel-menu-item-description {
+  font-size: 0.5rem;
+  color: #a68a64;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pixel-arrow {
+  font-size: 1.5rem;
+  color: #b8a183;
+  margin-left: 1rem;
+  animation: blink 1s infinite;
+  position: absolute;
+  right: 1.5rem;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Modal */
+.pixel-modal {
+  background: #f0e9e1;
+  border: 5px solid #d9c5b0;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #d9c5b0;
+}
+
+.pixel-modal-title {
+  font-size: 1.25rem;
+  color: #7d6b7d;
+  text-shadow: 2px 2px 0 #d9c5b0;
+}
+
+.pixel-label {
+  font-size: 0.65rem;
+  color: #8b7355;
+  margin-bottom: 0.5rem;
+}
+
+.pixel-input {
+  border: 3px solid #d9c5b0;
+  border-radius: 0;
+  padding: 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  background: #faf8f5;
+  color: #7d6b7d;
+}
+
+.pixel-input:focus {
+  border-color: #b8a183;
+  box-shadow: 0 0 0 3px #e8dfd6;
+  background: #fff;
+  outline: none;
+}
+
+.pixel-input::placeholder {
+  color: #b8a183;
+  opacity: 0.6;
+}
+
+.pixel-btn-primary {
+  background: #d9c5b0;
+  border: 3px solid #b8a183;
+  color: #5d4e5d;
+  padding: 12px;
+  font-size: 0.75rem;
+  box-shadow: 5px 5px 0 #b8a183;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-btn-primary:hover {
+  background: #b8a183;
+  color: #5d4e5d;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #b8a183;
+}
+
+.pixel-close-btn {
+  filter: contrast(0) brightness(0.5);
+  opacity: 1;
+}
+
+.pixel-close-btn:hover {
+  filter: contrast(0) brightness(0);
+}
+
+/* Modal backdrop customizado */
+.modal.show {
+  display: block !important;
+  background-color: rgba(0,0,0,0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pixel-title {
+    font-size: 0.9rem;
+  }
+  
+  .pixel-menu-title {
+    font-size: 1.2rem;
+  }
+  
+  .pixel-menu-item-title {
+    font-size: 0.85rem;
+  }
+  
+  .pixel-menu-item-description {
+    font-size: 0.45rem;
+  }
+  
+  .pixel-btn-login {
+    font-size: 0.6rem;
+    padding: 6px 16px;
+  }
+}

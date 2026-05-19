@@ -1,0 +1,371 @@
+/* Journey Page Styles */
+
+/* Botão Voltar */
+.pixel-btn-back {
+  background: #e6d8e0;
+  border: 3px solid #d4c5c7;
+  color: #7d6b7d;
+  padding: 8px 20px;
+  font-size: 0.75rem;
+  box-shadow: 4px 4px 0 #d4c5c7;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-btn-back:hover {
+  background: #d4c5c7;
+  color: #5d4e5d;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+/* Section Title */
+.pixel-section-title {
+  font-size: 1.5rem;
+  color: #a88f8f;
+  text-shadow: 3px 3px 0 #e8dfd6;
+  letter-spacing: 2px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Activity Cards */
+.activity-card {
+  background: #f5ebe0;
+  border: 4px solid #d9c5b0;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 0 #d9c5b0;
+  text-align: center;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.activity-card:hover {
+  background: #ede0d4;
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+.activity-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.activity-card-title {
+  font-size: 0.9rem;
+  color: #8b7355;
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.activity-card-description {
+  font-size: 0.5rem;
+  color: #a68a64;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.activity-card-time {
+  background: #d9c5b0;
+  color: #5d4e5d;
+  padding: 0.5rem 1rem;
+  font-size: 0.65rem;
+  border: 2px solid #b8a183;
+  box-shadow: 3px 3px 0 #b8a183;
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Pomodoro Modal */
+.pomodoro-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0); /* começa transparente */
+  
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 0.3s ease, background 0.3s ease;
+  z-index: 2000;
+}
+
+.pomodoro-modal.show {
+  opacity: 1;
+  visibility: visible;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+
+.pomodoro-modal-content {
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  border: 6px solid #d9c5b0;
+  box-shadow: 12px 12px 0 #b8a183;
+  padding: 3rem 2rem;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.pomodoro-modal.show .pomodoro-modal-content {
+  transform: scale(1);
+}
+
+.pomodoro-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #d9c5b0;
+  border: 3px solid #b8a183;
+  color: #5d4e5d;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #b8a183;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1;
+  padding: 0;
+}
+
+.pomodoro-close-btn:hover {
+  background: #b8a183;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #b8a183;
+}
+
+.pomodoro-title {
+  font-size: 1.5rem;
+  color: #8b7355;
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #d9c5b0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Tomate Animado */
+.tomato-container {
+  margin: 2rem 0;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tomato {
+  font-size: 6rem;
+  animation: dance 1s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes dance {
+  0%, 100% {
+    transform: rotate(-5deg) scale(1);
+  }
+  25% {
+    transform: rotate(5deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(-5deg) scale(1);
+  }
+  75% {
+    transform: rotate(5deg) scale(1.1);
+  }
+}
+
+/* Timer Display */
+.timer-display {
+  font-size: 4rem;
+  color: #8b7355;
+  font-family: 'Press Start 2P', cursive;
+  margin: 2rem 0;
+  text-shadow: 4px 4px 0 #d9c5b0;
+  letter-spacing: 0.5rem;
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.timer-btn {
+  background: #d9c5b0;
+  border: 3px solid #b8a183;
+  color: #5d4e5d;
+  padding: 12px 24px;
+  font-size: 0.75rem;
+  box-shadow: 5px 5px 0 #b8a183;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+}
+
+.timer-btn:hover {
+  background: #b8a183;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #b8a183;
+}
+
+.timer-btn-start {
+  background: #c8d8c0;
+  border-color: #a8b89c;
+  box-shadow: 5px 5px 0 #a8b89c;
+}
+
+.timer-btn-start:hover {
+  background: #a8b89c;
+  box-shadow: 3px 3px 0 #a8b89c;
+}
+
+.timer-btn-pause {
+  background: #e6d0b8;
+  border-color: #c8b098;
+  box-shadow: 5px 5px 0 #c8b098;
+}
+
+.timer-btn-pause:hover {
+  background: #c8b098;
+  box-shadow: 3px 3px 0 #c8b098;
+}
+
+.timer-btn-reset {
+  background: #e8c8c0;
+  border-color: #c8a8a0;
+  box-shadow: 5px 5px 0 #c8a8a0;
+}
+
+.timer-btn-reset:hover {
+  background: #c8a8a0;
+  box-shadow: 3px 3px 0 #c8a8a0;
+}
+
+/* Stats Cards */
+.stats-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: #faf8f5;
+  border: 4px solid #d9c5b0;
+  padding: 1.5rem 2rem;
+  box-shadow: 5px 5px 0 #d9c5b0;
+  transition: all 0.2s;
+  min-width: 150px;
+}
+
+.stat-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+.stat-card-value {
+  font-size: 2rem;
+  color: #8b7355;
+  font-family: 'Press Start 2P', cursive;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 0 #e8dfd6;
+}
+
+.stat-card-label {
+  font-size: 0.6rem;
+  color: #a68a64;
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pixel-section-title {
+    font-size: 1rem;
+  }
+
+  .activity-card-title {
+    font-size: 0.75rem;
+  }
+
+  .activity-card-description {
+    font-size: 0.45rem;
+  }
+
+  .tomato {
+    font-size: 4rem;
+  }
+
+  .timer-display {
+    font-size: 2.5rem;
+    letter-spacing: 0.3rem;
+  }
+
+  .pomodoro-title {
+    font-size: 1rem;
+  }
+
+  .stat-card {
+    min-width: 100px;
+    padding: 1rem 1.5rem;
+  }
+
+  .stat-card-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-card-label {
+    font-size: 0.5rem;
+  }
+
+  .timer-btn {
+    font-size: 0.65rem;
+    padding: 10px 20px;
+  }
+}
+
+/* Scrollbar personalizada para o modal */
+.pomodoro-modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.pomodoro-modal-content::-webkit-scrollbar-track {
+  background: #e8dfd6;
+}
+
+.pomodoro-modal-content::-webkit-scrollbar-thumb {
+  background: #d9c5b0;
+  border: 2px solid #b8a183;
+}
+
+.pomodoro-modal-content::-webkit-scrollbar-thumb:hover {
+  background: #b8a183;
+}
