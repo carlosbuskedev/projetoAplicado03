@@ -38,65 +38,16 @@
                     <h2 class="pixel-section-title text-center mb-4">Escolha sua Atividade</h2>
                     
                     <div class="row g-4">
-                        <!-- Card 1 -->
+                        <?php foreach ($cards as $card): ?>
                         <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Estudar React', 25)">
+                            <div class="activity-card" onclick="openPomodoroModal('<?= $card['titulo'] ?>', <?= $card['tempo'] ?>)">
                                 <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Estudar React</h3>
-                                <p class="activity-card-description">Aprender componentes e hooks</p>
-                                <div class="activity-card-time">25 min</div>
+                                <h3 class="activity-card-title"><?= $card['titulo'] ?></h3>
+                                <p class="activity-card-description"><?= $card['descricao'] ?></p>
+                                <div class="activity-card-time"><?= $card['tempo'] ?> min</div>
                             </div>
                         </div>
-
-                        <!-- Card 2 -->
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Exercícios Físicos', 30)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Exercícios Físicos</h3>
-                                <p class="activity-card-description">Treino completo do dia</p>
-                                <div class="activity-card-time">30 min</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Meditação', 15)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Meditação</h3>
-                                <p class="activity-card-description">Relaxar e focar a mente</p>
-                                <div class="activity-card-time">15 min</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 4 -->
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Leitura', 45)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Leitura</h3>
-                                <p class="activity-card-description">Ler um capítulo novo</p>
-                                <div class="activity-card-time">45 min</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 5 -->
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Projeto Pessoal', 50)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Projeto Pessoal</h3>
-                                <p class="activity-card-description">Desenvolver nova feature</p>
-                                <div class="activity-card-time">50 min</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 6 -->
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('Idiomas', 20)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title">Idiomas</h3>
-                                <p class="activity-card-description">Praticar conversação</p>
-                                <div class="activity-card-time">20 min</div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
