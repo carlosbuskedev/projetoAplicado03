@@ -5,5 +5,38 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Principal::index');
-$routes->get('/jornada', 'Jornada::index');
+
+// -------------------------------------------------------------------------
+// Frontend — páginas (views)
+// -------------------------------------------------------------------------
+$routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function ($routes) {
+    $routes->get('login', 'Login::index');
+    $routes->get('painel', 'Painel::index');
+    $routes->get('/', 'Principal::index');
+    $routes->get('jornada', 'Jornada::index');
+    $routes->get('usuarios', 'Usuarios::index');
+});
+
+// -------------------------------------------------------------------------
+// Backend — API
+// -------------------------------------------------------------------------
+$routes->group('api/users', [
+    'namespace' => 'App\Controllers\Backend',
+    'filter'    => ['jwt', 'role:admin'],
+], static function ($routes) {
+    $routes->get('/', 'Users::index');
+    $routes->get('(:num)', 'Users::show/$1');
+    $routes->post('/', 'Users::create');
+    $routes->put('(:num)', 'Users::update/$1');
+    $routes->patch('(:num)', 'Users::update/$1');
+    $routes->delete('(:num)', 'Users::delete/$1');
+});
+
+$routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
+    $routes->post('login', 'Auth::login');
+
+    $routes->group('', ['filter' => 'jwt'], static function ($routes) {
+        $routes->get('me', 'Auth::me');
+        $routes->get('admin', 'Auth::admin', ['filter' => ['jwt', 'role:admin']]);
+    });
+});

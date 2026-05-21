@@ -1,0 +1,22 @@
+.login-page-wrap {
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.login-box {
+  padding: 2.5rem 2rem;
+}
+
+.login-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: #a68a64;
+  line-height: 1.6;
+}
+
+.pixel-alert {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  border-radius: 0;
+  border-width: 3px;
+}

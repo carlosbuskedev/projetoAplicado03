@@ -23,9 +23,7 @@
                         <h1 class="pixel-title mb-0 text-center">INICIAR JORNADA</h1>
                     </div>
                     <div class="col-auto">
-                        <button class="btn pixel-btn pixel-btn-login" onclick="openLoginModal()">
-                            Login
-                        </button>
+                        <button type="button" class="btn pixel-btn pixel-btn-login" id="btnConta">Conta</button>
                     </div>
                 </div>
             </div>
@@ -101,35 +99,10 @@
             </div>
         </div>
 
-        <!-- Modal de Login (reutilizado) -->
-        <div id="loginModal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content pixel-modal">
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title pixel-modal-title">Login</h5>
-                        <button type="button" class="btn-close pixel-close-btn" onclick="closeLoginModal()"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form onsubmit="handleLogin(event)">
-                            <div class="mb-3">
-                                <label for="username" class="form-label pixel-label">Usuário</label>
-                                <input type="text" class="form-control pixel-input" id="username" placeholder="Digite seu usuário" required>
-                            </div>
-                            <div class="mb-4">
-                                <label for="password" class="form-label pixel-label">Senha</label>
-                                <input type="password" class="form-control pixel-input" id="password" placeholder="Digite sua senha" required>
-                            </div>
-                            <button type="submit" class="btn pixel-btn pixel-btn-primary w-100">
-                                Entrar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/session.js"></script>
     <script src="/js/jornada.js"></script>
 </body>
 </html>

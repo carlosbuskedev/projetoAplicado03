@@ -1,0 +1,52 @@
+.painel-container {
+  background: linear-gradient(135deg, #f5ebe0 0%, #e8dfd6 50%, #ddd0c4 100%);
+}
+
+.painel-header {
+  background: #f3ebe8;
+  border-bottom-color: #c9b5b8;
+}
+
+.painel-title {
+  color: #8b5a5a;
+  text-shadow: 3px 3px 0 #d4b8b8;
+}
+
+.painel-menu-box {
+  border-color: #c9b5b8;
+  box-shadow: 8px 8px 0 #c9b5b8;
+}
+
+.painel-subtitle {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: #9d7a7a;
+  line-height: 1.6;
+}
+
+.painel-menu-item {
+  background: #f0e4e4;
+  border-color: #c9b5b8;
+  box-shadow: 6px 6px 0 #c9b5b8;
+}
+
+.painel-menu-item:hover {
+  background: #e8d8d8;
+  box-shadow: 3px 3px 0 #c9b5b8;
+}
+
+.painel-user-badge {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.45rem;
+  color: #7d5a5a;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .painel-user-badge {
+    display: none;
+  }
+}
