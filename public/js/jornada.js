@@ -1,5 +1,29 @@
 // Journey Page JavaScript
 
+document.addEventListener('DOMContentLoaded', function () {
+    if (!AuthSession.requirePage('jornada')) {
+        return;
+    }
+
+    setupAccountButton();
+});
+
+function setupAccountButton() {
+    const btn = document.getElementById('btnConta');
+    if (!btn) {
+        return;
+    }
+
+    const user = AuthSession.getUser();
+    btn.textContent = user?.email ?? 'Conta';
+    btn.onclick = () => {
+        if (confirm('Deseja sair?')) {
+            AuthSession.clearSession();
+            window.location.href = '/login';
+        }
+    };
+}
+
 // Variáveis do Timer
 let timerInterval = null;
 let timeRemaining = 0;

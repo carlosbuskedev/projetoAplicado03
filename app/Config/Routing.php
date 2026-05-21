@@ -39,7 +39,7 @@ class Routing extends BaseRouting
      *
      * Default: 'App\Controllers'
      */
-    public string $defaultNamespace = 'App\Controllers';
+    public string $defaultNamespace = 'App\Controllers\Frontend';
 
     /**
      * For Auto Routing.
@@ -48,7 +48,7 @@ class Routing extends BaseRouting
      *
      * Default: 'Home'
      */
-    public string $defaultController = 'Home';
+    public string $defaultController = 'Principal';
 
     /**
      * For Defined Routes and Auto Routing.
