@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+.vscode
+tests
+writable/cache/*
+writable/logs/*
+writable/session/*
+writable/debugbar/*
+node_modules
+env
+.env
+.env.*
+!/.env.example
