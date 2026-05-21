@@ -15,7 +15,7 @@
             <div class="container-fluid px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <a class="btn pixel-btn pixel-btn-back" href="/">
+                        <a class="btn pixel-btn pixel-btn-back" href="/menu">
                             ← Voltar
                         </a>
                     </div>

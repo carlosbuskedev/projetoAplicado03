@@ -10,9 +10,10 @@ use CodeIgniter\Router\RouteCollection;
 // Frontend — páginas (views)
 // -------------------------------------------------------------------------
 $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function ($routes) {
+    $routes->get('/', 'Login::index');
     $routes->get('login', 'Login::index');
+    $routes->get('menu', 'Principal::index');
     $routes->get('painel', 'Painel::index');
-    $routes->get('/', 'Principal::index');
     $routes->get('jornada', 'Jornada::index');
     $routes->get('usuarios', 'Usuarios::index');
 });
