@@ -15,7 +15,7 @@ const AuthSession = (() => {
 
     const ROUTES = {
         login: '/login',
-        home: '/',
+        home: '/menu',
         painel: '/painel',
     };
 
@@ -63,7 +63,10 @@ const AuthSession = (() => {
     }
 
     function redirectToLogin() {
-        if (!window.location.pathname.endsWith('/login')) {
+        const path = window.location.pathname.replace(/\/$/, '') || '/';
+        const loginPaths = ['/', '/login'];
+
+        if (!loginPaths.includes(path)) {
             window.location.href = ROUTES.login;
         }
     }
