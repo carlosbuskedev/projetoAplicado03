@@ -19,9 +19,6 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY . .
 
-# Fallback para CI4 ler configurações (sobrescreva no Coolify com variáveis reais)
-COPY .env.example .env
-
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 RUN printf '<Directory /var/www/html/public>\n\
