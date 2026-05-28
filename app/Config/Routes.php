@@ -16,6 +16,7 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('painel', 'Painel::index');
     $routes->get('jornada', 'Jornada::index');
     $routes->get('usuarios', 'Usuarios::index');
+    $routes->get('missao', 'Missao::index');
 });
 
 // -------------------------------------------------------------------------
