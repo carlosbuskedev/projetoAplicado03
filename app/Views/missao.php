@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BRIO – Criar Missão</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/principal.css">
@@ -35,7 +36,7 @@
       <div class="col-12 col-lg-9">
 
         <div class="pixel-form-box">
-          <h2 class="pixel-form-title text-center mb-4">⚔ Cadastrar Missão</h2>
+          <h2 class="pixel-form-title text-center mb-4">Criar Missão</h2>
 
           <!-- Banner de sucesso (oculto por padrão) -->
           <div id="successBanner" class="pixel-success-banner mb-4 d-none">
@@ -93,19 +94,19 @@
               <div class="pixel-radio-group" id="difficultyGroup">
                 <label class="pixel-radio-item" data-group="difficulty" data-value="facil">
                   <input type="radio" name="difficulty" value="facil" />
-                  ⭐ Fácil
+                  <i class="bi bi-star-fill pixel-star-icon"></i> Fácil
                 </label>
                 <label class="pixel-radio-item selected" data-group="difficulty" data-value="medio">
                   <input type="radio" name="difficulty" value="medio" checked />
-                  ⭐⭐ Média
+                  <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Média
                 </label>
                 <label class="pixel-radio-item" data-group="difficulty" data-value="dificil">
                   <input type="radio" name="difficulty" value="dificil" />
-                  ⭐⭐⭐ Difícil
+                  <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Difícil
                 </label>
                 <label class="pixel-radio-item" data-group="difficulty" data-value="muito-dificil">
                   <input type="radio" name="difficulty" value="muito-dificil" />
-                  ⭐⭐⭐⭐ Muito Difícil
+                  <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Muito Difícil
                 </label>
               </div>
             </div>
@@ -135,15 +136,15 @@
               <div class="pixel-radio-group" id="statusGroup">
                 <label class="pixel-radio-item selected" data-group="status" data-value="a-fazer">
                   <input type="radio" name="status" value="a-fazer" checked />
-                  📋 A fazer
+                  <i class="bi bi-hourglass-top"></i> A fazer
                 </label>
                 <label class="pixel-radio-item" data-group="status" data-value="fazendo">
                   <input type="radio" name="status" value="fazendo" />
-                  ⚡ Fazendo
+                  <i class="bi bi-hourglass-split"></i> Fazendo
                 </label>
                 <label class="pixel-radio-item" data-group="status" data-value="feito">
                   <input type="radio" name="status" value="feito" />
-                  ✅ Feito
+                  <i class="bi bi-hourglass-bottom"></i> Feito
                 </label>
               </div>
             </div>
