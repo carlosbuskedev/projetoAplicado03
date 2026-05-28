@@ -246,6 +246,13 @@ body {
   box-shadow: 3px 3px 0 #b8a183;
 }
 
+/* ----- Ícones ----- */
+
+.pixel-star-icon {
+  font-size: 0.75rem;
+  color: #d4a017;
+}
+
 /* ----- Responsivo ----- */
 @media (max-width: 768px) {
   .pixel-title       { font-size: 0.9rem; }
