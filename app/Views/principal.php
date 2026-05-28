@@ -34,14 +34,15 @@
                         
                         <div class="row g-4">
                             <div class="col-12">
-                                <button class="pixel-menu-item" 
+                                <a  href="/missao"
+                                        class="pixel-menu-item" 
                                         data-option="missions">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Missões</h3>
-                                        <p class="pixel-menu-item-description">Explore suas missões disponíveis</p>
+                                        <p class="pixel-menu-item-description">Crie suas missões</p>
                                     </div>
                                     <div class="pixel-arrow">▶</div>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-12">
                                 <a  href="/jornada"
@@ -49,7 +50,7 @@
                                         data-option="journey">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Iniciar Jornada</h3>
-                                        <p class="pixel-menu-item-description">Comece uma nova aventura</p>
+                                        <p class="pixel-menu-item-description">Comece uma nova aventura e explore as missões disponíveis</p>
                                     </div>
                                     <div class="pixel-arrow">▶</div>
                                 </a>
@@ -68,7 +69,7 @@
                                 <a href="/usuarios" class="pixel-menu-item" data-option="users">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Usuários</h3>
-                                        <p class="pixel-menu-item-description">Cadastrar e gerenciar usuários</p>
+                                        <p class="pixel-menu-item-description">Cadastre e gerencie os jogadores</p>
                                     </div>
                                     <div class="pixel-arrow">▶</div>
                                 </a>
