@@ -1,0 +1,257 @@
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* ----- Header ----- */
+.pixel-header {
+  background: #f9f5f0;
+  border-bottom: 4px solid #e8dfd6;
+  box-shadow: 0 4px 0 #e8dfd6;
+}
+
+.pixel-title {
+  font-size: 1.5rem;
+  color: #9d8189;
+  text-shadow: 3px 3px 0 #d4c5c7;
+  letter-spacing: 2px;
+}
+
+/* ----- Botão Voltar ----- */
+.pixel-btn {
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+}
+
+.pixel-btn-back {
+  background: #e6d8e0;
+  border: 3px solid #d4c5c7 !important;
+  color: #7d6b7d !important;
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  box-shadow: 4px 4px 0 #d4c5c7;
+  transition: all 0.1s;
+}
+
+.pixel-btn-back:hover {
+  background: #d4c5c7;
+  color: #5d4e5d !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+/* ----- Caixa do formulário ----- */
+.pixel-form-box {
+  background: #faf8f5;
+  border: 5px solid #e8dfd6;
+  padding: 2.5rem 2rem;
+  box-shadow: 8px 8px 0 #e8dfd6;
+  margin-top: 1rem;
+}
+
+.pixel-form-title {
+  font-size: 1.1rem;
+  color: #9d8189;
+  text-shadow: 3px 3px 0 #e8dfd6;
+  letter-spacing: 1px;
+}
+
+/* ----- Labels ----- */
+.pixel-label {
+  display: block;
+  font-size: 0.6rem;
+  color: #8b7355;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+}
+
+/* ----- Inputs ----- */
+.pixel-input {
+  width: 100%;
+  border: 3px solid #d9c5b0;
+  padding: 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  background: #faf8f5;
+  color: #7d6b7d;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.pixel-input:focus {
+  border-color: #b8a183;
+  box-shadow: 0 0 0 3px #e8dfd6;
+  background: #fff;
+}
+
+.pixel-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.pixel-error {
+  font-size: 0.5rem;
+  color: #c0392b;
+  margin-top: 0.4rem;
+  display: block;
+}
+
+/* ----- Tempo estimado ----- */
+.pixel-time-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pixel-time-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pixel-input-number {
+  width: 80px;
+}
+
+.pixel-time-label {
+  font-size: 0.55rem;
+  color: #a68a64;
+}
+
+.pixel-time-sep {
+  font-size: 1.2rem;
+  color: #b8a183;
+  margin: 0 0.25rem;
+}
+
+/* ----- Grupos de radio customizados ----- */
+.pixel-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.pixel-radio-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0;
+  padding: 0.5rem 0.9rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: #8b7355;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 3px 3px 0 #d9c5b0;
+  user-select: none;
+}
+
+.pixel-radio-item input[type="radio"] {
+  display: none;
+}
+
+.pixel-radio-item:hover {
+  background: #ede0d4;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #d9c5b0;
+}
+
+.pixel-radio-item.selected {
+  background: #d9c5b0;
+  color: #5d4e40;
+  border-color: #b8a183;
+  box-shadow: 3px 3px 0 #b8a183;
+}
+
+/* ----- Pontuação ----- */
+.pixel-score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pixel-input-score {
+  width: 120px;
+}
+
+.pixel-xp-badge {
+  background: #d4c5c7;
+  border: 3px solid #b8a0b0;
+  color: #7d6b7d;
+  padding: 0.4rem 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  box-shadow: 3px 3px 0 #b8a0b0;
+  letter-spacing: 1px;
+}
+
+/* ----- Banner de sucesso ----- */
+.pixel-success-banner {
+  background: #c8e6c9;
+  border: 3px solid #81c784;
+  color: #2e7d32;
+  padding: 0.75rem 1rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  text-align: center;
+  box-shadow: 4px 4px 0 #81c784;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----- Botões de ação ----- */
+.pixel-btn-cancel {
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0 !important;
+  color: #a68a64 !important;
+  padding: 12px;
+  font-size: 0.6rem;
+  box-shadow: 5px 5px 0 #d9c5b0;
+  transition: all 0.1s;
+  border-radius: 0;
+}
+
+.pixel-btn-cancel:hover {
+  background: #ede0d4;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+.pixel-btn-save {
+  background: #d9c5b0;
+  border: 3px solid #b8a183 !important;
+  color: #5d4e40 !important;
+  padding: 12px;
+  font-size: 0.6rem;
+  box-shadow: 5px 5px 0 #b8a183;
+  transition: all 0.1s;
+  border-radius: 0;
+}
+
+.pixel-btn-save:hover {
+  background: #c8b49e;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #b8a183;
+}
+
+/* ----- Responsivo ----- */
+@media (max-width: 768px) {
+  .pixel-title       { font-size: 0.9rem; }
+  .pixel-form-title  { font-size: 0.85rem; }
+  .pixel-form-box    { padding: 1.5rem 1rem; }
+
+  .pixel-radio-item  { font-size: 0.45rem; padding: 0.4rem 0.7rem; }
+  .pixel-input-number { width: 65px; }
+}
