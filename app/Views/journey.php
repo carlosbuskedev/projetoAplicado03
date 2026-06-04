@@ -36,16 +36,24 @@
                     <h2 class="pixel-section-title text-center mb-4">Escolha sua Atividade</h2>
                     
                     <div class="row g-4">
-                        <?php foreach ($cards as $card): ?>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="activity-card" onclick="openPomodoroModal('<?= $card['titulo'] ?>', <?= $card['tempo'] ?>)">
-                                <div class="activity-card-icon"></div>
-                                <h3 class="activity-card-title"><?= $card['titulo'] ?></h3>
-                                <p class="activity-card-description"><?= $card['descricao'] ?></p>
-                                <div class="activity-card-time"><?= $card['tempo'] ?> min</div>
+                        <?php if (empty($cards)): ?>
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <p>Nenhuma missão disponível. <a href="/quests">Crie uma nova missão</a></p>
                             </div>
                         </div>
-                        <?php endforeach; ?>
+                        <?php else: ?>
+                            <?php foreach ($cards as $card): ?>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="activity-card" onclick="openPomodoroModal('<?= htmlspecialchars($card['titulo']) ?>', <?= $card['tempo'] ?>)">
+                                    <div class="activity-card-icon"></div>
+                                    <h3 class="activity-card-title"><?= htmlspecialchars($card['titulo']) ?></h3>
+                                    <p class="activity-card-description"><?= htmlspecialchars($card['descricao']) ?></p>
+                                    <div class="activity-card-time"><?= (int) $card['tempo'] ?> min</div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

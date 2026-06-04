@@ -3,20 +3,56 @@
 namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
+use App\Models\Backend\QuestModel;
 
 class Journey extends BaseController
 {
+    private QuestModel $questModel;
+
+    public function __construct()
+    {
+        $this->questModel = new QuestModel();
+    }
+
     public function index(): string
     {
-        $arrCards = [
-            ['titulo' => 'Estudar React', 'descricao' => 'Aprender componentes e hooks', 'tempo' => 25],
-            ['titulo' => 'Exercícios Físicos', 'descricao' => 'Treino completo do dia', 'tempo' => 30],
-            ['titulo' => 'Meditação', 'descricao' => 'Sessão de mindfulness', 'tempo' => 15],
-            ['titulo' => 'Leitura', 'descricao' => 'Ler um capítulo novo', 'tempo' => 45],
-            ['titulo' => 'Projeto Pessoal', 'descricao' => 'Desenvolver nova feature', 'tempo' => 50],
-            ['titulo' => 'Idiomas', 'descricao' => 'Praticar conversação', 'tempo' => 20],
-        ];
+        // Buscar todas as quests do banco de dados
+        $quests = $this->questModel->findAll();
 
-        return view('journey', ['cards' => $arrCards]);
+        // Transformar os dados das quests para o formato esperado pela view
+        $cards = $this->formatQuestsForView($quests);
+
+        return view('journey', ['cards' => $cards]);
+    }
+
+    private function formatQuestsForView(array $quests): array
+    {
+        $formatted = [];
+
+        foreach ($quests as $quest) {
+            // Converter o tempo estimado (HH:MM:SS) para minutos
+            $estimatedMinutes = $this->timeToMinutes($quest['estimated_time']);
+
+            $formatted[] = [
+                'id'        => $quest['id'],
+                'titulo'    => $quest['title'],
+                'descricao' => $quest['short_description'] ?? $quest['title'],
+                'tempo'     => $estimatedMinutes,
+                'difficulty' => $quest['difficulty'],
+                'experience' => $quest['experience'],
+            ];
+        }
+
+        return $formatted;
+    }
+
+    private function timeToMinutes(string $time): int
+    {
+        // Formato esperado: HH:MM:SS
+        $parts = explode(':', $time);
+        $hours = (int) ($parts[0] ?? 0);
+        $minutes = (int) ($parts[1] ?? 0);
+
+        return ($hours * 60) + $minutes;
     }
 }
