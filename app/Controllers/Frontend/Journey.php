@@ -39,6 +39,8 @@ class Journey extends BaseController
                 'descricao' => $quest['short_description'] ?? $quest['title'],
                 'tempo'     => $estimatedMinutes,
                 'difficulty' => $quest['difficulty'],
+                'priority'  => $quest['priority'],
+                'deadline'  => $quest['deadline'],
                 'experience' => $quest['experience'],
             ];
         }

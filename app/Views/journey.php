@@ -45,7 +45,15 @@
                         <?php else: ?>
                             <?php foreach ($cards as $card): ?>
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div class="activity-card" onclick="openPomodoroModal('<?= htmlspecialchars($card['titulo']) ?>', <?= $card['tempo'] ?>)">
+                                <div class="activity-card" 
+                                     onclick="openPomodoroModal(<?= (int)$card['id'] ?>)"
+                                     data-quest-id="<?= (int)$card['id'] ?>"
+                                     data-quest-title="<?= htmlspecialchars($card['titulo']) ?>"
+                                     data-quest-time="<?= (int)$card['tempo'] ?>"
+                                     data-quest-xp="<?= (int)$card['experience'] ?>"
+                                     data-quest-difficulty="<?= (int)$card['difficulty'] ?>"
+                                     data-quest-priority="<?= htmlspecialchars($card['priority']) ?>"
+                                     data-quest-deadline="<?= htmlspecialchars($card['deadline']) ?>">
                                     <div class="activity-card-icon"></div>
                                     <h3 class="activity-card-title"><?= htmlspecialchars($card['titulo']) ?></h3>
                                     <p class="activity-card-description"><?= htmlspecialchars($card['descricao']) ?></p>
@@ -64,8 +72,18 @@
             <div class="pomodoro-modal-content">
                 <button class="pomodoro-close-btn" onclick="closePomodoroModal()">×</button>
                 
+                <!-- Top Section: Priority and Difficulty -->
+                <div class="quest-badges-top">
+                    <div class="priority-badge" id="priorityBadge">
+                        Normal
+                    </div>
+                    <div class="difficulty-badge" id="difficultyBadge">
+                        Normal
+                    </div>
+                </div>
+
                 <h2 class="pomodoro-title" id="activityName">Timer Pomodoro</h2>
-                
+                                
                 <!-- Tomate Animado -->
                 <div class="tomato-container">
                     <div class="tomato">
@@ -88,24 +106,27 @@
                     <button class="pixel-btn timer-btn timer-btn-pause" id="pauseBtn" onclick="pauseTimer()" style="display: none;">
                         Pausar
                     </button>
-                    <button class="pixel-btn timer-btn timer-btn-reset" onclick="resetTimer()">
-                        Resetar
-                    </button>
                 </div>
 
-                <!-- Cards de Estatísticas -->
-                <div class="stats-cards">
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="pomodorosCompleted">0</div>
-                        <div class="stat-card-label">Pomodoros</div>
+                <!-- Informações da Quest -->
+                <div class="row g-2">
+                    <div class="col-4">
+                        <div class="quest-info-box">
+                            <div class="quest-info-label">XP</div>
+                            <div class="quest-info-value" id="questXP">0</div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="totalMinutes">0</div>
-                        <div class="stat-card-label">Minutos</div>
+                    <div class="col-4">
+                        <div class="quest-info-box">
+                            <div class="quest-info-label">Prazo</div>
+                            <div class="quest-info-value" id="questDeadline">-</div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="currentStreak">0</div>
-                        <div class="stat-card-label">Sequência</div>
+                    <div class="col-4">
+                        <div class="quest-info-box">
+                            <div class="quest-info-label">Interrupções</div>
+                            <div class="quest-info-value" id="questInterruptions">0</div>
+                        </div>
                     </div>
                 </div>
             </div>
