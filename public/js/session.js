@@ -16,7 +16,7 @@ const AuthSession = (() => {
 
     const ROUTES = {
         login: '/login',
-        home: '/menu',
+        home: '/menu-principal',
         painel: '/painel',
     };
 

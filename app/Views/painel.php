@@ -44,7 +44,7 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <a href="/menu" class="pixel-menu-item painel-menu-item">
+                                <a href="/menu-principal" class="pixel-menu-item painel-menu-item">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Ver menu do jogo</h3>
                                         <p class="pixel-menu-item-description">Acessar o menu principal do BRIO</p>
