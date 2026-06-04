@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/principal.css">
-  <link rel="stylesheet" href="/css/missao.css" />
+  <link rel="stylesheet" href="/css/quests.css" />
 </head>
 <body>
 
@@ -200,6 +200,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/missao.js"></script>
+  <script src="/js/session.js?1"></script>
+  <script src="/js/quests.js"></script>
 </body>
 </html>

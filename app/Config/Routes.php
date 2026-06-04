@@ -16,7 +16,7 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('painel', 'Painel::index');
     $routes->get('jornada', 'Jornada::index');
     $routes->get('usuarios', 'Usuarios::index');
-    $routes->get('missao', 'Missao::index');
+    $routes->get('quests', 'Quests::index');
 });
 
 // -------------------------------------------------------------------------
@@ -32,6 +32,13 @@ $routes->group('api/users', [
     $routes->put('(:num)', 'Users::update/$1');
     $routes->patch('(:num)', 'Users::update/$1');
     $routes->delete('(:num)', 'Users::delete/$1');
+});
+
+$routes->group('api/quests', [
+    'namespace' => 'App\Controllers\Backend',
+    'filter'    => 'jwt',
+], static function ($routes) {
+    $routes->post('/', 'Quests::create');
 });
 
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
