@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRIO - Painel Administrativo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/principal.css">
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/painel.css">
 </head>
 
@@ -44,7 +44,7 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <a href="/menu-principal" class="pixel-menu-item painel-menu-item">
+                                <a href="/home" class="pixel-menu-item painel-menu-item">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Ver menu do jogo</h3>
                                         <p class="pixel-menu-item-description">Acessar o menu principal do BRIO</p>
