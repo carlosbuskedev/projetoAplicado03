@@ -1,3 +1,35 @@
+function calculateExperience() {
+  /* ── Cálculo automático de pontuação ─────────────── */
+  const hoursInput = document.getElementById('hours');
+  const minutesInput = document.getElementById('minutes');
+  const experienceInput = document.getElementById('experience');
+  
+  const hours = parseInt(hoursInput?.value, 10) || 0;
+  const minutes = parseInt(minutesInput?.value, 10) || 0;
+  const difficultyValue = document.querySelector('input[name="difficulty"]:checked')?.value || 'facil';
+
+  // Converter tempo para minutos
+  const totalMinutes = hours * 60 + minutes;
+
+  // Mapear dificuldade para valor numérico
+  const difficultyMap = {
+    'facil': 1,
+    'medio': 2,
+    'dificil': 3,
+    'muito-dificil': 4
+  };
+
+  const difficultyLevel = difficultyMap[difficultyValue] || 1;
+
+  // Calcular pontuação: tempo (minutos) * dificuldade
+  const score = totalMinutes * difficultyLevel;
+
+  // Atualizar o campo de experience
+  if (experienceInput) {
+    experienceInput.value = score;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   if (!AuthSession.requirePage('quests')) {
     return;

@@ -75,6 +75,7 @@
                 <div class="pixel-time-field">
                   <input type="number" id="hours" name="hours"
                          class="pixel-input pixel-input-number"
+                         onchange="calculateExperience()"
                          min="0" max="99" value="0" />
                   <span class="pixel-time-label">h</span>
                 </div>
@@ -82,6 +83,7 @@
                 <div class="pixel-time-field">
                   <input type="number" id="minutes" name="minutes"
                          class="pixel-input pixel-input-number"
+                         onchange="calculateExperience()"
                          min="0" max="59" value="25" />
                   <span class="pixel-time-label">min</span>
                 </div>
@@ -93,19 +95,19 @@
               <label class="pixel-label">Dificuldade</label>
               <div class="pixel-radio-group" id="difficultyGroup">
                 <label class="pixel-radio-item" data-group="difficulty" data-value="facil">
-                  <input type="radio" name="difficulty" value="facil" />
+                  <input type="radio" name="difficulty" value="facil" onclick="calculateExperience()" />
                   <i class="bi bi-star-fill pixel-star-icon"></i> Fácil
                 </label>
                 <label class="pixel-radio-item selected" data-group="difficulty" data-value="medio">
-                  <input type="radio" name="difficulty" value="medio" checked />
+                  <input type="radio" name="difficulty" value="medio" checked onclick="calculateExperience()" />
                   <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Média
                 </label>
                 <label class="pixel-radio-item" data-group="difficulty" data-value="dificil">
-                  <input type="radio" name="difficulty" value="dificil" />
+                  <input type="radio" name="difficulty" value="dificil" onclick="calculateExperience()" />
                   <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Difícil
                 </label>
                 <label class="pixel-radio-item" data-group="difficulty" data-value="muito-dificil">
-                  <input type="radio" name="difficulty" value="muito-dificil" />
+                  <input type="radio" name="difficulty" value="muito-dificil" onclick="calculateExperience()" />
                   <i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i><i class="bi bi-star-fill pixel-star-icon"></i> Muito Difícil
                 </label>
               </div>
@@ -155,7 +157,8 @@
                 <div class="form-group-pixel">
                   <label class="pixel-label" for="deadline">Prazo</label>
                   <input type="date" id="deadline" name="deadline"
-                         class="pixel-input" required />
+                         class="pixel-input" required 
+                         max="9999-12-31" />
                   <span class="pixel-error d-none" id="deadlineError">Campo obrigatório</span>
                 </div>
               </div>
@@ -166,7 +169,7 @@
                     <input type="number" id="experience" name="experience"
                           class="pixel-input pixel-input-experience"
                           disabled
-                          min="0" max="9999" value="50" />
+                          min="0" value="50" />
                     <span class="pixel-xp-badge">XP</span>
                   </div>
                 </div>
