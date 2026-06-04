@@ -11,13 +11,13 @@ const AuthSession = (() => {
         journey: ['admin', 'user'],
         quests: ['admin', 'user'],
         users: ['admin'],
-        painel: ['admin'],
+        home_admin: ['admin'],
     };
 
     const ROUTES = {
         login: '/login',
         home: '/home',
-        painel: '/painel',
+        home_admin: '/home-admin',
     };
 
     function getApiBase() {
@@ -74,7 +74,7 @@ const AuthSession = (() => {
 
     function redirectAfterLogin() {
         if (hasRole('admin')) {
-            window.location.href = ROUTES.painel;
+            window.location.href = ROUTES.home_admin;
         } else {
             window.location.href = ROUTES.home;
         }

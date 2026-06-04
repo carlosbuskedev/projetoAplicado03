@@ -7,7 +7,7 @@
     <title>BRIO - Painel Administrativo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/painel.css">
+    <link rel="stylesheet" href="/css/home_admin.css">
 </head>
 
 <body>
@@ -61,7 +61,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/session.js"></script>
-    <script src="/js/painel.js"></script>
+    <script src="/js/home_admin.js"></script>
 </body>
 
 </html>

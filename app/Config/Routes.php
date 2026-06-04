@@ -13,7 +13,7 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('/', 'Login::index');
     $routes->get('login', 'Login::index');
     $routes->get('home', 'Home::index');
-    $routes->get('painel', 'Painel::index');
+    $routes->get('home-admin', 'HomeAdmin::index');
     $routes->get('journey', 'Journey::index');
     $routes->get('usuarios', 'Usuarios::index');
     $routes->get('quests', 'Quests::index');

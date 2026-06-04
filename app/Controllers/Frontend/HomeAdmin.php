@@ -4,10 +4,10 @@ namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
 
-class Painel extends BaseController
+class HomeAdmin extends BaseController
 {
     public function index(): string
     {
-        return view('painel');
+        return view('home_admin');
     }
 }

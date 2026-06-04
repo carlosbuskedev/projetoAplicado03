@@ -13,7 +13,7 @@ class Auth extends BaseConfig
     public array $roles = ['admin', 'user'];
 
     public array $permissions = [
-        'admin' => ['dashboard', 'journey', 'users', 'painel', 'settings', 'profile', 'quests'],
+        'admin' => ['dashboard', 'journey', 'users', 'home-admin', 'settings', 'profile', 'quests'],
         'user'  => ['dashboard', 'journey', 'profile', 'quests'],
     ];
 

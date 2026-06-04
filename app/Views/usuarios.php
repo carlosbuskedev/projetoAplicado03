@@ -16,7 +16,7 @@
             <div class="container-fluid px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <a class="btn pixel-btn pixel-btn-back" href="/painel">← Voltar</a>
+                        <a class="btn pixel-btn pixel-btn-back" href="/home-admin">← Voltar</a>
                     </div>
                     <div class="col">
                         <h1 class="pixel-title mb-0 text-center">USUÁRIOS</h1>
