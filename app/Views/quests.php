@@ -162,7 +162,8 @@
                 <div class="form-group-pixel">
                   <label class="pixel-label" for="deadline">Prazo</label>
                   <input type="date" id="deadline" name="deadline"
-                         class="pixel-input" />
+                         class="pixel-input" required />
+                  <span class="pixel-error d-none" id="deadlineError">Campo obrigatório</span>
                 </div>
               </div>
             </div>
@@ -200,7 +201,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/session.js?1"></script>
+  <script src="/js/session.js"></script>
   <script src="/js/quests.js"></script>
 </body>
 </html>

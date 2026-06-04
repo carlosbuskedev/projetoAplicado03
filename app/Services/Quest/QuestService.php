@@ -85,10 +85,6 @@ class QuestService
             return $this->failure('Experiência inválida.', 422);
         }
 
-        if (! in_array($role, $this->authConfig->roles, true)) {
-            return $this->failure('Perfil inválido. Use admin ou user.', 422);
-        }
-
         return $this->success('Validação OK.', [
             'title'             => $title,
             'short_description' => $shortDescription !== '' ? $shortDescription : null,
