@@ -54,6 +54,12 @@ class CreateQuestsTable extends Migration
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
+            'user_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => false,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -65,11 +71,12 @@ class CreateQuestsTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('quests');
     }
 
     public function down(): void
     {
-        $this->forge->dropTable('quests');
+        $this->forge->dropTable('quests', true);
     }
 }
