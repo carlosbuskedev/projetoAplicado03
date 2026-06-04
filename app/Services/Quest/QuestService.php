@@ -50,6 +50,7 @@ class QuestService
         $status = trim((string) ($data['status'] ?? 'a-fazer'));
         $deadline = trim((string) ($data['deadline'] ?? ''));
         $experience = isset($data['experience']) ? (int) $data['experience'] : (int) ($data['experience'] ?? 0);
+        $user_id = trim((string) ($data['user_id'] ?? ''));
 
         if ($title === '') {
             return $this->failure('Título é obrigatório.', 422);
@@ -85,6 +86,10 @@ class QuestService
             return $this->failure('Experiência inválida.', 422);
         }
 
+        if (empty($user_id)) {
+            return $this->failure('Usuário é obrigatório.', 422);
+        }
+
         return $this->success('Validação OK.', [
             'title'             => $title,
             'short_description' => $shortDescription !== '' ? $shortDescription : null,
@@ -95,6 +100,7 @@ class QuestService
             'status'            => $this->normalizeStatus($status),
             'deadline'          => $deadline,
             'experience'        => $experience,
+            'user_id'           => $user_id,
         ]);
     }
 
