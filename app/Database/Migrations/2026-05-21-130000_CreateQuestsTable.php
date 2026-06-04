@@ -50,6 +50,23 @@ class CreateQuestsTable extends Migration
                 'unsigned'   => true,
                 'null'       => false,
             ],
+            'started_date' => [
+                'type' => 'DATE',
+                'null' => true,
+            ],
+            'completed_date' => [
+                'type' => 'DATE',
+                'null' => true,
+            ],
+            'interruptions_count' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'default'    => 0,
+            ],
+            'remaining_time' => [
+                'type' => 'TIME',
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
