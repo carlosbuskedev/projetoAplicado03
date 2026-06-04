@@ -4,10 +4,10 @@ namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
 
-class Usuarios extends BaseController
+class Users extends BaseController
 {
     public function index(): string
     {
-        return view('usuarios');
+        return view('users');
     }
 }

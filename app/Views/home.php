@@ -66,7 +66,7 @@
                                 </button>
                             </div>
                             <div class="col-12" id="menuUsuarios" style="display: none;">
-                                <a href="/usuarios" class="pixel-menu-item" data-option="users">
+                                <a href="/users" class="pixel-menu-item" data-option="users">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Usuários</h3>
                                         <p class="pixel-menu-item-description">Cadastre e gerencie os jogadores</p>

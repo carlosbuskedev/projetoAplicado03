@@ -35,7 +35,7 @@
 
                         <div class="row g-4">
                             <div class="col-12">
-                                <a href="/usuarios" class="pixel-menu-item painel-menu-item">
+                                <a href="/users" class="pixel-menu-item painel-menu-item">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Usuários</h3>
                                         <p class="pixel-menu-item-description">Cadastrar, editar e excluir usuários</p>
