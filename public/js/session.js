@@ -8,7 +8,7 @@ const AuthSession = (() => {
     const PERMS_KEY = 'auth_permissions';
 
     const PAGE_ROLES = {
-        jornada: ['admin', 'user'],
+        journey: ['admin', 'user'],
         quests: ['admin', 'user'],
         users: ['admin'],
         painel: ['admin'],

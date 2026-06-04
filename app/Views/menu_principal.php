@@ -45,7 +45,7 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <a  href="/jornada"
+                                <a  href="/journey"
                                         class="pixel-menu-item" 
                                         data-option="journey">
                                     <div class="pixel-menu-item-content">

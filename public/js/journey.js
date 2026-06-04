@@ -1,7 +1,7 @@
 // Journey Page JavaScript
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (!AuthSession.requirePage('jornada')) {
+    if (!AuthSession.requirePage('journey')) {
         return;
     }
 
