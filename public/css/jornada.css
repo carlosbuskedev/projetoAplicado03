@@ -179,7 +179,7 @@
 
 .tomato {
   font-size: 6rem;
-  animation: dance 1s ease-in-out infinite;
+  /* animation: dance 1s ease-in-out infinite; */
   display: inline-block;
 }
 
