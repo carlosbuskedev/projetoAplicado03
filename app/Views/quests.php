@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/principal.css">
+  <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/quests.css" />
 </head>
 <body>
@@ -18,7 +18,7 @@
     <div class="container-fluid px-4 py-3">
       <div class="row align-items-center">
         <div class="col-auto">
-          <a href="/menu-principal" class="pixel-btn pixel-btn-back">◀ Voltar</a>
+          <a href="/home" class="pixel-btn pixel-btn-back">◀ Voltar</a>
         </div>
         <div class="col text-center">
           <h1 class="pixel-title mb-0">BRIO</h1>
@@ -179,7 +179,7 @@
             <!-- Botões -->
             <div class="row g-3">
               <div class="col-12 col-md-6">
-                <a href="/menu-principal" class="pixel-btn pixel-btn-cancel w-100 d-block text-center">
+                <a href="/home" class="pixel-btn pixel-btn-cancel w-100 d-block text-center">
                   ✕ Cancelar
                 </a>
               </div>

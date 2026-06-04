@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRIO - Iniciar Jornada</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/principal.css">
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/journey.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
             <div class="container-fluid px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <a class="btn pixel-btn pixel-btn-back" href="/menu-principal">
+                        <a class="btn pixel-btn pixel-btn-back" href="/home">
                             ← Voltar
                         </a>
                     </div>
