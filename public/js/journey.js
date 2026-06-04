@@ -31,6 +31,7 @@ let initialTime = 0;
 let isRunning = false;
 let currentActivity = '';
 let currentQuestData = null;
+let currentQuestCard = null;
 
 // Estatísticas
 let pomodorosCompleted = 0;
@@ -76,6 +77,7 @@ function openPomodoroModal(questId) {
         interruptions_count: parseInt(questCard.dataset.questInterruptions, 10) || 0,
         started_date: questCard.dataset.questStartedDate || null,
     };
+    currentQuestCard = questCard;
 
     currentActivity = currentQuestData.title;
     initialTime = timeStringToSeconds(initialTimeString);
@@ -151,6 +153,9 @@ async function persistStartedDate() {
         }
 
         currentQuestData.started_date = today;
+        if (currentQuestCard) {
+            currentQuestCard.dataset.questStartedDate = today;
+        }
     } catch (error) {
         console.error('Erro ao persistir started_date:', error);
     }
@@ -182,25 +187,28 @@ async function persistPauseState() {
         }
 
         currentQuestData.interruptions_count = newInterruptions;
+        currentQuestData.remaining_time = remainingTime;
         document.getElementById('questInterruptions').textContent = newInterruptions;
+
+        if (currentQuestCard) {
+            currentQuestCard.dataset.questInterruptions = String(newInterruptions);
+            currentQuestCard.dataset.questRemainingTime = remainingTime;
+        }
     } catch (error) {
         console.error('Erro ao persistir estado de pausa:', error);
     }
 }
 
 // Função para fechar o modal do Pomodoro
-function closePomodoroModal() {
-    // Pausar o timer se estiver rodando
+async function closePomodoroModal() {
     if (isRunning) {
-        pauseTimer();
+        await handlePauseClick();
     }
     
-    // Fechar modal
     const modal = document.getElementById('pomodoroModal');
     modal.classList.remove('show');
     document.body.style.overflow = '';
     
-    // Limpar dados da quest
     currentQuestData = null;
 }
 
