@@ -30,20 +30,69 @@ let timeRemaining = 0;
 let initialTime = 0;
 let isRunning = false;
 let currentActivity = '';
+let currentQuestData = null;
 
 // Estatísticas
 let pomodorosCompleted = 0;
 let totalMinutes = 0;
 let currentStreak = 0;
 
+// Mapeamento de dificuldade
+const difficultyMap = {
+    1: '⭐ Fácil',
+    2: '⭐⭐ Médio',
+    3: '⭐⭐⭐ Difícil',
+    4: '⭐⭐⭐⭐ Muito Difícil'
+};
+
+// Mapeamento de prioridade
+const priorityMap = {
+    'low': '🟢 Baixa',
+    'medium': '🟡 Média',
+    'high': '🔴 Alta'
+};
+
 // Função para abrir o modal do Pomodoro
-function openPomodoroModal(activityName, minutes) {
-    currentActivity = activityName;
-    initialTime = minutes * 60; // Converter para segundos
+function openPomodoroModal(questId) {
+    // Buscar o elemento com os dados da quest
+    const questCard = document.querySelector(`[data-quest-id="${questId}"]`);
+    if (!questCard) {
+        console.error('Quest card not found');
+        return;
+    }
+
+    // Extrair dados do card
+    currentQuestData = {
+        id: questCard.dataset.questId,
+        title: questCard.dataset.questTitle,
+        time: parseInt(questCard.dataset.questTime, 10),
+        xp: parseInt(questCard.dataset.questXp, 10),
+        difficulty: parseInt(questCard.dataset.questDifficulty, 10),
+        priority: questCard.dataset.questPriority,
+        deadline: questCard.dataset.questDeadline
+    };
+
+    currentActivity = currentQuestData.title;
+    initialTime = currentQuestData.time * 60; // Converter para segundos
     timeRemaining = initialTime;
     
     // Atualizar o título
-    document.getElementById('activityName').textContent = activityName;
+    document.getElementById('activityName').textContent = currentActivity;
+    
+    // Atualizar informações da quest
+    document.getElementById('questXP').textContent = currentQuestData.xp;
+    document.getElementById('questDeadline').textContent = formatDeadline(currentQuestData.deadline);
+    document.getElementById('questInterruptions').textContent = '0'; // Será carregado do banco depois
+    
+    // Atualizar prioridade
+    const priorityBadge = document.getElementById('priorityBadge');
+    priorityBadge.textContent = priorityMap[currentQuestData.priority] || 'Normal';
+    priorityBadge.className = `priority-badge ${currentQuestData.priority}`;
+    
+    // Atualizar dificuldade
+    const difficultyBadge = document.getElementById('difficultyBadge');
+    difficultyBadge.textContent = difficultyMap[currentQuestData.difficulty] || '-';
+    difficultyBadge.className = `difficulty-badge`;
     
     // Atualizar o display do timer
     updateTimerDisplay();
@@ -57,6 +106,16 @@ function openPomodoroModal(activityName, minutes) {
     document.body.style.overflow = 'hidden';
 }
 
+// Função para formatar a data de prazo
+function formatDeadline(dateString) {
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('pt-BR');
+    } catch (e) {
+        return dateString;
+    }
+}
+
 // Função para fechar o modal do Pomodoro
 function closePomodoroModal() {
     // Pausar o timer se estiver rodando
@@ -68,6 +127,9 @@ function closePomodoroModal() {
     const modal = document.getElementById('pomodoroModal');
     modal.classList.remove('show');
     document.body.style.overflow = '';
+    
+    // Limpar dados da quest
+    currentQuestData = null;
 }
 
 // Função para iniciar o timer
@@ -104,13 +166,6 @@ function pauseTimer() {
     document.getElementById('pauseBtn').style.display = 'none';
 }
 
-// Função para resetar o timer
-function resetTimer() {
-    pauseTimer();
-    timeRemaining = initialTime;
-    updateTimerDisplay();
-}
-
 // Função para finalizar um Pomodoro
 function finishPomodoro() {
     pauseTimer();
@@ -126,7 +181,8 @@ function finishPomodoro() {
     alert('🎉 Pomodoro Completo! \n\nParabéns por completar: ' + currentActivity);
     
     // Resetar timer
-    resetTimer();
+    timeRemaining = initialTime;
+    updateTimerDisplay();
 }
 
 // Função para atualizar o display do timer
@@ -172,5 +228,3 @@ window.addEventListener('beforeunload', function(event) {
         return event.returnValue;
     }
 });
-
-console.log('Journey page loaded!');
