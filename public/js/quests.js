@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
     deadlineInput.classList.remove('is-invalid');
     deadlineError.classList.add('d-none');
 
+    const user = AuthSession.getUser();
+
     const payload = {
       title:            titleInput.value.trim(),
       description:      document.getElementById('description').value.trim(),
@@ -90,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
       status:           document.querySelector('input[name="status"]:checked')?.value || 'a-fazer',
       deadline:         document.getElementById('deadline').value,
       experience:       parseInt(document.getElementById('experience').value, 10) || 0,
+      user_id:          user ? user.id : null
     };
 
     try {

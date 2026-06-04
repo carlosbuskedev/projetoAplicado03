@@ -20,6 +20,7 @@ class QuestModel extends Model
         'status',
         'deadline',
         'experience',
+        'user_id',
     ];
 
     protected $returnType = 'array';
