@@ -34,14 +34,18 @@ class Journey extends BaseController
             $estimatedMinutes = $this->timeToMinutes($quest['estimated_time']);
 
             $formatted[] = [
-                'id'        => $quest['id'],
-                'titulo'    => $quest['title'],
-                'descricao' => $quest['short_description'] ?? $quest['title'],
-                'tempo'     => $estimatedMinutes,
-                'difficulty' => $quest['difficulty'],
-                'priority'  => $quest['priority'],
-                'deadline'  => $quest['deadline'],
-                'experience' => $quest['experience'],
+                'id'                 => $quest['id'],
+                'titulo'             => $quest['title'],
+                'descricao'          => $quest['short_description'] ?? $quest['title'],
+                'tempo'              => $estimatedMinutes,
+                'difficulty'         => $quest['difficulty'],
+                'priority'           => $quest['priority'],
+                'deadline'           => $quest['deadline'],
+                'experience'         => $quest['experience'],
+                'estimated_time'     => $quest['estimated_time'],
+                'remaining_time'     => $quest['remaining_time'],
+                'interruptions_count'=> $quest['interruptions_count'] ?? 0,
+                'started_date'       => $quest['started_date'] ?? null,
             ];
         }
 

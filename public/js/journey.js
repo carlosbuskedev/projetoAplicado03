@@ -54,53 +54,49 @@ const priorityMap = {
 
 // Função para abrir o modal do Pomodoro
 function openPomodoroModal(questId) {
-    // Buscar o elemento com os dados da quest
     const questCard = document.querySelector(`[data-quest-id="${questId}"]`);
     if (!questCard) {
         console.error('Quest card not found');
         return;
     }
 
-    // Extrair dados do card
+    const remainingTimeString = questCard.dataset.questRemainingTime || '';
+    const estimatedTimeString = questCard.dataset.questEstimatedTime || '00:00:00';
+    const initialTimeString = remainingTimeString !== '' ? remainingTimeString : estimatedTimeString;
+
     currentQuestData = {
         id: questCard.dataset.questId,
         title: questCard.dataset.questTitle,
-        time: parseInt(questCard.dataset.questTime, 10),
         xp: parseInt(questCard.dataset.questXp, 10),
         difficulty: parseInt(questCard.dataset.questDifficulty, 10),
         priority: questCard.dataset.questPriority,
-        deadline: questCard.dataset.questDeadline
+        deadline: questCard.dataset.questDeadline,
+        estimated_time: estimatedTimeString,
+        remaining_time: remainingTimeString !== '' ? remainingTimeString : null,
+        interruptions_count: parseInt(questCard.dataset.questInterruptions, 10) || 0,
+        started_date: questCard.dataset.questStartedDate || null,
     };
 
     currentActivity = currentQuestData.title;
-    initialTime = currentQuestData.time * 60; // Converter para segundos
+    initialTime = timeStringToSeconds(initialTimeString);
     timeRemaining = initialTime;
     
-    // Atualizar o título
     document.getElementById('activityName').textContent = currentActivity;
-    
-    // Atualizar informações da quest
     document.getElementById('questXP').textContent = currentQuestData.xp;
     document.getElementById('questDeadline').textContent = formatDeadline(currentQuestData.deadline);
-    document.getElementById('questInterruptions').textContent = '0'; // Será carregado do banco depois
+    document.getElementById('questInterruptions').textContent = currentQuestData.interruptions_count;
     
-    // Atualizar prioridade
     const priorityBadge = document.getElementById('priorityBadge');
     priorityBadge.textContent = priorityMap[currentQuestData.priority] || 'Normal';
     priorityBadge.className = `priority-badge ${currentQuestData.priority}`;
     
-    // Atualizar dificuldade
     const difficultyBadge = document.getElementById('difficultyBadge');
     difficultyBadge.textContent = difficultyMap[currentQuestData.difficulty] || '-';
     difficultyBadge.className = `difficulty-badge`;
     
-    // Atualizar o display do timer
     updateTimerDisplay();
-    
-    // Resetar controles
     resetControls();
     
-    // Abrir modal
     const modal = document.getElementById('pomodoroModal');
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
@@ -108,11 +104,87 @@ function openPomodoroModal(questId) {
 
 // Função para formatar a data de prazo
 function formatDeadline(dateString) {
+    if (!dateString) {
+        return '-';
+    }
+
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+        return '-';
+    }
+
+    return date.toLocaleDateString('pt-BR');
+}
+
+function timeStringToSeconds(timeString) {
+    const parts = timeString.split(':').map((value) => parseInt(value, 10) || 0);
+    return (parts[0] || 0) * 3600 + (parts[1] || 0) * 60 + (parts[2] || 0);
+}
+
+function secondsToTimeString(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+async function persistStartedDate() {
+    if (!currentQuestData || !currentQuestData.id || currentQuestData.started_date) {
+        return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+
     try {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('pt-BR');
-    } catch (e) {
-        return dateString;
+        const response = await AuthSession.apiRequest(`/api/quests/${currentQuestData.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ started_date: today }),
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+            console.error(body.message || 'Falha ao gravar data de início.');
+            return;
+        }
+
+        currentQuestData.started_date = today;
+    } catch (error) {
+        console.error('Erro ao persistir started_date:', error);
+    }
+}
+
+async function persistPauseState() {
+    if (!currentQuestData || !currentQuestData.id) {
+        return;
+    }
+
+    const newInterruptions = (currentQuestData.interruptions_count || 0) + 1;
+    const remainingTime = secondsToTimeString(Math.max(0, timeRemaining));
+
+    try {
+        const response = await AuthSession.apiRequest(`/api/quests/${currentQuestData.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                interruptions_count: newInterruptions,
+                remaining_time: remainingTime,
+            }),
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+            console.error(body.message || 'Falha ao atualizar pausa da quest.');
+            return;
+        }
+
+        currentQuestData.interruptions_count = newInterruptions;
+        document.getElementById('questInterruptions').textContent = newInterruptions;
+    } catch (error) {
+        console.error('Erro ao persistir estado de pausa:', error);
     }
 }
 
@@ -133,21 +205,22 @@ function closePomodoroModal() {
 }
 
 // Função para iniciar o timer
-function startTimer() {
+async function startTimer() {
     if (isRunning) return;
+
+    if (currentQuestData && !currentQuestData.started_date) {
+        await persistStartedDate();
+    }
     
     isRunning = true;
     
-    // Atualizar botões
     document.getElementById('startBtn').style.display = 'none';
     document.getElementById('pauseBtn').style.display = 'inline-block';
     
-    // Iniciar contagem
     timerInterval = setInterval(() => {
         timeRemaining--;
         updateTimerDisplay();
         
-        // Verificar se acabou
         if (timeRemaining <= 0) {
             finishPomodoro();
         }
@@ -161,9 +234,15 @@ function pauseTimer() {
     isRunning = false;
     clearInterval(timerInterval);
     
-    // Atualizar botões
     document.getElementById('startBtn').style.display = 'inline-block';
     document.getElementById('pauseBtn').style.display = 'none';
+}
+
+async function handlePauseClick() {
+    if (!isRunning) return;
+
+    pauseTimer();
+    await persistPauseState();
 }
 
 // Função para finalizar um Pomodoro

@@ -39,6 +39,7 @@ $routes->group('api/quests', [
     'filter'    => 'jwt',
 ], static function ($routes) {
     $routes->post('/', 'Quests::create');
+    $routes->patch('(:num)', 'Quests::update/$1');
 });
 
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {

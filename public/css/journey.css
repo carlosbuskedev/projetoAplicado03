@@ -172,11 +172,35 @@
 /* Top Badges Container */
 .quest-badges-top {
   position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
-  margin-top: -38px;
-  margin-left: -18px;
+}
+
+.pomodoro-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #d9c5b0;
+  border: 3px solid #b8a183;
+  color: #5d4e5d;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #b8a183;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1;
+  padding: 0;
+}
+
+.pomodoro-close-btn:hover {
+  background: #b8a183;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #b8a183;
 }
 
 /* Quest Info Container */

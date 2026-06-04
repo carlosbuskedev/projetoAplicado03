@@ -19,6 +19,10 @@ class QuestModel extends Model
         'deadline',
         'experience',
         'user_id',
+        'started_date',
+        'completed_date',
+        'interruptions_count',
+        'remaining_time',
     ];
 
     protected $returnType = 'array';
@@ -32,6 +36,11 @@ class QuestModel extends Model
     public function createQuest(array $data): int|false
     {
         return $this->insert($data);
+    }
+
+    public function updateQuest(int $id, array $data): bool
+    {
+        return $this->update($id, $data);
     }
 
     public function findById(int $id): ?array

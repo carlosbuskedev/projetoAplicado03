@@ -38,6 +38,63 @@ class QuestService
         ], 201);
     }
 
+    public function update(int $id, array $data): array
+    {
+        $quest = $this->questModel->findById($id);
+
+        if ($quest === null) {
+            return $this->failure('Quest não encontrada.', 404);
+        }
+
+        $payload = [];
+
+        if (array_key_exists('started_date', $data)) {
+            $startedDate = trim((string) ($data['started_date'] ?? ''));
+            if ($startedDate !== '' && $quest['started_date'] === null) {
+                $startedAt = \DateTime::createFromFormat('Y-m-d', $startedDate);
+                if ($startedAt === false || $startedAt->format('Y-m-d') !== $startedDate) {
+                    return $this->failure('Data de início inválida.', 422);
+                }
+
+                $payload['started_date'] = $startedDate;
+            }
+        }
+
+        if (array_key_exists('interruptions_count', $data)) {
+            $interruptionsCount = (int) ($data['interruptions_count'] ?? 0);
+            if ($interruptionsCount < 0) {
+                return $this->failure('Número de interrupções inválido.', 422);
+            }
+
+            $payload['interruptions_count'] = $interruptionsCount;
+        }
+
+        if (array_key_exists('remaining_time', $data)) {
+            $remainingTime = trim((string) ($data['remaining_time'] ?? ''));
+            if ($remainingTime !== '') {
+                if (! preg_match('/^\d{2}:\d{2}:\d{2}$/', $remainingTime)) {
+                    return $this->failure('Tempo restante inválido.', 422);
+                }
+
+                $payload['remaining_time'] = $remainingTime;
+            } else {
+                $payload['remaining_time'] = null;
+            }
+        }
+
+        if (empty($payload)) {
+            return $this->failure('Nenhum dado para atualizar.', 422);
+        }
+
+        if ($this->questModel->updateQuest($id, $payload) === false) {
+            return $this->failure('Não foi possível atualizar a quest.', 500);
+        }
+
+        return $this->success('Quest atualizada com sucesso.', [
+            'quest' => $this->questModel->findById($id),
+        ]);
+    }
+
     private function validatePayload(array $data): array
     {
         $title = trim((string) ($data['title'] ?? ''));
