@@ -23,11 +23,6 @@ class CreateQuestsTable extends Migration
                 'type' => 'TEXT',
                 'null' => true,
             ],
-            'category' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 255,
-                'null'       => true,
-            ],
             'estimated_time' => [
                 'type' => 'TIME',
             ],
@@ -40,11 +35,6 @@ class CreateQuestsTable extends Migration
                 'type'       => 'ENUM',
                 'constraint' => ['low', 'medium', 'high'],
                 'default'    => 'medium',
-            ],
-            'status' => [
-                'type'       => 'ENUM',
-                'constraint' => ['to_do', 'in_progress', 'done'],
-                'default'    => 'to_do',
             ],
             'deadline' => [
                 'type' => 'DATE',

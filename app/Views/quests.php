@@ -61,13 +61,6 @@
                         placeholder="Ex: Aprender componentes e hooks"></textarea>
             </div>
 
-            <!-- Categoria -->
-            <div class="form-group-pixel mb-4">
-              <label class="pixel-label" for="category">Categoria</label>
-              <input type="text" id="category" name="category"
-                     class="pixel-input" placeholder="Ex: Estudo" />
-            </div>
-
             <!-- Tempo estimado -->
             <div class="form-group-pixel mb-4">
               <label class="pixel-label">Tempo estimado</label>
@@ -128,25 +121,6 @@
                 <label class="pixel-radio-item" data-group="priority" data-value="alta">
                   <input type="radio" name="priority" value="alta" />
                   🔴 Alta
-                </label>
-              </div>
-            </div>
-
-            <!-- Status -->
-            <div class="form-group-pixel mb-4">
-              <label class="pixel-label">Status</label>
-              <div class="pixel-radio-group" id="statusGroup">
-                <label class="pixel-radio-item selected" data-group="status" data-value="a-fazer">
-                  <input type="radio" name="status" value="a-fazer" checked />
-                  <i class="bi bi-hourglass-top"></i> A fazer
-                </label>
-                <label class="pixel-radio-item" data-group="status" data-value="fazendo">
-                  <input type="radio" name="status" value="fazendo" />
-                  <i class="bi bi-hourglass-split"></i> Fazendo
-                </label>
-                <label class="pixel-radio-item" data-group="status" data-value="feito">
-                  <input type="radio" name="status" value="feito" />
-                  <i class="bi bi-hourglass-bottom"></i> Feito
                 </label>
               </div>
             </div>
