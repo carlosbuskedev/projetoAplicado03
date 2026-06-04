@@ -61,7 +61,11 @@
                 <!-- Tomate Animado -->
                 <div class="tomato-container">
                     <div class="tomato">
-                        🍅
+                       <img 
+                            class="tomato-gif"
+                            src="/images/tomate.gif" 
+                            alt="🍅"
+                        >
                     </div>
                 </div>
 
