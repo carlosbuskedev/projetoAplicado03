@@ -50,10 +50,14 @@
                                      data-quest-id="<?= (int)$card['id'] ?>"
                                      data-quest-title="<?= htmlspecialchars($card['titulo']) ?>"
                                      data-quest-time="<?= (int)$card['tempo'] ?>"
+                                     data-quest-estimated-time="<?= htmlspecialchars($card['estimated_time']) ?>"
+                                     data-quest-remaining-time="<?= htmlspecialchars($card['remaining_time'] ?? '') ?>"
                                      data-quest-xp="<?= (int)$card['experience'] ?>"
                                      data-quest-difficulty="<?= (int)$card['difficulty'] ?>"
                                      data-quest-priority="<?= htmlspecialchars($card['priority']) ?>"
-                                     data-quest-deadline="<?= htmlspecialchars($card['deadline']) ?>">
+                                     data-quest-deadline="<?= htmlspecialchars($card['deadline']) ?>"
+                                     data-quest-interruptions="<?= (int) $card['interruptions_count'] ?>"
+                                     data-quest-started-date="<?= htmlspecialchars($card['started_date'] ?? '') ?>">
                                     <div class="activity-card-icon"></div>
                                     <h3 class="activity-card-title"><?= htmlspecialchars($card['titulo']) ?></h3>
                                     <p class="activity-card-description"><?= htmlspecialchars($card['descricao']) ?></p>
@@ -70,16 +74,16 @@
         <!-- Modal Pomodoro Timer -->
         <div id="pomodoroModal" class="pomodoro-modal">
             <div class="pomodoro-modal-content">
-                <button class="pomodoro-close-btn" onclick="closePomodoroModal()">×</button>
-                
-                <!-- Top Section: Priority and Difficulty -->
-                <div class="quest-badges-top">
-                    <div class="priority-badge" id="priorityBadge">
-                        Normal
+                <div class="quest-modal-header">
+                    <div class="quest-badges-top">
+                        <div class="priority-badge" id="priorityBadge">
+                            Normal
+                        </div>
+                        <div class="difficulty-badge" id="difficultyBadge">
+                            Normal
+                        </div>
                     </div>
-                    <div class="difficulty-badge" id="difficultyBadge">
-                        Normal
-                    </div>
+                    <button class="pomodoro-close-btn" onclick="closePomodoroModal()">×</button>
                 </div>
 
                 <h2 class="pomodoro-title" id="activityName">Timer Pomodoro</h2>
@@ -103,7 +107,7 @@
                     <button class="pixel-btn timer-btn timer-btn-start" id="startBtn" onclick="startTimer()">
                         Iniciar
                     </button>
-                    <button class="pixel-btn timer-btn timer-btn-pause" id="pauseBtn" onclick="pauseTimer()" style="display: none;">
+                    <button class="pixel-btn timer-btn timer-btn-pause" id="pauseBtn" onclick="handlePauseClick()" style="display: none;">
                         Pausar
                     </button>
                 </div>

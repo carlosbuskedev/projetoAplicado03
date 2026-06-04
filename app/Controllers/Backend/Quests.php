@@ -24,6 +24,13 @@ class Quests extends BaseController
         return $this->respondFromService($this->questService->create($data));
     }
 
+    public function update($id)
+    {
+        $data = $this->request->getJSON(true) ?? $this->request->getRawInput();
+
+        return $this->respondFromService($this->questService->update((int) $id, $data));
+    }
+
     private function respondFromService(array $result)
     {
         if (! $result['success']) {
