@@ -13,11 +13,9 @@ class QuestModel extends Model
     protected $allowedFields = [
         'title',
         'short_description',
-        'category',
         'estimated_time',
         'difficulty',
         'priority',
-        'status',
         'deadline',
         'experience',
         'user_id',

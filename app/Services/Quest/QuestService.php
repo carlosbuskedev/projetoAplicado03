@@ -42,12 +42,10 @@ class QuestService
     {
         $title = trim((string) ($data['title'] ?? ''));
         $shortDescription = trim((string) ($data['description'] ?? $data['short_description'] ?? ''));
-        $category = trim((string) ($data['category'] ?? ''));
         $hours = isset($data['estimatedHours']) ? (int) $data['estimatedHours'] : (int) ($data['hours'] ?? 0);
         $minutes = isset($data['estimatedMinutes']) ? (int) $data['estimatedMinutes'] : (int) ($data['minutes'] ?? 0);
         $difficulty = trim((string) ($data['difficulty'] ?? 'medio'));
         $priority = trim((string) ($data['priority'] ?? 'media'));
-        $status = trim((string) ($data['status'] ?? 'a-fazer'));
         $deadline = trim((string) ($data['deadline'] ?? ''));
         $experience = isset($data['experience']) ? (int) $data['experience'] : (int) ($data['experience'] ?? 0);
         $user_id = trim((string) ($data['user_id'] ?? ''));
@@ -66,10 +64,6 @@ class QuestService
 
         if (! in_array($priority, ['baixa', 'media', 'alta'], true)) {
             return $this->failure('Prioridade inválida.', 422);
-        }
-
-        if (! in_array($status, ['a-fazer', 'fazendo', 'feito'], true)) {
-            return $this->failure('Status inválido.', 422);
         }
 
         if ($deadline === '') {
@@ -93,11 +87,9 @@ class QuestService
         return $this->success('Validação OK.', [
             'title'             => $title,
             'short_description' => $shortDescription !== '' ? $shortDescription : null,
-            'category'          => $category !== '' ? $category : null,
             'estimated_time'    => sprintf('%02d:%02d:00', $hours, $minutes),
             'difficulty'        => $this->normalizeDifficulty($difficulty),
             'priority'          => $this->normalizePriority($priority),
-            'status'            => $this->normalizeStatus($status),
             'deadline'          => $deadline,
             'experience'        => $experience,
             'user_id'           => $user_id,
@@ -122,16 +114,6 @@ class QuestService
             'media' => 'medium',
             'alta' => 'high',
             default => 'medium',
-        };
-    }
-
-    private function normalizeStatus(string $status): string
-    {
-        return match ($status) {
-            'a-fazer' => 'to_do',
-            'fazendo' => 'in_progress',
-            'feito' => 'done',
-            default => 'to_do',
         };
     }
 

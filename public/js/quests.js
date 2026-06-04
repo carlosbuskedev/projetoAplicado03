@@ -84,12 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const payload = {
       title:            titleInput.value.trim(),
       description:      document.getElementById('description').value.trim(),
-      category:         document.getElementById('category').value.trim(),
       estimatedHours:   parseInt(document.getElementById('hours').value, 10) || 0,
       estimatedMinutes: parseInt(document.getElementById('minutes').value, 10) || 0,
       difficulty:       document.querySelector('input[name="difficulty"]:checked')?.value || 'medio',
       priority:         document.querySelector('input[name="priority"]:checked')?.value || 'media',
-      status:           document.querySelector('input[name="status"]:checked')?.value || 'a-fazer',
       deadline:         document.getElementById('deadline').value,
       experience:       parseInt(document.getElementById('experience').value, 10) || 0,
       user_id:          user ? user.id : null
