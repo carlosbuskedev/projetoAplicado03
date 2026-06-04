@@ -4,7 +4,7 @@ namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
 
-class Jornada extends BaseController
+class Journey extends BaseController
 {
     public function index(): string
     {
@@ -17,6 +17,6 @@ class Jornada extends BaseController
             ['titulo' => 'Idiomas', 'descricao' => 'Praticar conversação', 'tempo' => 20],
         ];
 
-        return view('jornada', ['cards' => $arrCards]);
+        return view('journey', ['cards' => $arrCards]);
     }
 }
