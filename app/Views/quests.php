@@ -153,29 +153,23 @@
             <div class="row g-3 mb-4">
               <div class="col-12 col-md-6">
                 <div class="form-group-pixel">
-                  <label class="pixel-label" for="responsible">Responsável</label>
-                  <input type="text" id="responsible" name="responsible"
-                         class="pixel-input" placeholder="Ex: Camila" />
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group-pixel">
                   <label class="pixel-label" for="deadline">Prazo</label>
                   <input type="date" id="deadline" name="deadline"
                          class="pixel-input" required />
                   <span class="pixel-error d-none" id="deadlineError">Campo obrigatório</span>
                 </div>
               </div>
-            </div>
-
-            <!-- Pontuação -->
-            <div class="form-group-pixel mb-5">
-              <label class="pixel-label" for="score">Pontuação</label>
-              <div class="pixel-score-row">
-                <input type="number" id="score" name="score"
-                       class="pixel-input pixel-input-score"
-                       min="0" max="9999" value="20" />
-                <span class="pixel-xp-badge">XP</span>
+              <div class="col-12 col-md-6 d-flex justify-content-md-end">
+                <div class="form-group-pixel">
+                  <label class="pixel-label" for="experience">Pontuação</label>
+                  <div class="pixel-experience-row">
+                    <input type="number" id="experience" name="experience"
+                          class="pixel-input pixel-input-experience"
+                          disabled
+                          min="0" max="9999" value="50" />
+                    <span class="pixel-xp-badge">XP</span>
+                  </div>
+                </div>
               </div>
             </div>
 

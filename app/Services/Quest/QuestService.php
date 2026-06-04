@@ -49,7 +49,7 @@ class QuestService
         $priority = trim((string) ($data['priority'] ?? 'media'));
         $status = trim((string) ($data['status'] ?? 'a-fazer'));
         $deadline = trim((string) ($data['deadline'] ?? ''));
-        $experience = isset($data['experience']) ? (int) $data['experience'] : (int) ($data['score'] ?? 0);
+        $experience = isset($data['experience']) ? (int) $data['experience'] : (int) ($data['experience'] ?? 0);
 
         if ($title === '') {
             return $this->failure('Título é obrigatório.', 422);
