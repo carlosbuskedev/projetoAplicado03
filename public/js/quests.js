@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
       priority:         document.querySelector('input[name="priority"]:checked')?.value || 'media',
       status:           document.querySelector('input[name="status"]:checked')?.value || 'a-fazer',
       deadline:         document.getElementById('deadline').value,
-      experience:       parseInt(document.getElementById('score').value, 10) || 0,
+      experience:       parseInt(document.getElementById('experience').value, 10) || 0,
     };
 
     try {

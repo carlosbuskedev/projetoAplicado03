@@ -172,13 +172,13 @@ body {
 }
 
 /* ----- Pontuação ----- */
-.pixel-score-row {
+.pixel-experience-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.pixel-input-score {
+.pixel-input-experience {
   width: 120px;
 }
 
