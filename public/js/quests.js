@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const body = await parseResponse(response);
 
-      window.location.href = '/menu';
+      window.location.href = '/menu-principal';
     } catch (error) {
       alert(error.message);
     }

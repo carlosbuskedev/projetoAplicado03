@@ -18,7 +18,7 @@
     <div class="container-fluid px-4 py-3">
       <div class="row align-items-center">
         <div class="col-auto">
-          <a href="/menu" class="pixel-btn pixel-btn-back">◀ Voltar</a>
+          <a href="/menu-principal" class="pixel-btn pixel-btn-back">◀ Voltar</a>
         </div>
         <div class="col text-center">
           <h1 class="pixel-title mb-0">BRIO</h1>
@@ -179,7 +179,7 @@
             <!-- Botões -->
             <div class="row g-3">
               <div class="col-12 col-md-6">
-                <a href="/menu" class="pixel-btn pixel-btn-cancel w-100 d-block text-center">
+                <a href="/menu-principal" class="pixel-btn pixel-btn-cancel w-100 d-block text-center">
                   ✕ Cancelar
                 </a>
               </div>

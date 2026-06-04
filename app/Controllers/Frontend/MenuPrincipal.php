@@ -4,10 +4,10 @@ namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
 
-class Principal extends BaseController
+class MenuPrincipal extends BaseController
 {
     public function index(): string
     {
-        return view('principal');
+        return view('menu_principal');
     }
 }
