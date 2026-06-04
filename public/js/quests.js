@@ -22,21 +22,32 @@ document.addEventListener('DOMContentLoaded', function () {
   const form          = document.getElementById('missionForm');
   const titleInput    = document.getElementById('title');
   const titleError    = document.getElementById('titleError');
-
+  const deadlineInput = document.getElementById('deadline');
+  const deadlineError = document.getElementById('deadlineError');
+  
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     if (titleInput.value.trim() === '') {
       titleInput.classList.add('is-invalid');
       titleError.classList.remove('d-none');
-      titleInput.focus();
-      return;
     }
 
+    if (deadlineInput.value.trim() === '') {
+      deadlineInput.classList.add('is-invalid');
+      deadlineError.classList.remove('d-none');
+    }
+
+    if (titleInput.value.trim() === '' || deadlineInput.value.trim() === '') {
+      return;
+    }
+    
     titleInput.classList.remove('is-invalid');
     titleError.classList.add('d-none');
+    deadlineInput.classList.remove('is-invalid');
+    deadlineError.classList.add('d-none');
 
-    const mission = {
+    const payload = {
       title:            titleInput.value.trim(),
       description:      document.getElementById('description').value.trim(),
       category:         document.getElementById('category').value.trim(),
@@ -52,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
       const response = await AuthSession.apiRequest('/api/quests', {
         method: 'POST',
-        body: JSON.stringify(mission),
+        body: JSON.stringify(payload),
       });
 
       const body = await parseResponse(response);
@@ -67,6 +78,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (this.value.trim() !== '') {
       this.classList.remove('is-invalid');
       titleError.classList.add('d-none');
+    }
+  });
+
+  deadlineInput.addEventListener('input', function () {
+    if (this.value.trim() !== '') {
+      this.classList.remove('is-invalid');
+      deadlineError.classList.add('d-none');
     }
   });
 
