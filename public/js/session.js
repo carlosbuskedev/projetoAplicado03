@@ -9,6 +9,7 @@ const AuthSession = (() => {
 
     const PAGE_ROLES = {
         jornada: ['admin', 'user'],
+        quests: ['admin', 'user'],
         users: ['admin'],
         painel: ['admin'],
     };

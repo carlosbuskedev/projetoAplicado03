@@ -34,7 +34,7 @@
                         
                         <div class="row g-4">
                             <div class="col-12">
-                                <a  href="/missao"
+                                <a  href="/quests"
                                         class="pixel-menu-item" 
                                         data-option="missions">
                                     <div class="pixel-menu-item-content">
