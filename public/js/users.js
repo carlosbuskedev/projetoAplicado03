@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnNovoUsuario').addEventListener('click', () => openUserModal());
     userForm.addEventListener('submit', saveUser);
 
-    ['userName', 'userEmail', 'userPassword'].forEach((id) => {
-        document.getElementById(id).addEventListener('input', () => clearFieldError(id));
+    ['userName', 'userEmail', 'userPassword', 'userRole'].forEach((id) => {
+        userModalEl.querySelector(`#${id}`)?.addEventListener('input', () => clearFieldError(id));
+        userModalEl.querySelector(`#${id}`)?.addEventListener('change', () => clearFieldError(id));
     });
 
     loadUsers();
@@ -104,19 +105,23 @@ async function loadUserForEdit(id) {
         document.getElementById('userEmail').value = user.email;
         document.getElementById('userRole').value = user.role;
     } catch (error) {
-        showFormAlert(error.message, 'danger');
+        displayModalErrors(error.message);
     }
+}
+
+function getFormValue(id) {
+    return userModalEl.querySelector(`#${id}`)?.value ?? '';
 }
 
 function validateUserForm() {
     clearFormErrors();
     clearFormAlert();
 
-    const id = document.getElementById('userId').value;
+    const id = getFormValue('userId');
     const isEdit = Boolean(id);
-    const name = document.getElementById('userName').value.trim();
-    const email = document.getElementById('userEmail').value.trim();
-    const password = document.getElementById('userPassword').value;
+    const name = getFormValue('userName').trim();
+    const email = getFormValue('userEmail').trim();
+    const password = getFormValue('userPassword');
     let valid = true;
 
     if (name === '') {
@@ -147,16 +152,18 @@ async function saveUser(event) {
     event.preventDefault();
 
     if (!validateUserForm()) {
+        clearPageAlert();
+        userModal.show();
         focusFirstInvalidField();
         return;
     }
 
-    const id = document.getElementById('userId').value;
+    const id = getFormValue('userId');
     const payload = {
-        name: document.getElementById('userName').value.trim(),
-        email: document.getElementById('userEmail').value.trim(),
-        password: document.getElementById('userPassword').value,
-        role: document.getElementById('userRole').value,
+        name: getFormValue('userName').trim(),
+        email: getFormValue('userEmail').trim(),
+        password: getFormValue('userPassword'),
+        role: getFormValue('userRole'),
     };
 
     const isEdit = Boolean(id);
@@ -176,9 +183,7 @@ async function saveUser(event) {
     } catch (error) {
         clearPageAlert();
         userModal.show();
-        applyServerValidationErrors(error.message);
-        showFormAlert(error.message, 'danger');
-        focusFirstInvalidField();
+        displayModalErrors(error.message);
     }
 }
 
@@ -202,12 +207,15 @@ function setFieldError(inputId, errorId, message) {
     const error = userModalEl.querySelector(`#${errorId}`);
 
     if (!input || !error) {
-        return;
+        return false;
     }
 
     input.classList.add('is-invalid');
+    input.setAttribute('aria-invalid', 'true');
     error.textContent = message;
     error.classList.remove('d-none');
+    error.classList.add('show');
+    return true;
 }
 
 function clearFieldError(inputId) {
@@ -219,11 +227,27 @@ function clearFieldError(inputId) {
     }
 
     input.classList.remove('is-invalid');
+    input.removeAttribute('aria-invalid');
+    error.textContent = '';
     error.classList.add('d-none');
+    error.classList.remove('show');
 }
 
 function clearFormErrors() {
-    ['userName', 'userEmail', 'userPassword'].forEach((id) => clearFieldError(id));
+    ['userName', 'userEmail', 'userPassword', 'userRole'].forEach((id) => clearFieldError(id));
+}
+
+function displayModalErrors(message) {
+    clearPageAlert();
+    clearFormAlert();
+
+    const mapped = applyServerValidationErrors(message);
+
+    if (!mapped) {
+        showFormAlert(message, 'danger');
+    }
+
+    focusFirstInvalidField();
 }
 
 function showFormAlert(message, type) {
@@ -281,31 +305,43 @@ function scrollWithinModal(element) {
 
 function applyServerValidationErrors(message) {
     const normalized = (message ?? '').toLowerCase();
+    let mapped = false;
 
     if (normalized.includes('nome') && normalized.includes('e-mail')) {
-        setFieldError('userName', 'userNameError', 'Nome é obrigatório.');
-        setFieldError('userEmail', 'userEmailError', 'E-mail é obrigatório.');
-        return;
+        mapped = setFieldError('userName', 'userNameError', 'Nome é obrigatório.') || mapped;
+        mapped = setFieldError('userEmail', 'userEmailError', 'E-mail é obrigatório.') || mapped;
+        return mapped;
     }
 
-    if (normalized.includes('e-mail inválido')) {
-        setFieldError('userEmail', 'userEmailError', 'E-mail inválido.');
-        return;
+    if (normalized.includes('nome é obrigatório') || normalized === 'nome é obrigatório.') {
+        return setFieldError('userName', 'userNameError', 'Nome é obrigatório.');
     }
 
-    if (normalized.includes('e-mail já')) {
-        setFieldError('userEmail', 'userEmailError', message);
-        return;
+    if (normalized.includes('e-mail é obrigatório') || normalized.includes('email é obrigatório')) {
+        return setFieldError('userEmail', 'userEmailError', 'E-mail é obrigatório.');
+    }
+
+    if (normalized.includes('e-mail inválido') || normalized.includes('email inválido')) {
+        return setFieldError('userEmail', 'userEmailError', 'E-mail inválido.');
+    }
+
+    if (normalized.includes('e-mail já') || normalized.includes('email já')) {
+        return setFieldError('userEmail', 'userEmailError', message);
     }
 
     if (normalized.includes('senha é obrigatória')) {
-        setFieldError('userPassword', 'userPasswordError', 'Senha é obrigatória no cadastro.');
-        return;
+        return setFieldError('userPassword', 'userPasswordError', 'Senha é obrigatória no cadastro.');
     }
 
-    if (normalized.includes('senha deve ter')) {
-        setFieldError('userPassword', 'userPasswordError', 'A senha deve ter no mínimo 6 caracteres.');
+    if (normalized.includes('senha deve ter') || normalized.includes('mínimo 6')) {
+        return setFieldError('userPassword', 'userPasswordError', 'A senha deve ter no mínimo 6 caracteres.');
     }
+
+    if (normalized.includes('perfil inválido')) {
+        return setFieldError('userRole', 'userRoleError', 'Perfil inválido. Use admin ou user.');
+    }
+
+    return mapped;
 }
 
 function extractApiMessage(body) {

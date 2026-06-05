@@ -75,29 +75,33 @@
                     <div id="formAlert" class="alert d-none mb-3" role="alert" aria-live="assertive"></div>
                     <form id="userForm" novalidate>
                         <input type="hidden" id="userId">
-                        <div class="mb-3">
+                        <div class="mb-3 field-group">
                             <label for="userName" class="form-label pixel-label">Nome</label>
-                            <input type="text" class="form-control pixel-input" id="userName" autocomplete="name">
-                            <span class="field-error d-none" id="userNameError" role="alert">Nome é obrigatório.</span>
+                            <input type="text" class="form-control pixel-input" id="userName" autocomplete="name"
+                                aria-describedby="userNameError">
+                            <div class="field-error d-none" id="userNameError" role="alert"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 field-group">
                             <label for="userEmail" class="form-label pixel-label">E-mail</label>
-                            <input type="email" class="form-control pixel-input" id="userEmail" autocomplete="email">
-                            <span class="field-error d-none" id="userEmailError" role="alert">E-mail inválido.</span>
+                            <input type="text" class="form-control pixel-input" id="userEmail" autocomplete="email"
+                                inputmode="email" aria-describedby="userEmailError">
+                            <div class="field-error d-none" id="userEmailError" role="alert"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 field-group">
                             <label for="userPassword" class="form-label pixel-label">Senha</label>
                             <input type="password" class="form-control pixel-input" id="userPassword"
-                                placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                                placeholder="Mínimo 6 caracteres" autocomplete="new-password"
+                                aria-describedby="userPasswordError passwordHint">
                             <small class="text-muted" id="passwordHint"></small>
-                            <span class="field-error d-none" id="userPasswordError" role="alert">A senha deve ter no mínimo 6 caracteres.</span>
+                            <div class="field-error d-none" id="userPasswordError" role="alert"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 field-group">
                             <label for="userRole" class="form-label pixel-label">Perfil</label>
-                            <select class="form-select pixel-input" id="userRole">
+                            <select class="form-select pixel-input" id="userRole" aria-describedby="userRoleError">
                                 <option value="user">Usuário</option>
                                 <option value="admin">Administrador</option>
                             </select>
+                            <div class="field-error d-none" id="userRoleError" role="alert"></div>
                         </div>
                         <button type="submit" class="btn pixel-btn pixel-btn-primary w-100">Salvar</button>
                     </form>
