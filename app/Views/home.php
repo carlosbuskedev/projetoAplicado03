@@ -56,14 +56,15 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <button class="pixel-menu-item" 
-                                        data-option="progression">
+                                <a  href="/leveling"
+                                        class="pixel-menu-item" 
+                                        data-option="leveling">
                                     <div class="pixel-menu-item-content">
                                         <h3 class="pixel-menu-item-title">Progressão</h3>
                                         <p class="pixel-menu-item-description">Veja seu progresso no jogo</p>
                                     </div>
                                     <div class="pixel-arrow">▶</div>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-12" id="menuUsuarios" style="display: none;">
                                 <a href="/users" class="pixel-menu-item" data-option="users">

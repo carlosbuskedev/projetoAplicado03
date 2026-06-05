@@ -1,0 +1,527 @@
+/* =============================================
+   BRIO – Progressão / Ficha RPG
+   ============================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* ── Header ─────────────────────────────────── */
+.pixel-header {
+  background: #f9f5f0;
+  border-bottom: 4px solid #e8dfd6;
+  box-shadow: 0 4px 0 #e8dfd6;
+}
+
+.pixel-title {
+  font-size: 1.5rem;
+  color: #9d8189;
+  text-shadow: 3px 3px 0 #d4c5c7;
+  letter-spacing: 2px;
+}
+
+/* ── Botões base ─────────────────────────────── */
+.pixel-btn {
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+  transition: all 0.1s;
+}
+
+.pixel-btn-back {
+  background: #e6d8e0;
+  border: 3px solid #d4c5c7 !important;
+  color: #7d6b7d !important;
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  box-shadow: 4px 4px 0 #d4c5c7;
+}
+
+.pixel-btn-back:hover {
+  background: #d4c5c7;
+  color: #5d4e5d !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+.pixel-btn-sm {
+  background: #e6d8e0;
+  border: 2px solid #d4c5c7 !important;
+  color: #7d6b7d;
+  padding: 5px 12px;
+  font-size: 0.5rem;
+  box-shadow: 3px 3px 0 #d4c5c7;
+}
+
+.pixel-btn-sm:hover {
+  background: #d4c5c7;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+.pixel-btn-save {
+  background: #d9c5b0;
+  border: 3px solid #b8a183 !important;
+  color: #5d4e40 !important;
+  padding: 12px;
+  font-size: 0.6rem;
+  box-shadow: 5px 5px 0 #b8a183;
+}
+
+.pixel-btn-save:hover {
+  background: #c8b49e;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #b8a183;
+}
+
+/* ── Card base ───────────────────────────────── */
+.pixel-card {
+  background: #faf8f5;
+  border: 4px solid #e8dfd6;
+  padding: 1.5rem;
+  box-shadow: 6px 6px 0 #e8dfd6;
+}
+
+/* ── Input base ──────────────────────────────── */
+.pixel-input {
+  width: 100%;
+  border: 3px solid #d9c5b0;
+  padding: 0.65rem 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  background: #faf8f5;
+  color: #7d6b7d;
+  outline: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.pixel-input:focus {
+  border-color: #b8a183;
+  box-shadow: 0 0 0 3px #e8dfd6;
+  background: #fff;
+}
+
+.pixel-label {
+  display: block;
+  font-size: 0.55rem;
+  color: #8b7355;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Seção título ────────────────────────────── */
+.rpg-section-title {
+  font-size: 0.75rem;
+  color: #9d8189;
+  text-shadow: 2px 2px 0 #e8dfd6;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #e8dfd6;
+  padding-bottom: 0.6rem;
+}
+
+.rpg-section-title i {
+  margin-right: 0.4rem;
+}
+
+/* ── Painel personagem ───────────────────────── */
+.rpg-character-panel {
+  background: linear-gradient(180deg, #faf8f5 0%, #f5ebe0 100%);
+  border-color: #d9c5b0;
+  box-shadow: 6px 6px 0 #d9c5b0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ── Avatar ──────────────────────────────────── */
+.pixel-avatar-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  border: 4px solid #d9c5b0;
+  box-shadow: 5px 5px 0 #d9c5b0;
+  background: #ede0d4;
+  cursor: pointer;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.pixel-avatar-wrapper canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-avatar-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #b8a183;
+  font-size: 0.45rem;
+  text-align: center;
+  background: #ede0d4;
+}
+
+.pixel-avatar-placeholder i {
+  font-size: 3rem;
+  color: #d9c5b0;
+}
+
+.pixel-avatar-placeholder.hidden {
+  display: none;
+}
+
+/* ── Nível badge ─────────────────────────────── */
+.rpg-level-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0;
+  padding: 0.6rem 1rem;
+  box-shadow: 4px 4px 0 #d9c5b0;
+}
+
+.rpg-level-label {
+  font-size: 0.45rem;
+  color: #a68a64;
+}
+
+.rpg-level-value {
+  font-size: 1.6rem;
+  color: #9d8189;
+  text-shadow: 3px 3px 0 #d4c5c7;
+  line-height: 1;
+}
+
+/* ── XP Bar ──────────────────────────────────── */
+.pixel-xp-track {
+  width: 100%;
+  height: 18px;
+  background: #ede0d4;
+  border: 3px solid #d9c5b0;
+  box-shadow: inset 2px 2px 0 #d9c5b0;
+  overflow: hidden;
+}
+
+.pixel-xp-fill {
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #b8a183 0px, #b8a183 8px,
+    #c9b49a 8px, #c9b49a 16px
+  );
+  transition: width 0.4s ease;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+}
+
+.rpg-hint {
+  font-size: 0.45rem;
+  color: #a68a64;
+  text-align: right;
+}
+
+/* ── Bloco de atributo ───────────────────────── */
+.rpg-attr-block {
+  background: #f5ebe0;
+  border: 3px solid #e8dfd6;
+  padding: 0.75rem;
+  box-shadow: 3px 3px 0 #e8dfd6;
+}
+
+.rpg-attr-header {
+  font-size: 0.65rem;
+  color: #8b7355;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #d9c5b0;
+  padding-bottom: 0.4rem;
+}
+
+.rpg-attr-header i {
+  margin-right: 0.3rem;
+}
+
+/* ── Stat box ────────────────────────────────── */
+.rpg-stat-box {
+  background: #faf8f5;
+  border: 2px solid #d9c5b0;
+  padding: 0.5rem;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rpg-stat-box.rpg-stat-computed {
+  background: #f0e9e1;
+  border-color: #b8a183;
+}
+
+.rpg-stat-box.rpg-stat-warn {
+  background: #fdf4f0;
+  border-color: #e0b8a8;
+}
+
+.rpg-stat-label {
+  font-size: 0.4rem;
+  color: #8b7355;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.rpg-stat-box.rpg-stat-warn .rpg-stat-label {
+  color: #a06050;
+}
+
+.rpg-stat-input {
+  width: 100%;
+  border: 2px solid #d9c5b0;
+  padding: 0.4rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.75rem;
+  background: transparent;
+  color: #7d6b7d;
+  outline: none;
+  border-radius: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.rpg-stat-box.rpg-stat-warn .rpg-stat-input {
+  color: #a06050;
+  border-color: #e0b8a8;
+}
+
+.rpg-stat-input:focus {
+  border-color: #b8a183;
+  background: #fff;
+}
+
+.rpg-stat-value {
+  font-size: 0.75rem;
+  color: #9d8189;
+  text-shadow: 2px 2px 0 #e8dfd6;
+  padding: 0.3rem 0;
+}
+
+/* ── Conquistas ──────────────────────────────── */
+.conquistas-track {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #d9c5b0 #f5ebe0;
+}
+
+.conquistas-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.conquistas-track::-webkit-scrollbar-track {
+  background: #f5ebe0;
+  border: 2px solid #e8dfd6;
+}
+
+.conquistas-track::-webkit-scrollbar-thumb {
+  background: #d9c5b0;
+  border: 2px solid #c8b09a;
+}
+
+.conquista-card {
+  flex: 0 0 160px;
+  scroll-snap-align: start;
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  box-shadow: 4px 4px 0 #d9c5b0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.1s;
+}
+
+.conquista-card.desbloqueada {
+  background: #f0e4d4;
+  border-color: #b8a183;
+  box-shadow: 4px 4px 0 #b8a183;
+}
+
+.conquista-card.desbloqueada:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #b8a183;
+}
+
+.conquista-card.bloqueada {
+  opacity: 0.45;
+  filter: grayscale(60%);
+}
+
+.conquista-icon {
+  font-size: 2.2rem;
+  color: #b8a183;
+  line-height: 1;
+}
+
+.conquista-card.desbloqueada .conquista-icon {
+  color: #9d8189;
+  text-shadow: 2px 2px 0 #d4c5c7;
+}
+
+.conquista-title {
+  font-size: 0.42rem;
+  color: #8b7355;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+.conquista-desc {
+  font-size: 0.35rem;
+  color: #a68a64;
+  line-height: 1.7;
+}
+
+.conquista-badge {
+  font-size: 0.35rem;
+  background: #d9c5b0;
+  color: #5d4e40;
+  border: 2px solid #b8a183;
+  padding: 2px 6px;
+  margin-top: auto;
+}
+
+.conquista-card.desbloqueada .conquista-badge {
+  background: #9d8189;
+  color: #faf8f5;
+  border-color: #7d6170;
+}
+
+/* ── Histórico ───────────────────────────────── */
+.historico-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f5ebe0;
+  border: 3px solid #e8dfd6;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 3px 3px 0 #e8dfd6;
+  transition: all 0.1s;
+}
+
+.historico-item:hover {
+  background: #ede0d4;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #e8dfd6;
+}
+
+.historico-num {
+  font-size: 0.55rem;
+  color: #b8a183;
+  min-width: 24px;
+  text-align: center;
+}
+
+.historico-info {
+  flex: 1;
+}
+
+.historico-titulo {
+  font-size: 0.55rem;
+  color: #8b7355;
+  margin-bottom: 0.3rem;
+}
+
+.historico-meta {
+  font-size: 0.38rem;
+  color: #a68a64;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.historico-xp {
+  font-size: 0.55rem;
+  color: #9d8189;
+  text-shadow: 1px 1px 0 #d4c5c7;
+  white-space: nowrap;
+}
+
+.historico-vazio {
+  font-size: 0.5rem;
+  color: #b8a183;
+  text-align: center;
+  padding: 2rem;
+  border: 3px dashed #e8dfd6;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 768px) {
+  .pixel-title { font-size: 0.9rem; }
+  .rpg-section-title { font-size: 0.65rem; }
+  .rpg-level-value { font-size: 1.2rem; }
+  .pixel-card { padding: 1rem; }
+  .conquista-card { flex: 0 0 140px; }
+}
+
+/* ── Drag scroll nas conquistas ─────────────── */
+.conquistas-track {
+  cursor: grab;
+  user-select: none;
+}
+
+.conquistas-track.arrastando {
+  cursor: grabbing;
+  scroll-snap-type: none; /* desativa snap durante o arrasto */
+}
+
+/* ── Tooltips ───────────────────────────────── */
+.tooltip-custom {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 220px;
+
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #faf8f5;
+  color: #7d6b7d;
+  border: 2px solid #d9c5b0;
+  box-shadow: 3px 3px 0 #d9c5b0;
+
+  padding: 10px;
+  font-size: 0.4rem;
+  line-height: 1.5;
+  z-index: 1000;
+
+  transition: opacity 0.2s;
+}
+
+.tooltip-custom:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
