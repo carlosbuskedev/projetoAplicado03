@@ -69,21 +69,25 @@
                         <button type="button" class="btn-close pixel-close-btn" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="userForm">
+                        <div id="formAlert" class="alert d-none mb-3" role="alert"></div>
+                        <form id="userForm" novalidate>
                             <input type="hidden" id="userId">
                             <div class="mb-3">
                                 <label for="userName" class="form-label pixel-label">Nome</label>
                                 <input type="text" class="form-control pixel-input" id="userName" required>
+                                <span class="field-error d-none" id="userNameError">Nome é obrigatório.</span>
                             </div>
                             <div class="mb-3">
                                 <label for="userEmail" class="form-label pixel-label">E-mail</label>
                                 <input type="email" class="form-control pixel-input" id="userEmail" required>
+                                <span class="field-error d-none" id="userEmailError">E-mail inválido.</span>
                             </div>
                             <div class="mb-3">
                                 <label for="userPassword" class="form-label pixel-label">Senha</label>
                                 <input type="password" class="form-control pixel-input" id="userPassword"
                                     placeholder="Mínimo 6 caracteres">
                                 <small class="text-muted" id="passwordHint"></small>
+                                <span class="field-error d-none" id="userPasswordError">A senha deve ter no mínimo 6 caracteres.</span>
                             </div>
                             <div class="mb-3">
                                 <label for="userRole" class="form-label pixel-label">Perfil</label>
