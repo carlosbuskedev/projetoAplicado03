@@ -274,8 +274,45 @@ function renderConquistas(s) {
 
 /* ── Renderizar histórico ────────────────────── */
 
-function renderHistorico() {
+function renderHistorico(quests = null) {
   const lista = document.getElementById('historicoLista');
+
+  if (quests && quests.length > 0) {
+    const concluidas = quests
+      .filter(q => q.completed_date)
+      .reverse();
+
+    if (concluidas.length === 0) {
+      lista.innerHTML = `
+        <div class="historico-vazio">
+          Nenhuma missão concluída ainda.<br><br>Complete missões para<br>ver seu histórico aqui!
+        </div>`;
+      return;
+    }
+
+    lista.innerHTML = `
+      <div class="row g-4">
+        ${concluidas.map((q) => {
+          const prazo = q.deadline ? q.deadline.split('-').reverse().join('/') : '—';
+          const descricao = q.short_description || q.title || 'Sem descrição';
+          const dificuldade = { 1: 'Fácil', 2: 'Média', 3: 'Difícil', 4: 'Muito Difícil' }[q.difficulty] || '—';
+          const prioridade = { low: 'Baixa', medium: 'Média', high: 'Alta' }[q.priority] || '—';
+          const xp = parseInt(q.experience || 0, 10) || 0;
+
+          return `
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="activity-card">
+                <div class="activity-card-icon">🎯</div>
+                <h3 class="activity-card-title">${q.title || 'Missão sem título'}</h3>
+                <p class="activity-card-description">${descricao}</p>
+                <div class="activity-card-time">${xp} XP • ${prioridade} • ${dificuldade}</div>
+                <div class="mt-2" style="font-size:0.65rem;color:#6f5a42;">Prazo: ${prazo}</div>
+              </div>
+            </div>`;
+        }).join('')}
+      </div>`;
+    return;
+  }
 
   let missions = [];
   try {
@@ -497,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
       populateFields(s);
       updateComputedStats(Object.assign({}, s, { atividadesConcluidas: s.atividadesConcluidas }));
       renderConquistas(s);
-      renderHistorico();
+      renderHistorico(quests);
 
       // Atualizar XP display explicitly (since updateComputedStats uses atividadesConcluidas * 5)
       document.getElementById('xpTotal').textContent = xpTotal;
