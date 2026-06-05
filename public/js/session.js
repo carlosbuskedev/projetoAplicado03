@@ -10,8 +10,9 @@ const AuthSession = (() => {
     const PAGE_ROLES = {
         journey: ['admin', 'user'],
         quests: ['admin', 'user'],
+        leveling: ['admin', 'user'],
         users: ['admin'],
-        home_admin: ['admin'],
+        home_admin: ['admin'],        
     };
 
     const ROUTES = {

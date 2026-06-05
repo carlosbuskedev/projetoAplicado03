@@ -17,6 +17,7 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('journey', 'Journey::index');
     $routes->get('users', 'Users::index');
     $routes->get('quests', 'Quests::index');
+    $routes->get('leveling', 'Leveling::index');
 });
 
 // -------------------------------------------------------------------------
