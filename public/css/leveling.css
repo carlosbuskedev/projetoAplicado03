@@ -288,7 +288,7 @@ body {
 
 .rpg-stat-input {
   width: 100%;
-  border: 2px solid #d9c5b0;
+  border: 0px;
   padding: 0.4rem;
   font-family: 'Press Start 2P', cursive;
   font-size: 0.75rem;
