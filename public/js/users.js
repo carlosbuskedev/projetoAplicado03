@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnNovoUsuario').addEventListener('click', () => openUserModal());
     userForm.addEventListener('submit', saveUser);
 
+    ['userName', 'userEmail', 'userPassword'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => clearFieldError(id));
+    });
+
     loadUsers();
 });
 
@@ -63,6 +67,9 @@ async function loadUsers() {
 }
 
 function openUserModal(id = null) {
+    clearFormErrors();
+    clearFormAlert();
+
     document.getElementById('userId').value = id ?? '';
     document.getElementById('userName').value = '';
     document.getElementById('userEmail').value = '';
@@ -80,7 +87,7 @@ function openUserModal(id = null) {
     } else {
         document.getElementById('userModalTitle').textContent = 'Novo usuário';
         passwordInput.setAttribute('required', 'required');
-        hint.textContent = 'Obrigatória no cadastro.';
+        hint.textContent = 'Obrigatória no cadastro (mínimo 6 caracteres).';
     }
 
     userModal.show();
@@ -96,13 +103,53 @@ async function loadUserForEdit(id) {
         document.getElementById('userEmail').value = user.email;
         document.getElementById('userRole').value = user.role;
     } catch (error) {
-        showAlert(error.message, 'danger');
+        showFormAlert(error.message, 'danger');
         userModal.hide();
     }
 }
 
+function validateUserForm() {
+    clearFormErrors();
+    clearFormAlert();
+
+    const id = document.getElementById('userId').value;
+    const isEdit = Boolean(id);
+    const name = document.getElementById('userName').value.trim();
+    const email = document.getElementById('userEmail').value.trim();
+    const password = document.getElementById('userPassword').value;
+    let valid = true;
+
+    if (name === '') {
+        setFieldError('userName', 'userNameError', 'Nome é obrigatório.');
+        valid = false;
+    }
+
+    if (email === '') {
+        setFieldError('userEmail', 'userEmailError', 'E-mail é obrigatório.');
+        valid = false;
+    } else if (!isValidEmail(email)) {
+        setFieldError('userEmail', 'userEmailError', 'E-mail inválido.');
+        valid = false;
+    }
+
+    if (!isEdit && password === '') {
+        setFieldError('userPassword', 'userPasswordError', 'Senha é obrigatória no cadastro.');
+        valid = false;
+    } else if (password !== '' && password.length < 6) {
+        setFieldError('userPassword', 'userPasswordError', 'A senha deve ter no mínimo 6 caracteres.');
+        valid = false;
+    }
+
+    return valid;
+}
+
 async function saveUser(event) {
     event.preventDefault();
+
+    if (!validateUserForm()) {
+        showFormAlert('Corrija os campos destacados antes de salvar.', 'warning');
+        return;
+    }
 
     const id = document.getElementById('userId').value;
     const payload = {
@@ -123,11 +170,11 @@ async function saveUser(event) {
         });
 
         const body = await parseResponse(response);
-        showAlert(body.message, 'success');
         userModal.hide();
+        showAlert(body.message, 'success');
         loadUsers();
     } catch (error) {
-        showAlert(error.message, 'danger');
+        showFormAlert(error.message, 'danger');
     }
 }
 
@@ -146,6 +193,44 @@ async function deleteUser(id) {
     }
 }
 
+function setFieldError(inputId, errorId, message) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+
+    input.classList.add('is-invalid');
+    error.textContent = message;
+    error.classList.remove('d-none');
+}
+
+function clearFieldError(inputId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(`${inputId}Error`);
+
+    if (!input || !error) {
+        return;
+    }
+
+    input.classList.remove('is-invalid');
+    error.classList.add('d-none');
+}
+
+function clearFormErrors() {
+    ['userName', 'userEmail', 'userPassword'].forEach((id) => clearFieldError(id));
+}
+
+function showFormAlert(message, type) {
+    const el = document.getElementById('formAlert');
+    el.textContent = message;
+    el.className = `alert alert-${type} mb-3`;
+    el.classList.remove('d-none');
+}
+
+function clearFormAlert() {
+    const el = document.getElementById('formAlert');
+    el.classList.add('d-none');
+    el.textContent = '';
+}
+
 async function parseResponse(response) {
     const body = await response.json();
 
@@ -161,6 +246,10 @@ function showAlert(message, type) {
     el.textContent = message;
     el.className = `alert alert-${type}`;
     el.classList.remove('d-none');
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function escapeHtml(text) {
