@@ -23,6 +23,9 @@
         <div class="col text-center">
           <h1 class="pixel-title mb-0">BRIO</h1>
         </div>
+        <div class="col-auto">
+          <button type="button" class="btn pixel-btn pixel-btn-login" id="btnConta">Conta</button>
+        </div>
       </div>
     </div>
   </header>

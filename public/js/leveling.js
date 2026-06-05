@@ -112,18 +112,32 @@ function calcPercentualPrazo(s) {
 }
 
 function calcPercentualFoco(s) {
-  const total = s.atividadesConcluidas + s.interrupcoes;
-  if (!total) return 0;
-  return Math.min((s.atividadesConcluidas / total) * 100, 100);
+  const conclusao = calcPercentualConclusao(s);
+  const prazo = calcPercentualPrazo(s);
+  const disciplina = calcPercentualDisciplina(s);
+  return Math.min((conclusao * 0.4) + (prazo * 0.3) + (disciplina * 0.3), 100);
 }
 
 function calcPercentualDisciplina(s) {
   if (!s.atividadesIniciadas) return 0;
-  return Math.max(((s.atividadesIniciadas - s.interrupcoes) / s.atividadesIniciadas) * 100, 0);
+  const ratio = s.interrupcoes / s.atividadesIniciadas;
+  return Math.max((1 / (1 + ratio)) * 100, 0);
 }
 
 function calcNivel(xp) {
-  return Math.floor(xp / 100) + 1;
+  // Thresholds: level 1 = 50, level 2 = 50+100, level 3 = 50+100+150, ...
+  let level = 0;
+  let remaining = xp;
+  while (true) {
+    const nextReq = 50 * (level + 1);
+    if (remaining >= nextReq) {
+      remaining -= nextReq;
+      level += 1;
+    } else {
+      break;
+    }
+  }
+  return Math.max(level, 1);
 }
 
 function calcRank(nivel) {
@@ -365,13 +379,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const stats  = loadStats();
   const perfil = loadPerfil();
 
+  // Preencher campos locais inicialmente
   populateFields(stats);
   updateComputedStats(stats);
   renderConquistas(stats);
   renderHistorico();
 
-  // Nome
-  if (perfil.nome) {
+  // Nome: preferir nome do usuário logado quando disponível
+  const currentUser = AuthSession.getUser();
+  if (currentUser && currentUser.name) {
+    document.getElementById('nomeUsuario').value = currentUser.name;
+  } else if (perfil.nome) {
     document.getElementById('nomeUsuario').value = perfil.nome;
   }
 
@@ -395,8 +413,110 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('fotoInput').click();
   });
 
+  // Buscar quests do usuário e recomputar estatísticas
+  (async function fetchAndCompute() {
+    try {
+      const resp = await AuthSession.apiRequest('/api/quests');
+      if (!resp.ok) throw new Error('Erro ao buscar quests');
+      const body = await resp.json();
+      const quests = body.data || [];
+
+      // Calcular métricas a partir das quests
+      const s = {
+        atividadesIniciadas: 0,
+        atividadesConcluidas: 0,
+        atividadesPrazo: 0,
+        interrupcoes: 0,
+        tarefasHoje: 0,
+        tarefasSemana: 0,
+        diasSeguidos: stats.diasSeguidos || 0,
+      };
+
+      const today = new Date();
+      const todayStr = today.toISOString().slice(0, 10);
+
+      // calcular início da semana a partir de segunda-feira
+      const day = today.getDay(); // 0 Sun .. 6 Sat
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+      const monday = new Date(today);
+      monday.setDate(today.getDate() + diffToMonday);
+      monday.setHours(0, 0, 0, 0);
+      const mondayStr = monday.toISOString().slice(0, 10);
+
+      const normalizeDateString = (value) => {
+        if (!value) return null;
+        const parts = value.split('T')[0].split(' ')[0];
+        return parts.length === 10 ? parts : null;
+      };
+
+      for (const q of quests) {
+        const startedDate = normalizeDateString(q.started_date);
+        const completedDate = normalizeDateString(q.completed_date);
+
+        if (startedDate || completedDate) {
+          s.atividadesIniciadas += 1;
+        }
+
+        if (completedDate) {
+          s.atividadesConcluidas += 1;
+
+          if (q.deadline) {
+            const deadline = normalizeDateString(q.deadline);
+            if (deadline && completedDate <= deadline) {
+              s.atividadesPrazo += 1;
+            }
+          }
+
+          if (completedDate === todayStr) {
+            s.tarefasHoje += 1;
+          }
+
+          if (completedDate >= mondayStr) {
+            s.tarefasSemana += 1;
+          }
+        }
+
+        s.interrupcoes += parseInt(q.interruptions_count || 0, 10);
+      }
+
+      // Atualizar XP total usando experiência das quests concluídas + missões
+      const xpFromQuests = quests
+        .filter(q => q.completed_date)
+        .reduce((acc, q) => acc + (parseInt(q.experience || 0, 10) || 0), 0);
+
+      const xpMissoes = calcXPMissoes();
+      const xpTotal = xpFromQuests + xpMissoes;
+
+      // Atualizar campos e estatísticas calculadas
+      populateFields(s);
+      updateComputedStats(Object.assign({}, s, { atividadesConcluidas: s.atividadesConcluidas }));
+      renderConquistas(s);
+      renderHistorico();
+
+      // Atualizar XP display explicitly (since updateComputedStats uses atividadesConcluidas * 5)
+      document.getElementById('xpTotal').textContent = xpTotal;
+      const nivel = calcNivel(xpTotal);
+      document.getElementById('nivelDisplay').textContent = nivel;
+      document.getElementById('rankLabel').textContent = calcRank(nivel);
+      const xpAtual = xpTotal - (function() { // compute xp into current level
+          let lvl = 0; let rem = xpTotal;
+          while (true) {
+            const req = 50 * (lvl + 1);
+            if (rem >= req) { rem -= req; lvl += 1; } else break;
+          }
+          return rem;
+        })();
+      document.getElementById('xpDisplay').textContent = xpAtual + ' / ' + (50 * (nivel));
+      document.getElementById('xpBarFill').style.width = Math.min(100, Math.floor((xpAtual / (50 * nivel)) * 100)) + '%';
+
+    } catch (err) {
+      // silencioso: mantém estado local caso haja problema
+      console.warn('Erro ao obter quests:', err);
+    }
+  })();
+
   // Atualização em tempo real ao mudar campos (auto-save)
-  [
+  [ 
     'atividadesIniciadas', 'atividadesConcluidas',
     'atividadesPrazo', 'interrupcoes',
     'tarefasHoje', 'tarefasSemana',
