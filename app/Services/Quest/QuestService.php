@@ -82,6 +82,26 @@ class QuestService
             }
         }
 
+        if (array_key_exists('completed_date', $data)) {
+            $completedDate = trim((string) ($data['completed_date'] ?? ''));
+            if ($completedDate !== '') {
+                if ($quest['completed_date'] !== null) {
+                    return $this->failure('Quest já concluída.', 422);
+                }
+
+                if ($quest['started_date'] === null) {
+                    return $this->failure('Quest precisa ser iniciada antes de concluir.', 422);
+                }
+
+                $completedAt = \DateTime::createFromFormat('Y-m-d', $completedDate);
+                if ($completedAt === false || $completedAt->format('Y-m-d') !== $completedDate) {
+                    return $this->failure('Data de conclusão inválida.', 422);
+                }
+
+                $payload['completed_date'] = $completedDate;
+            }
+        }
+
         if (empty($payload)) {
             return $this->failure('Nenhum dado para atualizar.', 422);
         }

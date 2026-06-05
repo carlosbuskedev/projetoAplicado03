@@ -199,6 +199,77 @@ async function persistPauseState() {
     }
 }
 
+async function persistCompleteState() {
+    if (!currentQuestData || !currentQuestData.id) {
+        return;
+    }
+
+    if (!currentQuestData.started_date) {
+        alert('Você precisa iniciar a missão antes de concluir.');
+        return;
+    }
+
+    const remainingTime = secondsToTimeString(Math.max(0, timeRemaining));
+    const today = new Date().toISOString().slice(0, 10);
+
+    try {
+        const response = await AuthSession.apiRequest(`/api/quests/${currentQuestData.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                completed_date: today,
+                remaining_time: remainingTime,
+            }),
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+            console.error(body.message || 'Falha ao concluir a quest.');
+            alert(body.message || 'Erro ao concluir a missão.');
+            return;
+        }
+
+        currentQuestData.completed_date = today;
+        currentQuestData.remaining_time = remainingTime;
+
+        if (currentQuestCard) {
+            currentQuestCard.dataset.questRemainingTime = remainingTime;
+        }
+
+        // Remover card da tela porque a missão foi concluída
+        if (currentQuestCard) {
+            const wrapper = currentQuestCard.closest('.col-12, .col-md-6, .col-lg-4');
+            if (wrapper && wrapper.parentNode) {
+                wrapper.parentNode.removeChild(wrapper);
+            } else if (currentQuestCard.parentNode) {
+                currentQuestCard.parentNode.removeChild(currentQuestCard);
+            }
+        }
+
+        closePomodoroModal();
+    } catch (error) {
+        console.error('Erro ao persistir conclusão:', error);
+    }
+}
+
+function completeQuest() {
+    if (!currentQuestData) {
+        return;
+    }
+
+    if (!currentQuestData.started_date) {
+        alert('Inicie a missão antes de concluir.');
+        return;
+    }
+
+    if (isRunning) {
+        pauseTimer();
+    }
+
+    persistCompleteState();
+}
+
 // Função para fechar o modal do Pomodoro
 async function closePomodoroModal() {
     if (isRunning) {

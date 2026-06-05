@@ -16,8 +16,8 @@ class Journey extends BaseController
 
     public function index(): string
     {
-        // Buscar todas as quests do banco de dados
-        $quests = $this->questModel->findAll();
+        // Buscar apenas quests não concluídas
+        $quests = $this->questModel->where('completed_date', null)->findAll();
 
         // Transformar os dados das quests para o formato esperado pela view
         $cards = $this->formatQuestsForView($quests);
