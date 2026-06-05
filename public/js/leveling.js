@@ -229,10 +229,10 @@ function updateComputedStats(s) {
     calcPercentualDisciplina(s).toFixed(2) + '%';
 
   // Campos espelho
-  document.getElementById('atividadesConcluidasMirror').textContent =
+  document.getElementById('atividadesConcluidasMirror').value =
     s.atividadesConcluidas || 0;
 
-  document.getElementById('atividadesIniciadasMirror').textContent =
+  document.getElementById('atividadesIniciadasMirror').value =
     s.atividadesIniciadas || 0;
 
   // XP e nível
@@ -432,8 +432,10 @@ document.addEventListener('DOMContentLoaded', function () {
         diasSeguidos: stats.diasSeguidos || 0,
       };
 
-      const today = new Date();
-      const todayStr = today.toISOString().slice(0, 10);
+      const todayStr = new Date().toLocaleDateString('en-CA', {
+        timeZone: 'America/Sao_Paulo'
+      });
+      const today = new Date(todayStr);
 
       // calcular início da semana a partir de segunda-feira
       const day = today.getDay(); // 0 Sun .. 6 Sat
@@ -466,7 +468,8 @@ document.addEventListener('DOMContentLoaded', function () {
               s.atividadesPrazo += 1;
             }
           }
-
+console.log(completedDate);
+console.log(todayStr);
           if (completedDate === todayStr) {
             s.tarefasHoje += 1;
           }
@@ -527,24 +530,6 @@ document.addEventListener('DOMContentLoaded', function () {
       onInputChange();
       saveStats(readFormStats());
     });
-  });
-
-  // Salvar progresso
-  document.getElementById('btnSalvar').addEventListener('click', function () {
-    const s = readFormStats();
-    saveStats(s);
-
-    const nome   = document.getElementById('nomeUsuario').value.trim();
-    const perfil = loadPerfil();
-    perfil.nome  = nome;
-    savePerfil(perfil);
-
-    const msg = document.getElementById('savedMsg');
-    msg.classList.remove('d-none');
-    setTimeout(function () { msg.classList.add('d-none'); }, 2000);
-
-    renderConquistas(s);
-    renderHistorico();
   });
 
 });
