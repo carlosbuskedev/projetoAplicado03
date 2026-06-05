@@ -32,6 +32,15 @@ body, html {
   letter-spacing: 2px;
 }
 
+.pixel-btn {
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+  transition: all 0.1s;
+}
+
 /* Botão Login */
 .pixel-btn-login {
   background: #e6d8e0;
