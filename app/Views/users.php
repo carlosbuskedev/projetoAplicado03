@@ -37,7 +37,7 @@
                     </button>
                 </div>
 
-                <div id="alertBox" class="alert d-none" role="alert"></div>
+                <div id="alertBox" class="alert d-none" role="alert" aria-live="polite"></div>
 
                 <div class="table-responsive">
                     <table class="table table-dark table-striped align-middle pixel-table">
@@ -60,49 +60,49 @@
             </div>
         </div>
 
-        <!-- Modal formulário -->
-        <div class="modal fade" id="userModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content pixel-modal">
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title pixel-modal-title" id="userModalTitle">Usuário</h5>
-                        <button type="button" class="btn-close pixel-close-btn" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="formAlert" class="alert d-none mb-3" role="alert"></div>
-                        <form id="userForm" novalidate>
-                            <input type="hidden" id="userId">
-                            <div class="mb-3">
-                                <label for="userName" class="form-label pixel-label">Nome</label>
-                                <input type="text" class="form-control pixel-input" id="userName" required>
-                                <span class="field-error d-none" id="userNameError">Nome é obrigatório.</span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="userEmail" class="form-label pixel-label">E-mail</label>
-                                <input type="email" class="form-control pixel-input" id="userEmail" required>
-                                <span class="field-error d-none" id="userEmailError">E-mail inválido.</span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="userPassword" class="form-label pixel-label">Senha</label>
-                                <input type="password" class="form-control pixel-input" id="userPassword"
-                                    placeholder="Mínimo 6 caracteres">
-                                <small class="text-muted" id="passwordHint"></small>
-                                <span class="field-error d-none" id="userPasswordError">A senha deve ter no mínimo 6 caracteres.</span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="userRole" class="form-label pixel-label">Perfil</label>
-                                <select class="form-select pixel-input" id="userRole" required>
-                                    <option value="user">Usuário</option>
-                                    <option value="admin">Administrador</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn pixel-btn pixel-btn-primary w-100">Salvar</button>
-                        </form>
-                    </div>
+    </div>
+
+    <!-- Modal formulário (fora do container para não vazar alertas para a tela principal) -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content pixel-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title pixel-modal-title" id="userModalTitle">Usuário</h5>
+                    <button type="button" class="btn-close pixel-close-btn" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="formAlert" class="alert d-none mb-3" role="alert" aria-live="assertive"></div>
+                    <form id="userForm" novalidate>
+                        <input type="hidden" id="userId">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label pixel-label">Nome</label>
+                            <input type="text" class="form-control pixel-input" id="userName" autocomplete="name">
+                            <span class="field-error d-none" id="userNameError" role="alert">Nome é obrigatório.</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label pixel-label">E-mail</label>
+                            <input type="email" class="form-control pixel-input" id="userEmail" autocomplete="email">
+                            <span class="field-error d-none" id="userEmailError" role="alert">E-mail inválido.</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label pixel-label">Senha</label>
+                            <input type="password" class="form-control pixel-input" id="userPassword"
+                                placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                            <small class="text-muted" id="passwordHint"></small>
+                            <span class="field-error d-none" id="userPasswordError" role="alert">A senha deve ter no mínimo 6 caracteres.</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userRole" class="form-label pixel-label">Perfil</label>
+                            <select class="form-select pixel-input" id="userRole">
+                                <option value="user">Usuário</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn pixel-btn pixel-btn-primary w-100">Salvar</button>
+                    </form>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

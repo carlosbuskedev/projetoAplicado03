@@ -23,8 +23,16 @@
     box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.2);
 }
 
-#formAlert {
+#userModal #formAlert {
     font-family: 'Press Start 2P', cursive;
     font-size: 0.5rem;
     border-radius: 0;
+}
+
+#userModal .field-error {
+    font-size: 0.5rem;
+}
+
+#userModal .modal-body {
+    max-height: 70vh;
 }
