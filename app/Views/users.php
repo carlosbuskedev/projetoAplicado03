@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRIO - Usuários</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/users.css">
@@ -17,10 +21,10 @@
             <div class="container-fluid px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <a class="btn pixel-btn pixel-btn-back" href="/home-admin">← Voltar</a>
+                        <a class="btn pixel-btn pixel-btn-back " href="/home-admin">◀ Voltar</a>
                     </div>
                     <div class="col">
-                        <h1 class="pixel-title mb-0 text-center">USUÁRIOS</h1>
+                        <h1 class="pixel-title mb-0 text-center">Usuários</h1>
                     </div>
                     <div class="col-auto">
                         <button type="button" class="btn pixel-btn pixel-btn-login" id="btnConta">Conta</button>
