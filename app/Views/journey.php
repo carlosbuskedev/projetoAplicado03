@@ -110,6 +110,9 @@
                     <button class="pixel-btn timer-btn timer-btn-pause" id="pauseBtn" onclick="handlePauseClick()" style="display: none;">
                         Pausar
                     </button>
+                    <button class="pixel-btn timer-btn timer-btn-complete" id="completeBtn" onclick="completeQuest()">
+                        Concluir
+                    </button>
                 </div>
 
                 <!-- Informações da Quest -->
