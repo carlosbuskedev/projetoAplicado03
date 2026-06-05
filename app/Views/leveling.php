@@ -60,7 +60,7 @@
           <div class="mb-3">
             <label class="pixel-label" for="nomeUsuario">Aventureiro</label>
             <input type="text" id="nomeUsuario" class="pixel-input text-center"
-                   placeholder="Seu nome..." maxlength="16" />
+                   placeholder="Seu nome..." maxlength="16" disabled />
           </div>
 
           <!-- Nível -->
@@ -105,14 +105,14 @@
                 <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Atividades<br>Iniciadas</span>
                   <input type="number" id="atividadesIniciadas"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
                 <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Atividades<br>Concluídas</span>
                   <input type="number" id="atividadesConcluidas"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
@@ -130,13 +130,14 @@
                 <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Concluídas<br>no Prazo</span>
                   <input type="number" id="atividadesPrazo"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box rpg-stat-mirror">
+                <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Atividades<br>Concluídas</span>
-                  <span class="rpg-stat-value" id="atividadesConcluidasMirror">0</span>
+                  <input type="number" id="atividadesConcluidasMirror"
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
@@ -154,42 +155,40 @@
               <i class="bi bi-bullseye"></i> CONCENTRAÇÃO
             </div>
 
-            <!-- FOCO -->
-            <div class="rpg-sub-header mt-3">★ FOCO</div>
-            <div class="row g-2 mt-1">
-              <div class="col-12 col-sm-4">
-                <div class="rpg-stat-box rpg-stat-computed">
-                  <span class="rpg-stat-label">Percentual<br>de Foco</span>
-                  <span class="rpg-stat-value" id="percentualFoco">0.00%</span>
-                </div>
-              </div>
-            </div>
-
             <!-- INTERRUPÇÕES -->
             <div class="rpg-sub-header rpg-sub-header-warn mt-3">
               ★ INTERRUPÇÕES
             </div>
             <div class="row g-2 mt-1">
               <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box rpg-stat-warn">
-                  <span class="rpg-stat-label">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    Interrupções
-                  </span>
+                <div class="rpg-stat-box">
+                  <span class="rpg-stat-label">Interrupções<br/>totais</span>
                   <input type="number" id="interrupcoes"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box rpg-stat-mirror">
+                <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Atividades<br>Iniciadas</span>
-                  <span class="rpg-stat-value" id="atividadesIniciadasMirror">0</span>
+                  <input type="number" id="atividadesIniciadasMirror"
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
                 <div class="rpg-stat-box rpg-stat-computed">
                   <span class="rpg-stat-label">Percentual de<br>Disciplina</span>
                   <span class="rpg-stat-value" id="percentualDisciplina">0.00%</span>
+                </div>
+              </div>
+            </div>
+
+                        <!-- FOCO -->
+            <div class="rpg-sub-header mt-3">★ FOCO</div>
+            <div class="row g-2 mt-1">
+              <div class="col-12 col-sm-4 offset-sm-8">
+                <div class="rpg-stat-box rpg-stat-computed">
+                  <span class="rpg-stat-label">Percentual<br>de Foco</span>
+                  <span class="rpg-stat-value" id="percentualFoco">0.00%</span>
                 </div>
               </div>
             </div>
@@ -203,16 +202,16 @@
             <div class="row g-2 mt-2">
               <div class="col-6">
                 <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Tarefas<br>Hoje</span>
+                  <span class="rpg-stat-label">Tarefas concluídas<br>Hoje</span>
                   <input type="number" id="tarefasHoje"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
               <div class="col-6">
                 <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Tarefas na<br>Semana</span>
+                  <span class="rpg-stat-label">Tarefas concluídas<br>Semana</span>
                   <input type="number" id="tarefasSemana"
-                        class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" disabled />
                 </div>
               </div>
             </div>
