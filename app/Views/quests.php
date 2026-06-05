@@ -22,7 +22,7 @@
           <a href="/home" class="pixel-btn pixel-btn-back">◀ Voltar</a>
         </div>
         <div class="col text-center">
-          <h1 class="pixel-title mb-0">BRIO</h1>
+          <h1 class="pixel-title mb-0">Missões</h1>
         </div>
         <div class="col-auto" style="visibility:hidden;">
           <span class="pixel-btn pixel-btn-back">◀ Voltar</span>

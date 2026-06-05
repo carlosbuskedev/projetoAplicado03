@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BRIO – Criar Missão</title>
+  <title>BRIO – Progressão</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +23,7 @@
           <a href="/home" class="pixel-btn pixel-btn-back">◀ Voltar</a>
         </div>
         <div class="col text-center">
-          <h1 class="pixel-title mb-0">BRIO</h1>
+          <h1 class="pixel-title mb-0">Progressão</h1>
         </div>
         <div class="col-auto">
           <button type="button" class="btn pixel-btn pixel-btn-login" id="btnConta">Conta</button>

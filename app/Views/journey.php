@@ -16,12 +16,10 @@
             <div class="container-fluid px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <a class="btn pixel-btn pixel-btn-back" href="/home">
-                            ← Voltar
-                        </a>
+                        <a href="/home" class="pixel-btn pixel-btn-back">◀ Voltar</a>
                     </div>
                     <div class="col">
-                        <h1 class="pixel-title mb-0 text-center">INICIAR JORNADA</h1>
+                        <h1 class="pixel-title mb-0 text-center">Iniciar Jornada</h1>
                     </div>
                     <div class="col-auto">
                         <button type="button" class="btn pixel-btn pixel-btn-login" id="btnConta">Conta</button>
