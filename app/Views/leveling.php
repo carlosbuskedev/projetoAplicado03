@@ -65,7 +65,7 @@
 
           <!-- Nível -->
           <div class="rpg-level-badge mb-3">
-            <span class="rpg-level-label">NÍV</span>
+            <span class="rpg-level-label">NÍVEL</span>
             <span class="rpg-level-value" id="nivelDisplay">1</span>
             <span class="rpg-level-label" id="rankLabel">NOVATO</span>
           </div>
@@ -92,79 +92,104 @@
             <i class="bi bi-bar-chart-fill"></i> ATRIBUTOS
           </div>
 
-          <!-- FOCO -->
-          <div class="rpg-attr-block mb-4">
-            <div class="rpg-attr-header">
-              <i class="bi bi-bullseye"></i> FOCO
-            </div>
-            <div class="row g-2 mt-2">
-              <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Missões<br>Iniciadas</span>
-                  <input type="number" id="pomodorosIniciados"
-                         class="rpg-stat-input" min="0" value="0" />
-                </div>
-              </div>
-              <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Missões<br>Concluídas</span>
-                  <input type="number" id="pomodorosConcluidos"
-                         class="rpg-stat-input" min="0" value="0" />                                   
-                </div>
-              </div>
-              <div class="col-6 col-sm-4">
-                <div class="rpg-stat-box rpg-stat-computed">
-                  <span class="rpg-stat-label">Percentual de<br>Foco</span>
-                  <span class="rpg-stat-value" id="taxaFoco">0.00%</span>
-                </div>
-              </div>
-              <div class="col-6 col-sm-6">
-                <div class="rpg-stat-box rpg-stat-warn">
-                  <span class="rpg-stat-label">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    Interrupções<br>no Descanso
-                  </span>
-                  <input type="number" id="interrupcoesDescanso"
-                         class="rpg-stat-input" min="0" value="0" />
-                </div>
-              </div>
-              <div class="col-6 col-sm-6">
-                <div class="rpg-stat-box rpg-stat-warn">
-                  <span class="rpg-stat-label">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    Interrupções<br>na Atividade
-                  </span>
-                  <input type="number" id="interrupcoesAtividade"
-                         class="rpg-stat-input" min="0" value="0" />
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- DISCIPLINA -->
           <div class="rpg-attr-block mb-4">
             <div class="rpg-attr-header">
               <i class="bi bi-shield-fill-check"></i> DISCIPLINA
             </div>
-            <div class="row g-2 mt-2">
+
+            <!-- CONCLUSÃO -->
+            <div class="rpg-sub-header mt-3">★ CONCLUSÃO</div>
+            <div class="row g-2 mt-1">
               <div class="col-6 col-sm-4">
                 <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Missões<br>no Prazo</span>
-                  <input type="number" id="tarefasPrazo"
-                         class="rpg-stat-input" min="0" value="0" />
+                  <span class="rpg-stat-label">Atividades<br>Iniciadas</span>
+                  <input type="number" id="atividadesIniciadas"
+                        class="rpg-stat-input" min="0" value="0" />
                 </div>
               </div>
               <div class="col-6 col-sm-4">
                 <div class="rpg-stat-box">
-                  <span class="rpg-stat-label">Missões<br>Concluídas</span>
-                  <input type="number" id="totalTarefas"
-                         class="rpg-stat-input" min="0" value="0" />
+                  <span class="rpg-stat-label">Atividades<br>Concluídas</span>
+                  <input type="number" id="atividadesConcluidas"
+                        class="rpg-stat-input" min="0" value="0" />
+                </div>
+              </div>
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-computed">
+                  <span class="rpg-stat-label">Percentual de<br>Conclusão</span>
+                  <span class="rpg-stat-value" id="percentualConclusao">0.00%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- PRAZO -->
+            <div class="rpg-sub-header mt-3">★ PRAZO</div>
+            <div class="row g-2 mt-1">
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box">
+                  <span class="rpg-stat-label">Concluídas<br>no Prazo</span>
+                  <input type="number" id="atividadesPrazo"
+                        class="rpg-stat-input" min="0" value="0" />
+                </div>
+              </div>
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-mirror">
+                  <span class="rpg-stat-label">Atividades<br>Concluídas</span>
+                  <span class="rpg-stat-value" id="atividadesConcluidasMirror">0</span>
+                </div>
+              </div>
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-computed">
+                  <span class="rpg-stat-label">Percentual<br>no Prazo</span>
+                  <span class="rpg-stat-value" id="percentualPrazo">0.00%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONCENTRAÇÃO -->
+          <div class="rpg-attr-block mb-4">
+            <div class="rpg-attr-header">
+              <i class="bi bi-bullseye"></i> CONCENTRAÇÃO
+            </div>
+
+            <!-- FOCO -->
+            <div class="rpg-sub-header mt-3">★ FOCO</div>
+            <div class="row g-2 mt-1">
+              <div class="col-12 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-computed">
+                  <span class="rpg-stat-label">Percentual<br>de Foco</span>
+                  <span class="rpg-stat-value" id="percentualFoco">0.00%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- INTERRUPÇÕES -->
+            <div class="rpg-sub-header rpg-sub-header-warn mt-3">
+              ★ INTERRUPÇÕES
+            </div>
+            <div class="row g-2 mt-1">
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-warn">
+                  <span class="rpg-stat-label">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    Interrupções
+                  </span>
+                  <input type="number" id="interrupcoes"
+                        class="rpg-stat-input" min="0" value="0" />
+                </div>
+              </div>
+              <div class="col-6 col-sm-4">
+                <div class="rpg-stat-box rpg-stat-mirror">
+                  <span class="rpg-stat-label">Atividades<br>Iniciadas</span>
+                  <span class="rpg-stat-value" id="atividadesIniciadasMirror">0</span>
                 </div>
               </div>
               <div class="col-6 col-sm-4">
                 <div class="rpg-stat-box rpg-stat-computed">
                   <span class="rpg-stat-label">Percentual de<br>Disciplina</span>
-                  <span class="rpg-stat-value" id="taxaDisciplina">0.00%</span>
+                  <span class="rpg-stat-value" id="percentualDisciplina">0.00%</span>
                 </div>
               </div>
             </div>
@@ -180,14 +205,14 @@
                 <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Tarefas<br>Hoje</span>
                   <input type="number" id="tarefasHoje"
-                         class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" />
                 </div>
               </div>
               <div class="col-6">
                 <div class="rpg-stat-box">
                   <span class="rpg-stat-label">Tarefas na<br>Semana</span>
                   <input type="number" id="tarefasSemana"
-                         class="rpg-stat-input" min="0" value="0" />
+                        class="rpg-stat-input" min="0" value="0" />
                 </div>
               </div>
             </div>

@@ -525,3 +525,24 @@ body {
   visibility: visible;
   opacity: 1;
 }
+
+/* ── Sub-header dos atributos ────────────────── */
+.rpg-sub-header {
+  font-size: 0.48rem;
+  color: #9d8189;
+  letter-spacing: 0.5px;
+  border-bottom: 2px dashed #e8dfd6;
+  padding-bottom: 0.3rem;
+}
+
+.rpg-sub-header-warn {
+  color: #a06050;
+  border-bottom-color: #e0b8a8;
+}
+
+/* ── Stat espelho (valor refletido de outro campo) */
+.rpg-stat-box.rpg-stat-mirror {
+  background: #f0ede8;
+  border-color: #c8b8a8;
+  opacity: 0.85;
+}

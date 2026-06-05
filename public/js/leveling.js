@@ -44,35 +44,21 @@ const CONQUISTAS = [
     id: 'primeiro_passo',
     icon: 'bi-star-fill',
     title: 'Primeiro Passo',
-    desc: 'Conclua sua primeira tarefa',
-    condicao: (s) => s.totalTarefas >= 1,
-  },
-  {
-    id: 'foco_iniciado',
-    icon: 'bi-stopwatch-fill',
-    title: 'Focado',
-    desc: 'Inicie seu primeiro Pomodoro',
-    condicao: (s) => s.pomodorosIniciados >= 1,
-  },
-  {
-    id: 'mestre_foco',
-    icon: 'bi-bullseye',
-    title: 'Mestre do Foco',
-    desc: '10 ciclos Pomodoro concluídos',
-    condicao: (s) => s.pomodorosConcluidos >= 10,
+    desc: 'Conclua sua primeira atividade',
+    condicao: (s) => s.atividadesConcluidas >= 1,
   },
   {
     id: 'sem_atrasos',
     icon: 'bi-clock-fill',
     title: 'Sem Atrasos',
-    desc: '10 tarefas dentro do prazo',
-    condicao: (s) => s.tarefasPrazo >= 10,
+    desc: '10 atividades dentro do prazo',
+    condicao: (s) => s.atividadesPrazo >= 10,
   },
   {
     id: 'constante',
     icon: 'bi-calendar-check-fill',
     title: 'Constante como Mestre',
-    desc: 'Atividades concluídas por 7 dias seguidos',
+    desc: 'Atividades por 7 dias seguidos',
     condicao: (s) => s.diasSeguidos >= 7,
   },
   {
@@ -83,31 +69,57 @@ const CONQUISTAS = [
     condicao: (s) => s.tarefasSemana >= 10,
   },
   {
+    id: 'foco_total',
+    icon: 'bi-bullseye',
+    title: 'Foco Total',
+    desc: 'Percentual de foco acima de 90%',
+    condicao: (s) => calcPercentualFoco(s) >= 90,
+  },
+  {
     id: 'disciplinado',
     icon: 'bi-shield-fill-check',
     title: 'Disciplinado',
-    desc: 'Taxa de disciplina acima de 80%',
-    condicao: (s) => calcTaxaDisciplina(s) >= 80,
+    desc: 'Percentual de disciplina acima de 80%',
+    condicao: (s) => calcPercentualDisciplina(s) >= 80,
   },
   {
-    id: 'pomodoro_50',
+    id: 'conclusao_total',
     icon: 'bi-trophy-fill',
-    title: 'Veterano do Foco',
-    desc: '50 Pomodoros concluídos',
-    condicao: (s) => s.pomodorosConcluidos >= 50,
+    title: 'Conclusão Perfeita',
+    desc: '100% de conclusão no prazo',
+    condicao: (s) => calcPercentualPrazo(s) >= 100 && s.atividadesConcluidas >= 5,
+  },
+  {
+    id: 'veterano',
+    icon: 'bi-award-fill',
+    title: 'Veterano',
+    desc: '50 atividades concluídas',
+    condicao: (s) => s.atividadesConcluidas >= 50,
   },
 ];
 
+
 /* ── Utilidades ──────────────────────────────── */
 
-function calcTaxaFoco(s) {
-  if (!s.pomodorosIniciados || s.pomodorosIniciados === 0) return 0;
-  return Math.min((s.pomodorosConcluidos / s.pomodorosIniciados) * 100, 100);
+function calcPercentualConclusao(s) {
+  if (!s.atividadesIniciadas) return 0;
+  return Math.min((s.atividadesConcluidas / s.atividadesIniciadas) * 100, 100);
 }
 
-function calcTaxaDisciplina(s) {
-  if (!s.totalTarefas || s.totalTarefas === 0) return 0;
-  return Math.min((s.tarefasPrazo / s.totalTarefas) * 100, 100);
+function calcPercentualPrazo(s) {
+  if (!s.atividadesConcluidas) return 0;
+  return Math.min((s.atividadesPrazo / s.atividadesConcluidas) * 100, 100);
+}
+
+function calcPercentualFoco(s) {
+  const total = s.atividadesConcluidas + s.interrupcoes;
+  if (!total) return 0;
+  return Math.min((s.atividadesConcluidas / total) * 100, 100);
+}
+
+function calcPercentualDisciplina(s) {
+  if (!s.atividadesIniciadas) return 0;
+  return Math.max(((s.atividadesIniciadas - s.interrupcoes) / s.atividadesIniciadas) * 100, 0);
 }
 
 function calcNivel(xp) {
@@ -162,15 +174,13 @@ function getField(id) {
 
 function readFormStats() {
   return {
-    pomodorosConcluidos:    getField('pomodorosConcluidos'),
-    pomodorosIniciados:     getField('pomodorosIniciados'),
-    interrupcoesDescanso:   getField('interrupcoesDescanso'),
-    interrupcoesAtividade:  getField('interrupcoesAtividade'),
-    tarefasPrazo:           getField('tarefasPrazo'),
-    totalTarefas:           getField('totalTarefas'),
-    tarefasHoje:            getField('tarefasHoje'),
-    tarefasSemana:          getField('tarefasSemana'),
-    diasSeguidos:           loadStats().diasSeguidos || 0,
+    atividadesIniciadas:  getField('atividadesIniciadas'),
+    atividadesConcluidas: getField('atividadesConcluidas'),
+    atividadesPrazo:      getField('atividadesPrazo'),
+    interrupcoes:         getField('interrupcoes'),
+    tarefasHoje:          getField('tarefasHoje'),
+    tarefasSemana:        getField('tarefasSemana'),
+    diasSeguidos:         loadStats().diasSeguidos || 0,
   };
 }
 
@@ -178,12 +188,11 @@ function readFormStats() {
 
 function populateFields(s) {
   const ids = [
-    'pomodorosConcluidos', 'pomodorosIniciados',
-    'interrupcoesDescanso', 'interrupcoesAtividade',
-    'tarefasPrazo', 'totalTarefas',
+    'atividadesIniciadas', 'atividadesConcluidas',
+    'atividadesPrazo', 'interrupcoes',
     'tarefasHoje', 'tarefasSemana',
   ];
-  ids.forEach(id => {
+  ids.forEach(function (id) {
     const el = document.getElementById(id);
     if (el && s[id] !== undefined) el.value = s[id];
   });
@@ -192,26 +201,37 @@ function populateFields(s) {
 /* ── Atualizar estatísticas calculadas ───────── */
 
 function updateComputedStats(s) {
-  // Taxa de foco
-  const taxaFoco = calcTaxaFoco(s);
-  document.getElementById('taxaFoco').textContent = taxaFoco.toFixed(2) + '%';
+  // Percentuais calculados
+  document.getElementById('percentualConclusao').textContent =
+    calcPercentualConclusao(s).toFixed(2) + '%';
 
-  // Taxa de disciplina
-  const taxaDisciplina = calcTaxaDisciplina(s);
-  document.getElementById('taxaDisciplina').textContent = taxaDisciplina.toFixed(2) + '%';
+  document.getElementById('percentualPrazo').textContent =
+    calcPercentualPrazo(s).toFixed(2) + '%';
 
-  // XP (soma missões + bônus manual)
+  document.getElementById('percentualFoco').textContent =
+    calcPercentualFoco(s).toFixed(2) + '%';
+
+  document.getElementById('percentualDisciplina').textContent =
+    calcPercentualDisciplina(s).toFixed(2) + '%';
+
+  // Campos espelho
+  document.getElementById('atividadesConcluidasMirror').textContent =
+    s.atividadesConcluidas || 0;
+
+  document.getElementById('atividadesIniciadasMirror').textContent =
+    s.atividadesIniciadas || 0;
+
+  // XP e nível
   const xpMissoes = calcXPMissoes();
-  const xpTotal   = xpMissoes + (s.pomodorosConcluidos * 5);
-  const nivel      = calcNivel(xpTotal);
-  const xpAtual    = xpTotal % 100;
-  const pct        = xpAtual;
+  const xpTotal   = xpMissoes + (s.atividadesConcluidas * 5);
+  const nivel     = calcNivel(xpTotal);
+  const xpAtual   = xpTotal % 100;
 
-  document.getElementById('xpTotal').textContent   = xpTotal;
+  document.getElementById('xpTotal').textContent    = xpTotal;
   document.getElementById('nivelDisplay').textContent = nivel;
-  document.getElementById('rankLabel').textContent    = calcRank(nivel);
-  document.getElementById('xpDisplay').textContent   = xpAtual + ' / 100';
-  document.getElementById('xpBarFill').style.width   = pct + '%';
+  document.getElementById('rankLabel').textContent   = calcRank(nivel);
+  document.getElementById('xpDisplay').textContent  = xpAtual + ' / 100';
+  document.getElementById('xpBarFill').style.width  = xpAtual + '%';
 }
 
 /* ── Renderizar conquistas ───────────────────── */
@@ -375,15 +395,18 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('fotoInput').click();
   });
 
-  // Atualização em tempo real ao mudar campos
+  // Atualização em tempo real ao mudar campos (auto-save)
   [
-    'pomodorosConcluidos', 'pomodorosIniciados',
-    'interrupcoesDescanso', 'interrupcoesAtividade',
-    'tarefasPrazo', 'totalTarefas',
+    'atividadesIniciadas', 'atividadesConcluidas',
+    'atividadesPrazo', 'interrupcoes',
     'tarefasHoje', 'tarefasSemana',
   ].forEach(function (id) {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('input', onInputChange);
+    if (!el) return;
+    el.addEventListener('input', function () {
+      onInputChange();
+      saveStats(readFormStats());
+    });
   });
 
   // Salvar progresso
