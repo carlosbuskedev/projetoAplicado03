@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/leveling.css" />
   <link rel="stylesheet" href="/css/journey.css" />
+  <script src="/js/dev-guard.js"></script>
 </head>
 <body>
 

@@ -174,6 +174,8 @@ async function saveUser(event) {
         showAlert(body.message, 'success');
         loadUsers();
     } catch (error) {
+        clearPageAlert();
+        userModal.show();
         applyServerValidationErrors(error.message);
         showFormAlert(error.message, 'danger');
         focusFirstInvalidField();
@@ -233,7 +235,7 @@ function showFormAlert(message, type) {
     el.textContent = message;
     el.className = `alert alert-${type} mb-3`;
     el.classList.remove('d-none');
-    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    scrollWithinModal(el);
 }
 
 function clearFormAlert() {
@@ -258,10 +260,23 @@ function clearPageAlert() {
 
 function focusFirstInvalidField() {
     const firstInvalid = userModalEl.querySelector('.pixel-input.is-invalid');
-    if (firstInvalid) {
-        firstInvalid.focus();
-        firstInvalid.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (!firstInvalid) {
+        return;
     }
+
+    firstInvalid.focus();
+    scrollWithinModal(firstInvalid);
+}
+
+function scrollWithinModal(element) {
+    const modalBody = userModalEl?.querySelector('.modal-body');
+    if (!modalBody || !element) {
+        return;
+    }
+
+    const bodyTop = modalBody.getBoundingClientRect().top;
+    const elementTop = element.getBoundingClientRect().top;
+    modalBody.scrollTop += elementTop - bodyTop - 12;
 }
 
 function applyServerValidationErrors(message) {
@@ -293,11 +308,43 @@ function applyServerValidationErrors(message) {
     }
 }
 
+function extractApiMessage(body) {
+    if (body?.message) {
+        return body.message;
+    }
+
+    const messages = body?.messages;
+
+    if (!messages) {
+        return 'Erro na requisição.';
+    }
+
+    if (typeof messages === 'string') {
+        return messages;
+    }
+
+    if (messages.error) {
+        return messages.error;
+    }
+
+    const first = Object.values(messages)[0];
+
+    if (typeof first === 'string') {
+        return first;
+    }
+
+    if (Array.isArray(first) && first.length > 0) {
+        return first[0];
+    }
+
+    return 'Erro na requisição.';
+}
+
 async function parseResponse(response) {
     const body = await response.json();
 
     if (!response.ok) {
-        throw new Error(body.message ?? 'Erro na requisição.');
+        throw new Error(extractApiMessage(body));
     }
 
     return body;

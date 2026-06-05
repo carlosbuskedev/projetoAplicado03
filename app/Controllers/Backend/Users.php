@@ -53,7 +53,10 @@ class Users extends BaseController
     private function respondFromService(array $result)
     {
         if (! $result['success']) {
-            return $this->fail($result['message'], $result['code']);
+            return $this->respond([
+                'status'  => false,
+                'message' => $result['message'],
+            ], $result['code']);
         }
 
         $response = [

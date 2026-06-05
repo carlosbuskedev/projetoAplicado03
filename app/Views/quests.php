@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/quests.css" />
+  <script src="/js/dev-guard.js"></script>
 </head>
 <body>
 

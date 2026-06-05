@@ -1,39 +1,4 @@
 /**
- * Evita erro de WebSocket do Live Server quando a app roda no Apache/XAMPP.
- * A extensão "Live Server" injeta reload.js mesmo fora da porta 5500.
- */
-(function preventLiveServerInjection() {
-    if (window.location.port === '5500') {
-        return;
-    }
-
-    function removeLiveReloadScripts() {
-        document
-            .querySelectorAll('script[src*="reload.js"], script#liveReloadScript')
-            .forEach((script) => script.remove());
-    }
-
-    removeLiveReloadScripts();
-
-    if (typeof MutationObserver === 'undefined') {
-        return;
-    }
-
-    new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            for (const node of mutation.addedNodes) {
-                if (
-                    node.nodeName === 'SCRIPT' &&
-                    (node.id === 'liveReloadScript' || (node.src && node.src.includes('reload.js')))
-                ) {
-                    node.remove();
-                }
-            }
-        }
-    }).observe(document.documentElement, { childList: true, subtree: true });
-})();
-
-/**
  * Sessão JWT no navegador (localStorage) fase de testes.
  * depois vou mudar para utilizar cookies
  */
