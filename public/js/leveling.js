@@ -22,6 +22,10 @@ function setupAccountButton() {
     };
 }
 
+function xpParaNivel(nivel) {
+    return 25 * nivel * (nivel + 1);
+}
+
 /* =============================================
    BRIO – Progressão
    ============================================= */
@@ -468,8 +472,7 @@ document.addEventListener('DOMContentLoaded', function () {
               s.atividadesPrazo += 1;
             }
           }
-console.log(completedDate);
-console.log(todayStr);
+
           if (completedDate === todayStr) {
             s.tarefasHoje += 1;
           }
@@ -501,16 +504,8 @@ console.log(todayStr);
       const nivel = calcNivel(xpTotal);
       document.getElementById('nivelDisplay').textContent = nivel;
       document.getElementById('rankLabel').textContent = calcRank(nivel);
-      const xpAtual = xpTotal - (function() { // compute xp into current level
-          let lvl = 0; let rem = xpTotal;
-          while (true) {
-            const req = 50 * (lvl + 1);
-            if (rem >= req) { rem -= req; lvl += 1; } else break;
-          }
-          return rem;
-        })();
-      document.getElementById('xpDisplay').textContent = xpAtual + ' / ' + (50 * (nivel));
-      document.getElementById('xpBarFill').style.width = Math.min(100, Math.floor((xpAtual / (50 * nivel)) * 100)) + '%';
+      document.getElementById('xpDisplay').textContent = xpTotal + ' / ' + xpParaNivel(nivel+1);
+      document.getElementById('xpBarFill').style.width = Math.min(100, Math.floor((xpTotal*100) / xpParaNivel(nivel+1))) + '%';
 
     } catch (err) {
       // silencioso: mantém estado local caso haja problema
