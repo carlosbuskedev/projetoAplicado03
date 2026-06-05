@@ -19,14 +19,6 @@ body {
 }
 
 /* ----- Botão Voltar ----- */
-.pixel-btn {
-  font-family: 'Press Start 2P', cursive;
-  cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
-  border: none;
-}
-
 .pixel-btn-back {
   background: #e6d8e0;
   border: 3px solid #d4c5c7 !important;
@@ -40,6 +32,23 @@ body {
 .pixel-btn-back:hover {
   background: #d4c5c7;
   color: #5d4e5d !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d4c5c7;
+}
+
+.pixel-btn-login {
+  background: #e6d8e0;
+  border: 3px solid #d4c5c7;
+  color: #7d6b7d;
+  padding: 8px 24px;
+  font-size: 0.75rem;
+  box-shadow: 4px 4px 0 #d4c5c7;
+  transition: all 0.1s;
+}
+
+.pixel-btn-login:hover {
+  background: #d4c5c7;
+  color: #5d4e5d;
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #d4c5c7;
 }
