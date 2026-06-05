@@ -17,6 +17,20 @@ class Quests extends BaseController
         $this->questService = new QuestService();
     }
 
+    public function index()
+    {
+        $userId = service('authSession')->id();
+
+        if ($userId === null) {
+            return $this->fail('Usuário não autenticado.', 401);
+        }
+
+        $model = new \App\Models\Backend\QuestModel();
+        $quests = $model->where('user_id', $userId)->findAll();
+
+        return $this->respond([ 'status' => true, 'data' => $quests ]);
+    }
+
     public function create()
     {
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
