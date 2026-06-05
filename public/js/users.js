@@ -1,5 +1,6 @@
 let userModal;
 let userForm;
+let userModalEl;
 
 function setupAccountButton() {
     const btn = document.getElementById('btnConta');
@@ -24,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupAccountButton();
 
-    userModal = new bootstrap.Modal(document.getElementById('userModal'));
+    userModalEl = document.getElementById('userModal');
+    userModal = new bootstrap.Modal(userModalEl);
     userForm = document.getElementById('userForm');
 
     document.getElementById('btnNovoUsuario').addEventListener('click', () => openUserModal());
@@ -69,6 +71,7 @@ async function loadUsers() {
 function openUserModal(id = null) {
     clearFormErrors();
     clearFormAlert();
+    clearPageAlert();
 
     document.getElementById('userId').value = id ?? '';
     document.getElementById('userName').value = '';
@@ -81,12 +84,10 @@ function openUserModal(id = null) {
 
     if (id) {
         document.getElementById('userModalTitle').textContent = 'Editar usuário';
-        passwordInput.removeAttribute('required');
         hint.textContent = 'Deixe em branco para manter a senha atual.';
         loadUserForEdit(id);
     } else {
         document.getElementById('userModalTitle').textContent = 'Novo usuário';
-        passwordInput.setAttribute('required', 'required');
         hint.textContent = 'Obrigatória no cadastro (mínimo 6 caracteres).';
     }
 
@@ -104,7 +105,6 @@ async function loadUserForEdit(id) {
         document.getElementById('userRole').value = user.role;
     } catch (error) {
         showFormAlert(error.message, 'danger');
-        userModal.hide();
     }
 }
 
@@ -147,7 +147,7 @@ async function saveUser(event) {
     event.preventDefault();
 
     if (!validateUserForm()) {
-        showFormAlert('Corrija os campos destacados antes de salvar.', 'warning');
+        focusFirstInvalidField();
         return;
     }
 
@@ -174,7 +174,9 @@ async function saveUser(event) {
         showAlert(body.message, 'success');
         loadUsers();
     } catch (error) {
+        applyServerValidationErrors(error.message);
         showFormAlert(error.message, 'danger');
+        focusFirstInvalidField();
     }
 }
 
@@ -194,8 +196,12 @@ async function deleteUser(id) {
 }
 
 function setFieldError(inputId, errorId, message) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(errorId);
+    const input = userModalEl.querySelector(`#${inputId}`);
+    const error = userModalEl.querySelector(`#${errorId}`);
+
+    if (!input || !error) {
+        return;
+    }
 
     input.classList.add('is-invalid');
     error.textContent = message;
@@ -203,8 +209,8 @@ function setFieldError(inputId, errorId, message) {
 }
 
 function clearFieldError(inputId) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(`${inputId}Error`);
+    const input = userModalEl.querySelector(`#${inputId}`);
+    const error = userModalEl.querySelector(`#${inputId}Error`);
 
     if (!input || !error) {
         return;
@@ -219,16 +225,72 @@ function clearFormErrors() {
 }
 
 function showFormAlert(message, type) {
-    const el = document.getElementById('formAlert');
+    const el = userModalEl.querySelector('#formAlert');
+    if (!el) {
+        return;
+    }
+
     el.textContent = message;
     el.className = `alert alert-${type} mb-3`;
     el.classList.remove('d-none');
+    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function clearFormAlert() {
-    const el = document.getElementById('formAlert');
+    const el = userModalEl?.querySelector('#formAlert');
+    if (!el) {
+        return;
+    }
+
     el.classList.add('d-none');
     el.textContent = '';
+}
+
+function clearPageAlert() {
+    const el = document.getElementById('alertBox');
+    if (!el) {
+        return;
+    }
+
+    el.classList.add('d-none');
+    el.textContent = '';
+}
+
+function focusFirstInvalidField() {
+    const firstInvalid = userModalEl.querySelector('.pixel-input.is-invalid');
+    if (firstInvalid) {
+        firstInvalid.focus();
+        firstInvalid.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+}
+
+function applyServerValidationErrors(message) {
+    const normalized = (message ?? '').toLowerCase();
+
+    if (normalized.includes('nome') && normalized.includes('e-mail')) {
+        setFieldError('userName', 'userNameError', 'Nome é obrigatório.');
+        setFieldError('userEmail', 'userEmailError', 'E-mail é obrigatório.');
+        return;
+    }
+
+    if (normalized.includes('e-mail inválido')) {
+        setFieldError('userEmail', 'userEmailError', 'E-mail inválido.');
+        return;
+    }
+
+    if (normalized.includes('e-mail já')) {
+        setFieldError('userEmail', 'userEmailError', message);
+        return;
+    }
+
+    if (normalized.includes('senha é obrigatória')) {
+        setFieldError('userPassword', 'userPasswordError', 'Senha é obrigatória no cadastro.');
+        return;
+    }
+
+    if (normalized.includes('senha deve ter')) {
+        setFieldError('userPassword', 'userPasswordError', 'A senha deve ter no mínimo 6 caracteres.');
+    }
 }
 
 async function parseResponse(response) {
