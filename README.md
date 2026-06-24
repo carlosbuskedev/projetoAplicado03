@@ -1,61 +1,157 @@
-# CodeIgniter 4 Framework
+# BRIO
 
-## What is CodeIgniter?
+Aplicação web de produtividade gamificada desenvolvida como Projeto Aplicado. O BRIO transforma tarefas do dia a dia em **missões**, com timer estilo Pomodoro, progressão de personagem e painel administrativo.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Sobre o projeto
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+O BRIO ajuda o usuário a organizar atividades, iniciar jornadas focadas e acompanhar evolução com elementos de RPG (experiência, nível e progressão). Administradores gerenciam usuários e acompanham o sistema pelo painel admin.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Funcionalidades
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- **Autenticação JWT** com perfis `admin` e `user`
+- **Missões (Quests)** — cadastro com título, descrição, tempo estimado, dificuldade, prioridade e prazo
+- **Jornada** — execução de missões com timer, pausas e conclusão
+- **Progressão (Leveling)** — ficha de personagem com XP e evolução
+- **Usuários (admin)** — CRUD completo com validação no frontend e backend
+- **API REST** protegida por filtros JWT e controle de perfil
 
-## Important Change with index.php
+## Tecnologias
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+| Camada | Tecnologia |
+|--------|------------|
+| Backend | PHP 8.2, CodeIgniter 4 |
+| Frontend | HTML, CSS, JavaScript (Bootstrap 5) |
+| Banco | MySQL / MariaDB |
+| Auth | JWT (Bearer token) |
+| Deploy | Docker, Apache, Coolify |
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Estrutura do projeto
 
-**Please** read the user guide for a better explanation of how CI4 works!
+```
+app/
+├── Controllers/
+│   ├── Backend/     # API (Auth, Users, Quests)
+│   └── Frontend/    # Páginas (Login, Home, Journey, Quests, Users...)
+├── Models/Backend/
+├── Services/        # Regras de negócio (Auth, User, Quest)
+├── Filters/         # JwtAuthFilter, RoleFilter
+├── Views/
+└── Database/
+    ├── Migrations/
+    └── Seeds/
 
-## Repository Management
+public/
+├── css/
+├── js/
+└── index.php        # Ponto de entrada (DocumentRoot)
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## Requisitos
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+- PHP 8.2+
+- Composer
+- MySQL / MariaDB
+- Extensões PHP: `intl`, `mbstring`, `mysqli` (ou `pdo_mysql`)
 
-## Contributing
+## Instalação local (XAMPP)
 
-We welcome contributions from the community.
+1. Clone o repositório em `htdocs`:
 
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
+```bash
+git clone https://github.com/carlosbuskedev/projetoAplicado03.git
+cd projetoAplicado03
+```
 
-## Server Requirements
+2. Instale as dependências:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+```bash
+composer install
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+3. Copie o arquivo de ambiente e configure:
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+```bash
+copy .env.example .env
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+Edite o `.env` com host, banco, usuário, senha e `JWT_SECRET`.
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+4. Crie o banco de dados e execute migrações + seed:
+
+```bash
+php spark migrate
+php spark db:seed UserSeeder
+```
+
+5. Aponte o Apache para a pasta `public/` ou acesse:
+
+```
+http://localhost/projetoAplicado03/public
+```
+
+## Usuários de teste (seed)
+
+| Perfil | E-mail | Senha |
+|--------|--------|-------|
+| Admin | admin@exemplo.com | admin123 |
+| Usuário | user@exemplo.com | user123 |
+
+## Rotas principais
+
+| Rota | Descrição | Acesso |
+|------|-----------|--------|
+| `/` ou `/login` | Login | Público |
+| `/home` | Menu do usuário | user |
+| `/home-admin` | Painel admin | admin |
+| `/quests` | Missões | autenticado |
+| `/journey` | Jornada | autenticado |
+| `/leveling` | Progressão | autenticado |
+| `/users` | Gerenciar usuários | admin |
+
+## API (resumo)
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/api/auth/login` | Login (retorna JWT) |
+| GET | `/api/auth/me` | Perfil do usuário logado |
+| GET/POST/PUT/DELETE | `/api/users` | CRUD de usuários (admin) |
+| GET/POST/PATCH | `/api/quests` | Missões (autenticado) |
+
+Todas as rotas protegidas exigem header:
+
+```
+Authorization: Bearer <token>
+```
+
+## Deploy com Docker (Coolify)
+
+O projeto inclui `Dockerfile` e `docker/entrypoint.sh`. Configure no Coolify:
+
+- `database.default.hostname`
+- `database.default.database`
+- `database.default.username`
+- `database.default.password`
+- `database.default.DBDriver` = `MySQLi`
+- `database.default.port`
+- `JWT_SECRET`
+- `app.baseURL`
+
+> Não copie um `.env` fixo para dentro do container em produção — use as variáveis de ambiente do Coolify.
+
+Build e execução local:
+
+```bash
+docker build -t brio .
+docker run -p 8080:80 --env-file .env brio
+```
+
+## Autores
+
+- **Camila Sixel Cordeiro** — [@csixel](https://github.com/csixel)
+- **Carlos Guilherme da Silva Buske** — [@Carlosguilherme95](https://github.com/Carlosguilherme95)
+
+Projeto desenvolvido na **Universidade Federal Fluminense (UFF)**.
+
+## Licença
+
+Projeto acadêmico. O framework CodeIgniter 4 é distribuído sob licença MIT.
