@@ -150,7 +150,7 @@ docker run -p 8080:80 --env-file .env brio
 - **Camila Sixel Cordeiro** — [@csixel](https://github.com/csixel)
 - **Carlos Guilherme da Silva Buske** — [@Carlosguilherme95](https://github.com/Carlosguilherme95)
 
-Projeto desenvolvido na **Universidade Federal Fluminense (UFF)**.
+Projeto desenvolvido no **Centro Universitário SENAI Santa Catarina**.
 
 ## Licença
 
