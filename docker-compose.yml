@@ -1,0 +1,38 @@
+services:
+  pa3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 'projeto-aplicado-03'
+    container_name: servidor-pa3
+    restart: always
+    ports:
+      - '82:80'
+    # user: "${UID}"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy # Espera o banco estar 100% pronto, não apenas ligado
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-pa3
+    restart: always
+    ports:
+      - '5430:3306' # Permite que você acesse o banco da sua máquina usando DBeaver, Workbench, etc.
+    environment:
+      MYSQL_DATABASE: 'ci4_test' # O Docker vai criar esse banco automaticamente
+      MYSQL_ROOT_PASSWORD: 'senhalocal123'
+    volumes:
+      - db_data:/var/lib/mysql # Salva os dados para não perder se o container reiniciar
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-psenhalocal123"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+# Cria um volume nomeado para manter os dados do MySQL persistentes
+volumes:
+  db_data:
+    
