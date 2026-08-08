@@ -1,6 +1,10 @@
 /**
  * Sessão JWT no navegador (localStorage) fase de testes.
  * depois vou mudar para utilizar cookies
+<<<<<<< HEAD
+=======
+ * teste
+>>>>>>> 00057f3986ca377cf295bc6f4d6fcc06ca9b588d
  */
 const AuthSession = (() => {
     const TOKEN_KEY = 'auth_token';
