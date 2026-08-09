@@ -11,6 +11,8 @@ php spark migrate
 
 echo "Rodando os seeders iniciais..."
 php spark db:seed UserSeeder
+php spark db:seed ThemeBehavioralQuestionSeeder
+php spark db:seed BehavioralQuestionSeeder
 
 echo "Iniciando o servidor Apache..."
 # O comando abaixo deve ser sempre a última linha deste arquivo!
