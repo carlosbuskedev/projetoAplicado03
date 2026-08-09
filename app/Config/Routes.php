@@ -19,8 +19,6 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('quests', 'Quests::index');
     $routes->get('leveling', 'Leveling::index');
     $routes->get('side-quests', 'SideQuests::index');
-    $routes->post('side-quests', 'SideQuests::start');
-    $routes->post('side-quests/submit', 'SideQuests::submit');
 });
 
 // -------------------------------------------------------------------------
@@ -46,6 +44,14 @@ $routes->group('api/quests', [
     $routes->post('/', 'Quests::create');
     $routes->patch('(:num)', 'Quests::update/$1');
 });
+
+$routes->group('api/sidequests', [
+    'namespace' => 'App\Controllers\Backend',
+    'filter'    => 'jwt',
+], static function ($routes) {
+    $routes->post('/', 'SideQuests::create');
+});
+
 
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
     $routes->post('login', 'Auth::login');

@@ -3,78 +3,59 @@
 namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
-use App\Models\ThemeBehavioralQuestionModel;
-use App\Models\BehavioralQuestionModel;
-use App\Models\BehavioralResponsesScaleModel;
-use App\Models\BehavioralResponseModel;
+use App\Services\SideQuest\SideQuestService;
 
 class SideQuests extends BaseController
 {
-    public function index(): string
+    private SideQuestService $sideQuestService;
+
+    public function __construct()
     {
-        return view('side_quests');
+        $this->sideQuestService = new SideQuestService();
     }
 
-    public function start()
+    public function index(): string
     {
-        $themeModel = new ThemeBehavioralQuestionModel();
-        $questionModel = new BehavioralQuestionModel();
-        $scaleModel = new BehavioralResponsesScaleModel();
+        $questions = $this->sideQuestService->getQuestions();
+        $scales = $this->sideQuestService->getScales();
 
-        $themes = $themeModel->findAll();
-        if (empty($themes)) {
-            return view('side_quests_form', [
-                'questions' => [],
-                'scales' => [],
-                'message' => 'Nenhum tema ou pergunta disponível.'
-            ]);
-        }
-
-        // shuffle themes and pick up to 10
-        shuffle($themes);
-        $themes = array_slice($themes, 0, 10);
-
-        $questions = [];
-        foreach ($themes as $theme) {
-            $qs = $questionModel->where('theme_behavioral_question_id', $theme['id'])->findAll();
-            if (!empty($qs)) {
-                $q = $qs[array_rand($qs)];
-                $questions[] = $q;
-            }
-        }
-
-        $scales = $scaleModel->orderBy('score', 'ASC')->findAll();
-
-        return view('side_quests_form', [
+        return view('side_quests', [
             'questions' => $questions,
             'scales' => $scales,
-            'message' => null,
+            'message' => empty($questions) ? 'Nenhum tema ou pergunta disponível.' : null,
         ]);
     }
 
     public function submit()
     {
-        $post = $this->request->getPost();
-        $answers = $post['answer'] ?? [];
-        $week = isset($post['week']) ? (int)$post['week'] : 1;
+        $answers = $this->request->getPost('answer') ?? [];
 
-        if (empty($answers) || !is_array($answers)) {
-            return redirect()->to('/side-quests')->with('error', 'Nenhuma resposta enviada.');
+        $userId = service('authSession')->id();
+        if ($userId === null) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'É necessário estar logado para responder.',
+                ])->setStatusCode(401);
+            }
+
+            return redirect()->to('/login')->with('error', 'É necessário estar logado para responder.');
         }
 
-        $model = new BehavioralResponseModel();
-        $now = date('Y-m-d H:i:s');
-        foreach ($answers as $questionId => $scaleId) {
-            $data = [
-                'behavioral_questions_id' => (int)$questionId,
-                'behavioral_responses_scale_id' => (int)$scaleId,
-                'week' => $week,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
-            $model->insert($data);
+        $result = $this->sideQuestService->saveResponses($userId, $answers);
+
+        if (! $result['success']) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON($result)->setStatusCode($result['code']);
+            }
+
+            return redirect()->to('/side-quests')->with('error', $result['message']);
         }
 
-        return redirect()->to('/home')->with('success', 'Respostas salvas com sucesso.');
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON($result);
+        }
+
+        return redirect()->to('/home')->with('success', $result['message']);
     }
 }

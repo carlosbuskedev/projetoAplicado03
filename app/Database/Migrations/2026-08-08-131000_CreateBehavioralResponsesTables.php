@@ -58,6 +58,11 @@ class CreateBehavioralResponsesTables extends Migration
                 'constraint' => 11,
                 'unsigned'   => true,
             ],
+            'users_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+            ],            
             'week' => [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -76,6 +81,7 @@ class CreateBehavioralResponsesTables extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('behavioral_questions_id', 'behavioral_questions', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('behavioral_responses_scale_id', 'behavioral_responses_scale', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('behavioral_responses');
     }
 
