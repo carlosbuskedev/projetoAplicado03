@@ -18,6 +18,9 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('users', 'Users::index');
     $routes->get('quests', 'Quests::index');
     $routes->get('leveling', 'Leveling::index');
+    $routes->get('side-quests', 'SideQuests::index');
+    $routes->post('side-quests', 'SideQuests::start');
+    $routes->post('side-quests/submit', 'SideQuests::submit');
 });
 
 // -------------------------------------------------------------------------
