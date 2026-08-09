@@ -19,6 +19,7 @@ $routes->group('', ['namespace' => 'App\Controllers\Frontend'], static function 
     $routes->get('quests', 'Quests::index');
     $routes->get('leveling', 'Leveling::index');
     $routes->get('side-quests', 'SideQuests::index');
+    $routes->get('weekly-diagnostic', 'WeeklyDiagnostic::index');
 });
 
 // -------------------------------------------------------------------------
@@ -51,7 +52,6 @@ $routes->group('api/sidequests', [
 ], static function ($routes) {
     $routes->post('/', 'SideQuests::create');
 });
-
 
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
     $routes->post('login', 'Auth::login');

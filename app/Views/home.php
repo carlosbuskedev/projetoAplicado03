@@ -78,6 +78,17 @@
                                     <div class="pixel-arrow">▶</div>
                                 </a>
                             </div>
+                            <div class="col-12">
+                                <a  href="/weekly-diagnostic"
+                                        class="pixel-menu-item" 
+                                        data-option="weekly_diagnostic">
+                                    <div class="pixel-menu-item-content">
+                                        <h3 class="pixel-menu-item-title">Diagnóstico Semanal</h3>
+                                        <p class="pixel-menu-item-description">Veja seu diagnóstico por semana e acompanhe os dias do ciclo</p>
+                                    </div>
+                                    <div class="pixel-arrow">▶</div>
+                                </a>
+                            </div>
                             <div class="col-12" id="menuUsuarios" style="display: none;">
                                 <a href="/users" class="pixel-menu-item" data-option="users">
                                     <div class="pixel-menu-item-content">

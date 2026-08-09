@@ -30,6 +30,14 @@ class SideQuestModel extends Model
             ->first();
     }
 
+    public function getWeeksByUser(int $userId): array
+    {
+        return $this->select('week')
+            ->where('users_id', $userId)
+            ->orderBy('week', 'ASC')
+            ->findAll();
+    }
+
     public function insertResponses(array $responses): bool
     {
         return $this->insertBatch($responses) !== false;

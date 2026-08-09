@@ -15,6 +15,7 @@ const AuthSession = (() => {
         users: ['admin'],
         home_admin: ['admin'],
         sidequests: ['admin', 'user'],
+        weekly_diagnostic: ['admin', 'user'],
     };
 
     const ROUTES = {
