@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function getSelectedWeek() {
         const params = new URLSearchParams(window.location.search);
         const week = Number(params.get('week'));
-        return Number.isInteger(week) && week > 0 ? week : 4;
+        return Number.isInteger(week) && week > 0 ? week : 0;
     }
 
     function setSelectedWeek(week) {
@@ -170,8 +170,56 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         } catch (error) {
             console.warn('Erro ao inicializar o diagnóstico semanal.', error);
-
+            
             window.location.href = '/home';
+        }
+    }
+
+    async function loadSummaryFromApi() {
+        const user = AuthSession.getUser();
+
+        const payload = {
+            user_id: user ? user.id : null,
+            week: currentWeek
+        };
+
+        try {
+            const response = await AuthSession.apiRequest('/api/weekly-diagnostic/summary', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            });
+            const body = await response.json();
+
+            if (!response.ok || !body.success) {
+                console.warn('Não foi possível obter semanas do servidor.', body.message);
+                return null;
+            }
+
+            const weeks = Array.isArray(body.data.weeks) ? body.data.weeks.map(w => Number(w)) : [];
+            if (weeks.length === 0) {
+                return null;
+            }
+
+            weekSelect.innerHTML = '';
+            weeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Semana ${week}`;
+                if (week === currentWeek) {
+                    option.selected = true;
+                }
+                weekSelect.appendChild(option);
+            });
+
+            if (!weeks.includes(currentWeek)) {
+                currentWeek = weeks[weeks.length - 1] || 1;
+                setSelectedWeek(currentWeek);
+            }
+
+            return weeks;
+        } catch (err) {
+            console.warn('Erro ao carregar semanas via API', err);
+            return null;
         }
     }
 
@@ -194,7 +242,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function start() {
         await initializeWeeklyDiagnostic();
-        renderWeekOptions();
+
+        const weeks = await loadSummaryFromApi();
+        if (!weeks) {
+            renderWeekOptions();
+        }
+
         currentStatuses = buildStatuses(currentWeek);
         updateDiagnostic();
         renderDays();

@@ -57,6 +57,7 @@ $routes->group('api/weekly-diagnostic', [
     'namespace' => 'App\Controllers\Backend',
     'filter'    => 'jwt',
 ], static function ($routes) {
+    $routes->post('summary', 'WeeklyDiagnostic::summary');
     $routes->post('initialize', 'WeeklyDiagnostic::initialize');
 });
 

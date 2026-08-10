@@ -17,8 +17,10 @@ class WeeklyDiagnostic extends BaseController
 
     public function summary()
     {
-        $userId = service('authSession')->id();
-        $week = (int) $this->request->getGet('week');
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+
+        $userId = $data['user_id'] ?? null;
+        $week = $data['week'] ?? null;
 
         $availableWeeks = $this->sideQuestService->getAvailableWeeks($userId);
 
