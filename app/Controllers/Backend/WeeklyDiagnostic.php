@@ -15,7 +15,30 @@ class WeeklyDiagnostic extends BaseController
         $this->sideQuestService = new SideQuestService();
     }
 
-    public function summary()
+    public function getWeeks()
+    {
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+
+        $userId = $data['user_id'] ?? null;
+
+        $availableWeeks = $this->sideQuestService->getAvailableWeeks($userId);
+
+        if (empty($availableWeeks)) {
+            $selectedWeek = 1;
+        } else {
+            $selectedWeek = (int) end($availableWeeks);
+        }
+
+        return $this->response->setJSON([
+            'success' => true,
+            'data' => [
+                'weeks' => $availableWeeks,
+                'selectedWeek' => $selectedWeek
+            ],
+        ]);
+    }
+
+    public function activities()
     {
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
 
@@ -27,8 +50,8 @@ class WeeklyDiagnostic extends BaseController
         if (empty($availableWeeks)) {
             $selectedWeek = 1;
         } else {
-            $selectedWeek = $week > 0 && in_array($week, $availableWeeks, true)
-                ? $week
+            $selectedWeek = $week > 0 && in_array((int) $week, $availableWeeks, true)
+                ? (int) $week
                 : (int) end($availableWeeks);
         }
 

@@ -11,14 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnCompleted = document.getElementById('btnCompleted');
     const btnMissed = document.getElementById('btnMissed');
 
-    const diagnostics = [
-        'O seu diagnóstico aponta que o design de "feed sem fim" capturou sua atenção automatizada. A funcionalidade de rolagem infinita elimina a sensação de que o conteúdo é finito, criando um ciclo contínuo de consumo.',
-        'O seu diagnóstico indica uma forte reatividade aos alertas digitais. Cada notificação atua no seu cérebro como um gatilho de recompensa que desperta curiosidade e libera dopamina por antecipação.',
-        'O seu diagnóstico revela traços da Síndrome de FoMO. A ansiedade de perder algo online gera um ciclo de retorno constante às telas.',
-        'O seu diagnóstico sugere uma saturação mental. O consumo excessivo de materiais triviais compromete memória, raciocínio e atenção.',
-        'O seu diagnóstico aponta uma dependência do ciclo de recompensas variáveis das redes sociais. Curtidas e comentários funcionam como feedback imediato que mantém você engajado.',
-    ];
-
     const dayMessages = {
         1: 'Excelente! O primeiro passo é sempre o mais difícil para o cérebro, pois exige romper o piloto automático. Você acabou de iniciar a construção de uma nova via neural de foco. Nos vemos amanhã!',
         2: 'Muito bem! A repetição é a chave para mudar hábitos. Ao voltar hoje, você sinalizou para a sua mente que a sua atenção é uma prioridade. Continue assim!',
@@ -44,10 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
         params.set('week', String(week));
         window.history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
         currentWeek = week;
-    }
-
-    function getDiagnosticText(week) {
-        return diagnostics[(week - 1) % diagnostics.length];
     }
 
     function buildStatuses(week) {
@@ -84,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderWeekOptions() {
-        const weeks = [1, 2, 3, 4];
+        const weeks = [];
         weekSelect.innerHTML = '';
 
         weeks.forEach(week => {
@@ -115,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function () {
         currentDay = active ? active.day : 1;
     }
 
-    function updateDiagnostic() {
-        diagnosticContent.textContent = getDiagnosticText(currentWeek);
+    function updateDiagnostic(diagnosticText = null) {
+        diagnosticContent.textContent = diagnosticText;
     }
 
     function updateDayDescription() {
@@ -175,16 +163,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    async function loadSummaryFromApi() {
+    async function loadWeeksFromApi() {
         const user = AuthSession.getUser();
 
         const payload = {
-            user_id: user ? user.id : null,
-            week: currentWeek
+            user_id: user ? user.id : null
         };
 
         try {
-            const response = await AuthSession.apiRequest('/api/weekly-diagnostic/summary', {
+            const response = await AuthSession.apiRequest('/api/weekly-diagnostic/weeks', {
                 method: 'POST',
                 body: JSON.stringify(payload),
             });
@@ -216,18 +203,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 setSelectedWeek(currentWeek);
             }
 
-            return weeks;
         } catch (err) {
-            console.warn('Erro ao carregar semanas via API', err);
-            return null;
+            console.warn('Erro ao carregar as semanas disponíveis via API', err);
         }
     }
 
-    weekSelect.addEventListener('change', function () {
+    async function loadActivitiesFromApi() {
+        const user = AuthSession.getUser();
+
+        const payload = {
+            user_id: user ? user.id : null,
+            week: currentWeek
+        };
+
+        try {
+            const response = await AuthSession.apiRequest('/api/weekly-diagnostic/activities', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            });
+            const body = await response.json();
+
+            if (!response.ok || !body.success) {
+                console.warn('Não foi possível obter semanas do servidor.', body.message);
+                return null;
+            }
+
+            updateDiagnostic(body.data.diagnostic);
+
+        } catch (err) {
+            console.warn('Erro ao carregar as atividades via API', err);
+        }
+    }
+
+    weekSelect.addEventListener('change', async function () {
         const week = Number(this.value);
         setSelectedWeek(week);
+        await loadActivitiesFromApi();
+
         currentStatuses = buildStatuses(week);
-        updateDiagnostic();
         renderDays();
         updateDayDescription();
     });
@@ -242,14 +255,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function start() {
         await initializeWeeklyDiagnostic();
+        
+        await loadWeeksFromApi();
+        await loadActivitiesFromApi();
 
-        const weeks = await loadSummaryFromApi();
-        if (!weeks) {
-            renderWeekOptions();
-        }
-
-        currentStatuses = buildStatuses(currentWeek);
-        updateDiagnostic();
+        currentStatuses = buildStatuses(currentWeek);        
         renderDays();
         updateDayDescription();
     }

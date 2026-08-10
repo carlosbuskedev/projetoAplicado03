@@ -67,14 +67,56 @@ class SideQuestService
 
     public function getWeeklyDiagnostic(int $userId, int $week): string
     {
-        $feedbacks = $this->themeModel->findAll();
-
-        if (empty($feedbacks)) {
-            return 'Ainda não há diagnóstico disponível para esta semana.';
+        if ($userId === null || $week <= 0) {
+            return null;
         }
 
-        shuffle($feedbacks);
-        return $feedbacks[0]['feedback'] ?? 'Ainda não há diagnóstico disponível para esta semana.';
+        $themeOrder = <<<'SQL'
+CASE
+    WHEN theme_behavioral_questions.id = 6 THEN 1
+    WHEN theme_behavioral_questions.id = 8 THEN 2
+    WHEN theme_behavioral_questions.id = 2 THEN 3
+    WHEN theme_behavioral_questions.id = 1 THEN 4
+    WHEN theme_behavioral_questions.id = 3 THEN 5
+    WHEN theme_behavioral_questions.id = 5 THEN 6
+    WHEN theme_behavioral_questions.id = 4 THEN 7
+    WHEN theme_behavioral_questions.id = 9 THEN 8
+    WHEN theme_behavioral_questions.id = 7 THEN 9
+    WHEN theme_behavioral_questions.id = 10 THEN 10
+    ELSE 99
+END
+SQL;
+
+        $rows = $this->sideQuestModel
+            ->select('theme_behavioral_questions.feedback AS feedback')
+            ->join(
+                'behavioral_questions',
+                'behavioral_responses.behavioral_questions_id = behavioral_questions.id'
+            )
+            ->join(
+                'theme_behavioral_questions',
+                'behavioral_questions.theme_behavioral_question_id = theme_behavioral_questions.id'
+            )
+            ->join(
+                'behavioral_responses_scale',
+                'behavioral_responses.behavioral_responses_scale_id = behavioral_responses_scale.id'
+            )
+            ->where('behavioral_responses.users_id', $userId)
+            ->where('behavioral_responses.week', $week)
+            ->orderBy('behavioral_responses_scale.score', 'DESC')
+            ->orderBy($themeOrder, 'ASC', false)
+            ->first();
+
+        if (empty($rows)) {
+            return null;
+        }
+        
+
+        if ($rows['feedback'] !== null) {
+            return $rows['feedback'];
+        }
+
+        return 'Ainda não há diagnóstico disponível para esta semana.';
     }
 
     private function getDayTitle(int $day): string
