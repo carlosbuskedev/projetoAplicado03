@@ -65,7 +65,7 @@ class SideQuestService
         return array_values(array_unique(array_map('intval', array_column($weeks, 'week'))));
     }
 
-    public function getWeeklyDiagnostic(int $userId, int $week): string
+    public function getWeeklyDiagnostic(int $userId, int $week): ?array
     {
         if ($userId === null || $week <= 0) {
             return null;
@@ -88,7 +88,7 @@ END
 SQL;
 
         $rows = $this->sideQuestModel
-            ->select('theme_behavioral_questions.feedback AS feedback')
+            ->select('theme_behavioral_questions.id AS id, theme_behavioral_questions.feedback AS feedback')
             ->join(
                 'behavioral_questions',
                 'behavioral_responses.behavioral_questions_id = behavioral_questions.id'
@@ -111,12 +111,7 @@ SQL;
             return null;
         }
         
-
-        if ($rows['feedback'] !== null) {
-            return $rows['feedback'];
-        }
-
-        return 'Ainda não há diagnóstico disponível para esta semana.';
+        return $rows;
     }
 
     private function getDayTitle(int $day): string

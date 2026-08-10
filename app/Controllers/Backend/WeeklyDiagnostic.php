@@ -4,6 +4,7 @@ namespace App\Controllers\Backend;
 
 use App\Controllers\BaseController;
 use App\Models\WeeklyDiagnosticStatusModel;
+use App\Models\WeeklyActivitiesModel;
 use App\Services\SideQuest\SideQuestService;
 
 class WeeklyDiagnostic extends BaseController
@@ -63,7 +64,7 @@ class WeeklyDiagnostic extends BaseController
             'data' => [
                 'weeks' => $availableWeeks,
                 'selectedWeek' => $selectedWeek,
-                'diagnostic' => $diagnostic,
+                'diagnostic' => $diagnostic['feedback'] ?? null,
                 'daysStatus' => $daysStatus,
             ],
         ]);
@@ -74,6 +75,7 @@ class WeeklyDiagnostic extends BaseController
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
                 
         $userId = $data['user_id'] ?? null;
+        $themeId = $data['theme_id'] ?? null;
 
         if ($userId === null) {
             return $this->response->setJSON([
@@ -105,6 +107,21 @@ class WeeklyDiagnostic extends BaseController
             ]);
         }
 
+        $diagnostic = $this->sideQuestService->getWeeklyDiagnostic($userId, $week);
+
+        $activitiesModel = new WeeklyActivitiesModel();
+        $tasks = $activitiesModel
+            ->where('theme_behavioral_questions_id', $diagnostic['id'])
+            ->orderBy('RAND()', 'ASC', false)
+            ->findAll();
+
+        if (empty($tasks)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Nenhuma atividade registrada.',
+            ]);
+        }
+
         $today = new \DateTimeImmutable('today');
         $now = date('Y-m-d H:i:s');
         $batch = [];
@@ -113,6 +130,7 @@ class WeeklyDiagnostic extends BaseController
             $deadline = $today->modify(sprintf('+%d days', $day - 1))->format('Y-m-d');
             $batch[] = [
                 'users_id' => $userId,
+                'weekly_activities_id' => $tasks[$day - 1]['id'] ?? null,
                 'week' => $week,
                 'day' => $day,
                 'deadline' => $deadline,

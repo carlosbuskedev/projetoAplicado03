@@ -21,6 +21,12 @@ class CreateWeeklyDiagnosticStatusTable extends Migration
                 'unsigned'   => true,
                 'null'       => false,
             ],
+            'weekly_activities_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => false,
+            ],
             'week' => [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -52,6 +58,7 @@ class CreateWeeklyDiagnosticStatusTable extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('weekly_activities_id', 'weekly_activities', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('weekly_diagnostic_status');
     }
 

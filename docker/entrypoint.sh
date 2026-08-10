@@ -14,6 +14,7 @@ php spark db:seed UserSeeder
 php spark db:seed ThemeBehavioralQuestionSeeder
 php spark db:seed BehavioralQuestionSeeder
 php spark db:seed BehavioralResponseScaleSeeder
+php spark db:seed WeeklyActivitiesSeeder
 
 echo "Iniciando o servidor Apache..."
 # O comando abaixo deve ser sempre a última linha deste arquivo!
