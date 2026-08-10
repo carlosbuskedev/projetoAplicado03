@@ -154,6 +154,95 @@ class SideQuestService
         return $this->success('Respostas salvas com sucesso.');
     }
 
+    public function getWeekDaysStatus(int $userId, int $week): array
+    {
+        // Load weekly diagnostic status records if any
+        $statusModel = new \App\Models\WeeklyDiagnosticStatusModel();
+        $records = $statusModel
+            ->where('users_id', $userId)
+            ->where('week', $week)
+            ->orderBy('day', 'ASC')
+            ->findAll();
+
+        $byDay = [];
+        foreach ($records as $r) {
+            $byDay[(int) $r['day']] = $r;
+        }
+
+        $today = (new \DateTimeImmutable('today'))->format('Y-m-d');
+        $days = [];
+
+        for ($day = 1; $day <= 7; $day++) {
+            $record = $byDay[$day] ?? null;
+            $deadline = $record['deadline'] ?? null;
+            $completed = isset($record['completed']) ? (int) $record['completed'] : 0;
+
+            if ($record !== null) {
+                if ($completed === 1) {
+                    $status = 'completed';
+                } else {
+                    if ($deadline < $today) {
+                        $status = 'missed';
+                    } elseif ($deadline === $today) {
+                        $status = 'current';
+                    } else {
+                        $status = 'upcoming';
+                    }
+                }
+            } else {
+                // no record: assume upcoming unless day equals 1 and week is current week
+                $status = 'upcoming';
+            }
+
+            $days[] = [
+                'day' => $day,
+                'status' => $status,
+                'label' => $status === 'completed' ? 'Cumprido' : ($status === 'missed' ? 'Não cumprido' : ($status === 'current' ? 'Atual' : 'Por vir')),
+                'current' => false,
+                'title' => $this->getDayTitle($day),
+                'message' => $this->getDayMessage($day),
+                'deadline' => $deadline,
+                'completed' => $completed,
+            ];
+        }
+
+        // determine current day: prefer exact deadline == today, else first upcoming, else last completed
+        $indexCurrent = null;
+        foreach ($days as $i => $d) {
+            if (isset($d['deadline']) && $d['deadline'] === $today) {
+                $indexCurrent = $i;
+                break;
+            }
+        }
+
+        if ($indexCurrent === null) {
+            foreach ($days as $i => $d) {
+                if ($d['status'] === 'upcoming') {
+                    $indexCurrent = $i;
+                    break;
+                }
+            }
+        }
+
+        if ($indexCurrent === null) {
+            // fallback: last completed
+            for ($i = count($days) - 1; $i >= 0; $i--) {
+                if ($days[$i]['status'] === 'completed') {
+                    $indexCurrent = $i;
+                    break;
+                }
+            }
+        }
+
+        if ($indexCurrent === null) {
+            $indexCurrent = 0;
+        }
+
+        $days[$indexCurrent]['current'] = true;
+
+        return $days;
+    }
+
     private function success(string $message, array $data = [], int $code = 200): array
     {
         return [
