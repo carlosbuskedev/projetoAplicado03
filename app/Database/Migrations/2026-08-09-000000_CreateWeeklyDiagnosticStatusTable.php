@@ -19,20 +19,26 @@ class CreateWeeklyDiagnosticStatusTable extends Migration
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => true,
+                'null'       => false,
             ],
             'week' => [
                 'type'       => 'INT',
                 'constraint' => 11,
+                'null'       => false,
             ],
             'day' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
+                'null'       => false,
             ],
             'completed' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
-                'null'       => false,
-                'default'    => 0,
+                'null'       => true
+            ],
+            'deadline' => [
+                'type' => 'DATE',
+                'null' => false,
             ],
             'created_at' => [
                 'type' => 'DATETIME',

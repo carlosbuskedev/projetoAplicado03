@@ -26,36 +26,4 @@ class SideQuests extends BaseController
         ]);
     }
 
-    public function submit()
-    {
-        $answers = $this->request->getPost('answer') ?? [];
-
-        $userId = service('authSession')->id();
-        if ($userId === null) {
-            if ($this->request->isAJAX()) {
-                return $this->response->setJSON([
-                    'status' => false,
-                    'message' => 'É necessário estar logado para responder.',
-                ])->setStatusCode(401);
-            }
-
-            return redirect()->to('/login')->with('error', 'É necessário estar logado para responder.');
-        }
-
-        $result = $this->sideQuestService->saveResponses($userId, $answers);
-
-        if (! $result['success']) {
-            if ($this->request->isAJAX()) {
-                return $this->response->setJSON($result)->setStatusCode($result['code']);
-            }
-
-            return redirect()->to('/side-quests')->with('error', $result['message']);
-        }
-
-        if ($this->request->isAJAX()) {
-            return $this->response->setJSON($result);
-        }
-
-        return redirect()->to('/home')->with('success', $result['message']);
-    }
 }

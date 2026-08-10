@@ -13,6 +13,7 @@ class WeeklyDiagnosticStatusModel extends Model
         'week',
         'day',
         'completed',
+        'deadline',        
         'created_at',
         'updated_at',
     ];

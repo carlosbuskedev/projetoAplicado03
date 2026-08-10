@@ -53,6 +53,13 @@ $routes->group('api/sidequests', [
     $routes->post('/', 'SideQuests::create');
 });
 
+$routes->group('api/weekly-diagnostic', [
+    'namespace' => 'App\Controllers\Backend',
+    'filter'    => 'jwt',
+], static function ($routes) {
+    $routes->post('initialize', 'WeeklyDiagnostic::initialize');
+});
+
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
     $routes->post('login', 'Auth::login');
 

@@ -3,6 +3,7 @@
 namespace App\Controllers\Backend;
 
 use App\Controllers\BaseController;
+use App\Models\WeeklyDiagnosticStatusModel;
 use App\Services\SideQuest\SideQuestService;
 
 class WeeklyDiagnostic extends BaseController
@@ -40,6 +41,71 @@ class WeeklyDiagnostic extends BaseController
                 'diagnostic' => $diagnostic,
                 'daysStatus' => $daysStatus,
             ],
+        ]);
+    }
+
+    public function initialize()
+    {
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+                
+        $userId = $data['user_id'] ?? null;
+
+        if ($userId === null) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Usuário não autenticado.',
+            ])->setStatusCode(401);
+        }
+
+        // busca a última semana cadastrada para o usuário
+        $week = $this->sideQuestService->getLastWeek($userId);
+
+        if ($week === null) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Nenhuma semana respondida foi não encontrada para o usuário.',
+            ])->setStatusCode(500);
+        }
+
+        $statusModel = new WeeklyDiagnosticStatusModel();
+        $existing = $statusModel
+            ->where('users_id', $userId)
+            ->where('week', $week)
+            ->first();
+
+        if ($existing !== null) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Diagnóstico semanal já inicializado.',
+            ]);
+        }
+
+        $today = new \DateTimeImmutable('today');
+        $now = date('Y-m-d H:i:s');
+        $batch = [];
+
+        for ($day = 1; $day <= 7; $day++) {
+            $deadline = $today->modify(sprintf('+%d days', $day - 1))->format('Y-m-d');
+            $batch[] = [
+                'users_id' => $userId,
+                'week' => $week,
+                'day' => $day,
+                'deadline' => $deadline,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        if ($statusModel->insertBatch($batch) === false) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Não foi possível inicializar o diagnóstico semanal.',
+            ])->setStatusCode(500);
+        }
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Diagnóstico semanal inicializado com sucesso.',
         ]);
     }
 

@@ -107,6 +107,12 @@ class SideQuestService
         return $messages[$day] ?? '';
     }
 
+    public function getLastWeek(int $userId): ?int
+    {
+        $lastWeek = $this->sideQuestModel->findLastWeekByUser($userId);
+        return $lastWeek ? (int) $lastWeek['week'] : null;
+    }
+
     public function create(array $data): array
     {
         $answers = $data['responses'] ?? [];
@@ -116,11 +122,11 @@ class SideQuestService
             return $this->failure('Nenhuma resposta enviada.', 422);
         }
 
-        $lastWeek = $this->sideQuestModel->findLastWeekByUser($userId);
+        $lastWeek = $this->getLastWeek($userId);
         $nextWeek = 1;
 
-        if (! empty($lastWeek) && isset($lastWeek['week'])) {
-            $nextWeek = ((int) $lastWeek['week']) + 1;
+        if ($lastWeek !== null) {
+            $nextWeek = ((int) $lastWeek) + 1;
         }
 
         $now = date('Y-m-d H:i:s');
