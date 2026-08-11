@@ -38,37 +38,48 @@ document.addEventListener('DOMContentLoaded', function () {
         currentWeek = week;
     }
 
-    function buildStatuses(week) {
-        const statuses = [];
-        const current = Math.min(week + 1, 7);
-
-        for (let day = 1; day <= 7; day += 1) {
-            if (day < current) {
-                const completed = day % 2 === 1;
-                statuses.push({
-                    day,
-                    status: completed ? 'completed' : 'missed',
-                    label: completed ? 'Cumprido' : 'Não cumprido',
-                    current: false,
-                });
-            } else if (day === current) {
-                statuses.push({
-                    day,
-                    status: 'current',
-                    label: 'Atual',
-                    current: true,
-                });
-            } else {
-                statuses.push({
-                    day,
-                    status: 'upcoming',
-                    label: 'Por vir',
-                    current: false,
-                });
-            }
+    function mostrarDiasStatus(daysStatus) {
+        if (!Array.isArray(daysStatus) || daysStatus.length !== 7) {
+            console.warn('daysStatus inválido:', daysStatus);
+            return;
         }
+        
+        currentStatuses = daysStatus.map((dayStat, index) => {
+            const day = index + 1;
+            let statusLabel = '';
+            let statusClass = '';
 
-        return statuses;
+            switch (dayStat.status) {
+                case 'completed':
+                    statusLabel = 'Cumprido';
+                    statusClass = 'completed';
+                    break;
+                case 'missed':
+                    statusLabel = 'Não cumprido';
+                    statusClass = 'missed';
+                    break;
+                case 'current':
+                    statusLabel = 'Atual';
+                    statusClass = 'current';
+                    break;
+                default:
+                    statusLabel = 'Por vir';
+                    statusClass = 'upcoming';
+            }
+
+            return {
+                day,
+                status: statusClass,
+                label: statusLabel,
+                current: dayStat.status === 'current',
+                objective: dayStat.objective || '',
+                task: dayStat.task || '',
+                title: dayStat.title || ''
+            };
+        });
+
+        renderDays();
+        updateDayDescription();
     }
 
     function renderWeekOptions() {
@@ -115,8 +126,10 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        dayTitle.textContent = `Dia ${active.day}`;
-        dayMessage.textContent = dayMessages[active.day];
+        dayTitle.textContent = `Dia ${active.day} - ${active.title}`;
+        dayMessage.innerHTML = dayMessages[active.day];
+        dayMessage.innerHTML += `<br/><br/><strong>Objetivo:</strong> ${active.objective}`;
+        dayMessage.innerHTML += `<br/><br/><strong>Tarefa:</strong> ${active.task}`;
     }
 
     function setDayStatus(dayNumber, completed) {
@@ -230,6 +243,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             updateDiagnostic(body.data.diagnostic);
 
+            mostrarDiasStatus(body.data.daysStatus);
+
         } catch (err) {
             console.warn('Erro ao carregar as atividades via API', err);
         }
@@ -239,10 +254,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const week = Number(this.value);
         setSelectedWeek(week);
         await loadActivitiesFromApi();
-
-        currentStatuses = buildStatuses(week);
-        renderDays();
-        updateDayDescription();
     });
 
     btnCompleted.addEventListener('click', function () {
@@ -258,10 +269,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
         await loadWeeksFromApi();
         await loadActivitiesFromApi();
-
-        currentStatuses = buildStatuses(currentWeek);        
-        renderDays();
-        updateDayDescription();
     }
 
     start();

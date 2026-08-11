@@ -6,6 +6,7 @@ use App\Models\Backend\SideQuestModel;
 use App\Models\BehavioralQuestionModel;
 use App\Models\BehavioralResponsesScaleModel;
 use App\Models\ThemeBehavioralQuestionModel;
+use App\Models\WeeklyActivitiesModel;
 use Config\Auth;
 
 class SideQuestService
@@ -195,11 +196,20 @@ SQL;
     {
         // Load weekly diagnostic status records if any
         $statusModel = new \App\Models\WeeklyDiagnosticStatusModel();
+        $activityModel = new WeeklyActivitiesModel();
+
         $records = $statusModel
             ->where('users_id', $userId)
             ->where('week', $week)
             ->orderBy('day', 'ASC')
             ->findAll();
+
+        $activityIds = array_filter(array_column($records, 'weekly_activities_id'), fn ($id) => $id !== null);
+        $activities = $activityIds ? $activityModel->whereIn('id', $activityIds)->findAll() : [];
+        $activityById = [];
+        foreach ($activities as $activity) {
+            $activityById[(int) $activity['id']] = $activity;
+        }
 
         $byDay = [];
         foreach ($records as $r) {
@@ -217,18 +227,21 @@ SQL;
             if ($record !== null) {
                 if ($completed === 1) {
                     $status = 'completed';
+                } elseif ($deadline < $today) {
+                    $status = 'missed';
+                } elseif ($deadline === $today) {
+                    $status = 'current';
                 } else {
-                    if ($deadline < $today) {
-                        $status = 'missed';
-                    } elseif ($deadline === $today) {
-                        $status = 'current';
-                    } else {
-                        $status = 'upcoming';
-                    }
+                    $status = 'upcoming';
                 }
             } else {
                 // no record: assume upcoming unless day equals 1 and week is current week
                 $status = 'upcoming';
+            }
+
+            $activity = null;
+            if ($record !== null && ! empty($record['weekly_activities_id'])) {
+                $activity = $activityById[(int) $record['weekly_activities_id']] ?? null;
             }
 
             $days[] = [
@@ -240,6 +253,8 @@ SQL;
                 'message' => $this->getDayMessage($day),
                 'deadline' => $deadline,
                 'completed' => $completed,
+                'objective' => $activity['objective'] ?? null,
+                'task' => $activity['task'] ?? null,
             ];
         }
 
