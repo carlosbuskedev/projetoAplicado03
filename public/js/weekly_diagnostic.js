@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 day,
                 status: statusClass,
                 label: statusLabel,
-                current: dayStat.status === 'current',
+                current: dayStat.current,
                 objective: dayStat.objective || '',
                 task: dayStat.task || '',
                 title: dayStat.title || ''
@@ -124,22 +124,50 @@ document.addEventListener('DOMContentLoaded', function () {
         dayMessage.innerHTML += `<br/><br/><strong>Tarefa:</strong> ${active.task}`;
     }
 
-    function setDayStatus(dayNumber, completed) {
-        currentStatuses = currentStatuses.map(day => {
-            if (day.day !== dayNumber) {
-                return day;
+    async function setDayStatus(dayNumber, completed) {
+        const user = AuthSession.getUser();
+
+        if (!user) {
+            console.warn('Usuário não autenticado para atualizar o status do dia.');
+            return;
+        }
+
+        try {
+            const response = await AuthSession.apiRequest('/api/weekly-diagnostic/status', {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_id: user.id,
+                    week: currentWeek,
+                    day: dayNumber,
+                    completed: completed ? 1 : 0,
+                }),
+            });
+
+            const body = await response.json();
+
+            if (!response.ok || !body.success) {
+                throw new Error(body.message || 'Não foi possível atualizar o status do dia.');
             }
 
-            return {
-                ...day,
-                status: completed ? 'completed' : 'missed',
-                label: completed ? 'Cumprido' : 'Não cumprido',
-                current: true,
-            };
-        });
+            currentStatuses = currentStatuses.map(day => {
+                if (day.day !== dayNumber) {
+                    return day;
+                }
 
-        renderDays();
-        updateDayDescription();
+                return {
+                    ...day,
+                    status: completed ? 'completed' : 'missed',
+                    label: completed ? 'Cumprido' : 'Não cumprido',
+                    current: true,
+                };
+            });
+
+            renderDays();
+            updateDayDescription();
+        } catch (error) {
+            console.warn('Erro ao salvar status do dia.', error);
+            alert(error.message || 'Erro ao atualizar o status do dia.');
+        }
     }
 
     async function initializeWeeklyDiagnostic() {
@@ -263,12 +291,12 @@ document.addEventListener('DOMContentLoaded', function () {
         await loadActivitiesFromApi();
     });
 
-    btnCompleted.addEventListener('click', function () {
-        setDayStatus(currentDay, true);
+    btnCompleted.addEventListener('click', async function () {
+        await setDayStatus(currentDay, true);
     });
 
-    btnMissed.addEventListener('click', function () {
-        setDayStatus(currentDay, false);
+    btnMissed.addEventListener('click', async function () {
+        await setDayStatus(currentDay, false);
     });
 
     btnFormulario.addEventListener('click', function () {

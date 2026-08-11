@@ -154,22 +154,22 @@ class WeeklyDiagnostic extends BaseController
 
     public function updateStatus()
     {
-        $userId = service('authSession')->id();
-        $data = $this->request->getJSON(true) ?? [];
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+        $userId = $data['user_id'] ?? service('authSession')->id();
         $day = isset($data['day']) ? (int) $data['day'] : null;
         $week = isset($data['week']) ? (int) $data['week'] : null;
         $completed = isset($data['completed']) ? filter_var($data['completed'], FILTER_VALIDATE_BOOLEAN) : null;
 
-        if ($day === null || $week === null || $completed === null) {
+        if ($userId === null || $day === null || $week === null || $completed === null) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Dia, semana ou status inválido.',
+                'message' => 'Usuário, dia, semana ou status inválido.',
             ])->setStatusCode(422);
         }
 
-        $result = $this->sideQuestService->markDayStatus($userId, $week, $day, $completed);
+        $result = $this->sideQuestService->markDayStatus((int) $userId, $week, $day, $completed);
 
         return $this->response->setJSON($result)
-            ->setStatusCode($result['success'] ? 200 : 400);
+            ->setStatusCode($result['success'] ? 200 : ($result['code'] ?? 400));
     }
 }

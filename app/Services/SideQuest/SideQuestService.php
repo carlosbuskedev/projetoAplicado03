@@ -151,6 +151,39 @@ SQL;
         return $lastWeek ? (int) $lastWeek['week'] : null;
     }
 
+    public function markDayStatus(int $userId, int $week, int $day, bool $completed): array
+    {
+        if ($userId <= 0 || $week <= 0 || $day <= 0) {
+            return $this->failure('Dados do dia ou semana inválidos.', 422);
+        }
+
+        $statusModel = new \App\Models\WeeklyDiagnosticStatusModel();
+        $record = $statusModel
+            ->where('users_id', $userId)
+            ->where('week', $week)
+            ->where('day', $day)
+            ->first();
+
+        if ($record === null) {
+            return $this->failure('Registro do dia não encontrado para este usuário.', 404);
+        }
+
+        $updated = $statusModel->update($record['id'], [
+            'completed' => $completed ? 1 : 0,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        if ($updated === false) {
+            return $this->failure('Não foi possível atualizar o status do dia.', 500);
+        }
+
+        return $this->success('Status atualizado com sucesso.', [
+            'day' => $day,
+            'week' => $week,
+            'completed' => $completed ? 1 : 0,
+        ]);
+    }
+
     public function create(array $data): array
     {
         $answers = $data['responses'] ?? [];
@@ -222,12 +255,12 @@ SQL;
         for ($day = 1; $day <= 7; $day++) {
             $record = $byDay[$day] ?? null;
             $deadline = $record['deadline'] ?? null;
-            $completed = isset($record['completed']) ? (int) $record['completed'] : 0;
+            $completed = $record['completed'];
 
             if ($record !== null) {
-                if ($completed === 1) {
+                if (is_numeric($completed) && $completed == 1) {
                     $status = 'completed';
-                } elseif ($deadline < $today) {
+                } elseif ($deadline < $today || (is_numeric($completed) && $completed == 0)) {
                     $status = 'missed';
                 } elseif ($deadline === $today) {
                     $status = 'current';
@@ -248,7 +281,7 @@ SQL;
                 'day' => $day,
                 'status' => $status,
                 'label' => $status === 'completed' ? 'Cumprido' : ($status === 'missed' ? 'Não cumprido' : ($status === 'current' ? 'Atual' : 'Por vir')),
-                'current' => false,
+                'current' => ($deadline === $today),
                 'title' => $this->getDayTitle($day),
                 'message' => $this->getDayMessage($day),
                 'deadline' => $deadline,
@@ -257,40 +290,6 @@ SQL;
                 'task' => $activity['task'] ?? null,
             ];
         }
-
-        // determine current day: prefer exact deadline == today, else first upcoming, else last completed
-        $indexCurrent = null;
-        foreach ($days as $i => $d) {
-            if (isset($d['deadline']) && $d['deadline'] === $today) {
-                $indexCurrent = $i;
-                break;
-            }
-        }
-
-        if ($indexCurrent === null) {
-            foreach ($days as $i => $d) {
-                if ($d['status'] === 'upcoming') {
-                    $indexCurrent = $i;
-                    break;
-                }
-            }
-        }
-
-        if ($indexCurrent === null) {
-            // fallback: last completed
-            for ($i = count($days) - 1; $i >= 0; $i--) {
-                if ($days[$i]['status'] === 'completed') {
-                    $indexCurrent = $i;
-                    break;
-                }
-            }
-        }
-
-        if ($indexCurrent === null) {
-            $indexCurrent = 0;
-        }
-
-        $days[$indexCurrent]['current'] = true;
 
         return $days;
     }

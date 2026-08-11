@@ -60,6 +60,7 @@ $routes->group('api/weekly-diagnostic', [
     $routes->post('weeks', 'WeeklyDiagnostic::getWeeks');
     $routes->post('activities', 'WeeklyDiagnostic::activities');
     $routes->post('initialize', 'WeeklyDiagnostic::initialize');
+    $routes->post('status', 'WeeklyDiagnostic::updateStatus');
 });
 
 $routes->group('api/auth', ['namespace' => 'App\Controllers\Backend'], static function ($routes) {
