@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const body = await parseResponse(response);
 
-            window.location.href = '/home';
+            window.location.href = '/weekly-diagnostic';
         } catch (error) {
             alertEl.innerHTML = `<div class="alert alert-danger">${error.message || 'Erro ao enviar respostas.'}</div>`;
             return;
