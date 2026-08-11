@@ -17,6 +17,26 @@ class SideQuests extends BaseController
         $this->sideQuestService = new SideQuestService();
     }
 
+    public function status()    
+    {
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+
+        $userId = $data['user_id'] ?? null;
+
+        if ($userId === null) {
+            return $this->fail('Usuário não autenticado.', 401);
+        }
+
+        $model = new \App\Models\BehavioralResponseModel();
+        $hasResponses = $model->where('users_id', $userId)->countAllResults() > 0;
+
+        return $this->respond([
+            'success' => true,
+            'hasResponses' => $hasResponses,
+            'redirectTo' => $hasResponses ? '/weekly-diagnostic' : '/side-quests',
+        ], 200);
+    }
+
     public function create()
     {
         $data = $this->request->getJSON(true) ?? $this->request->getPost();

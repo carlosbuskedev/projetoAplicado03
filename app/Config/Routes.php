@@ -50,6 +50,7 @@ $routes->group('api/sidequests', [
     'namespace' => 'App\Controllers\Backend',
     'filter'    => 'jwt',
 ], static function ($routes) {
+    $routes->post('status', 'SideQuests::status');
     $routes->post('/', 'SideQuests::create');
 });
 
