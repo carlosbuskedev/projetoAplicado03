@@ -103,6 +103,7 @@
         <div class="status-actions d-flex gap-3">
             <button id="btnCompleted" class="btn btn-success">Marcar como realizada</button>
             <button id="btnMissed" class="btn btn-danger">Marcar como não realizada</button>
+            <button id="btnFormulario" class="btn btn-primary" style="display: none;">Recomeçar</button>
         </div>
     </div>
 

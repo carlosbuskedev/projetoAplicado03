@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const diagnosticContent = document.getElementById('diagnosticContent');
     const btnCompleted = document.getElementById('btnCompleted');
     const btnMissed = document.getElementById('btnMissed');
+    const btnFormulario = document.getElementById('btnFormulario');
 
     const dayMessages = {
         1: 'Excelente! O primeiro passo é sempre o mais difícil para o cérebro, pois exige romper o piloto automático. Você acabou de iniciar a construção de uma nova via neural de foco. Nos vemos amanhã!',
@@ -82,21 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateDayDescription();
     }
 
-    function renderWeekOptions() {
-        const weeks = [];
-        weekSelect.innerHTML = '';
-
-        weeks.forEach(week => {
-            const option = document.createElement('option');
-            option.value = week;
-            option.textContent = `Semana ${week}`;
-            if (week === currentWeek) {
-                option.selected = true;
-            }
-            weekSelect.appendChild(option);
-        });
-    }
-
     function renderDays() {
         daysGrid.innerHTML = '';
         currentStatuses.forEach(day => {
@@ -119,10 +105,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateDayDescription() {
-        const active = currentStatuses.find(day => day.current) || currentStatuses[0];
+        const active = currentStatuses.find(day => day.current) || null;
         if (!active) {
-            dayTitle.textContent = 'Dia atual';
-            dayMessage.textContent = 'Nenhum dia disponível no momento.';
+
+            dayTitle.textContent = 'Você chegou ao final dessa semana';
+            
+            dayMessage.innerHTML = '<br/>';
+            currentStatuses.forEach((day, index) => {
+                dayMessage.innerHTML += `<strong>Tarefa dia ${index + 1}:</strong> ${day.task}<br/><br/>`;
+            });
+
             return;
         }
 
@@ -200,6 +192,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return null;
             }
 
+            // Define a semana atual
+            currentWeek = weeks.length;
+
             weekSelect.innerHTML = '';
             weeks.forEach(week => {
                 const option = document.createElement('option');
@@ -211,10 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 weekSelect.appendChild(option);
             });
 
-            if (!weeks.includes(currentWeek)) {
-                currentWeek = weeks[weeks.length - 1] || 1;
-                setSelectedWeek(currentWeek);
-            }
+            setSelectedWeek(currentWeek);
 
         } catch (err) {
             console.warn('Erro ao carregar as semanas disponíveis via API', err);
@@ -244,6 +236,21 @@ document.addEventListener('DOMContentLoaded', function () {
             updateDiagnostic(body.data.diagnostic);
 
             mostrarDiasStatus(body.data.daysStatus);
+            
+            const active = currentStatuses.find(day => day.current) || null;
+            
+            btnCompleted.style.display = 'block';
+            btnMissed.style.display = 'block';
+            
+            if (active == null) {
+                btnCompleted.style.display = 'none';
+                btnMissed.style.display = 'none';
+            }
+
+            btnFormulario.style.display = 'none';
+            if (weekSelect.options.length == currentWeek && active == null) {
+                btnFormulario.style.display = 'block';
+            }
 
         } catch (err) {
             console.warn('Erro ao carregar as atividades via API', err);
@@ -262,6 +269,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnMissed.addEventListener('click', function () {
         setDayStatus(currentDay, false);
+    });
+
+    btnFormulario.addEventListener('click', function () {
+        window.location.href = '/side-quests';
     });
 
     async function start() {
