@@ -83,6 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateDayDescription();
     }
 
+    const statusIcons = {
+        completed: 'bi-check-circle-fill',
+        missed: 'bi-x-circle-fill',
+        current: 'bi-arrow-right-circle-fill',
+        upcoming: 'bi-hourglass-split',
+    };
+
     function renderDays() {
         daysGrid.innerHTML = '';
         currentStatuses.forEach(day => {
@@ -92,7 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.classList.add('current');
             }
             card.dataset.day = day.day;
-            card.innerHTML = `<div>Dia ${day.day}</div><span>${day.label}</span>`;
+            const icon = statusIcons[day.status] || 'bi-question-circle';
+            card.innerHTML = `<div>Dia ${day.day}</div><span><i class="bi ${icon} day-status-icon"></i> ${day.label}</span>`;
             daysGrid.appendChild(card);
         });
 

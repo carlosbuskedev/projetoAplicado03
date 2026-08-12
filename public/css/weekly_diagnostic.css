@@ -1,0 +1,203 @@
+/* =============================================
+   BRIO – Diagnóstico Semanal
+   ============================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* ── Subtítulo de seção ──────────────────────── */
+.pixel-subtitle {
+  font-size: 1rem;
+  color: #a88f8f;
+  text-shadow: 2px 2px 0 #e8dfd6;
+  letter-spacing: 1px;
+  margin: 2.5rem 0 1.25rem;
+}
+
+/* ── Card de diagnóstico ─────────────────────── */
+.diagnostic-card {
+  background: #faf8f5;
+  border: 5px solid #e8dfd6;
+  box-shadow: 8px 8px 0 #e8dfd6;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+
+.week-selector {
+  max-width: 280px;
+  margin-bottom: 1.5rem;
+}
+
+.week-selector select.pixel-input {
+  cursor: pointer;
+}
+
+.rpg-section-title {
+  font-size: 0.75rem;
+  color: #9d8189;
+  text-shadow: 2px 2px 0 #e8dfd6;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #e8dfd6;
+  padding-bottom: 0.6rem;
+}
+
+.rpg-section-title i {
+  margin-right: 0.4rem;
+}
+
+.pixel-diagnostic-text {
+  font-size: 0.72rem;
+  color: #7d6b7d;
+  line-height: 2;
+  margin: 0;
+}
+
+/* ── Grade dos 7 dias ────────────────────────── */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.day-card {
+  border: 4px solid #d9c5b0;
+  background: #f5ebe0;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  color: #6f5a42;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.58rem;
+  box-shadow: 4px 4px 0 #d9c5b0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.day-card span {
+  display: block;
+  font-size: 0.46rem;
+  line-height: 1.5;
+}
+
+.day-status-icon {
+  font-size: 0.85rem;
+  vertical-align: -1px;
+  margin-right: 2px;
+}
+
+.day-card.completed .day-status-icon { color: #4d7d4d; }
+.day-card.missed .day-status-icon { color: #a04d4d; }
+.day-card.current .day-status-icon { color: #3f6a8a; }
+.day-card.upcoming .day-status-icon { color: #a68a64; }
+
+.day-card.current {
+  border-color: #8fa8bd;
+  background: #dce7ef;
+  color: #3f5d73;
+  box-shadow: 4px 4px 0 #8fa8bd;
+  transform: scale(1.07);
+}
+
+.day-card.completed {
+  border-color: #a8b89c;
+  background: #e3ecdd;
+  color: #4d6b45;
+  box-shadow: 4px 4px 0 #a8b89c;
+}
+
+.day-card.missed {
+  border-color: #c8a8a0;
+  background: #f3e0dc;
+  color: #8b4d4d;
+  box-shadow: 4px 4px 0 #c8a8a0;
+}
+
+.day-card.upcoming {
+  border-color: #d9c5b0;
+  background: #ede4d8;
+  color: #a68a64;
+  opacity: 0.7;
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+/* ── Descrição do dia ────────────────────────── */
+.day-description {
+  background: #faf8f5;
+  border: 5px solid #e8dfd6;
+  padding: 1.75rem;
+  min-height: 140px;
+  margin-bottom: 1.75rem;
+  box-shadow: 6px 6px 0 #e8dfd6;
+}
+
+.pixel-day-title {
+  font-size: 0.85rem;
+  color: #9d8189;
+  text-shadow: 2px 2px 0 #e8dfd6;
+  margin-bottom: 1rem;
+}
+
+.pixel-day-message {
+  font-size: 0.66rem;
+  color: #7d6b7d;
+  line-height: 2.1;
+}
+
+/* ── Botões de ação ──────────────────────────── */
+.status-actions button {
+  min-width: 180px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-btn-success {
+  background: #c8d8c0;
+  border: 3px solid #a8b89c;
+  color: #3f5c38;
+  padding: 12px 20px;
+  font-size: 0.64rem;
+  box-shadow: 5px 5px 0 #a8b89c;
+  transition: all 0.1s;
+}
+
+.pixel-btn-success:hover {
+  background: #a8b89c;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #a8b89c;
+}
+
+.pixel-btn-danger {
+  background: #e8c8c0;
+  border: 3px solid #c8a8a0;
+  color: #7d3d35;
+  padding: 12px 20px;
+  font-size: 0.64rem;
+  box-shadow: 5px 5px 0 #c8a8a0;
+  transition: all 0.1s;
+}
+
+.pixel-btn-danger:hover {
+  background: #c8a8a0;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #c8a8a0;
+}
+
+/* ── Responsivo ──────────────────────────────── */
+@media (max-width: 992px) {
+  .days-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 576px) {
+  .days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .diagnostic-card { padding: 1.25rem; }
+  .day-description { padding: 1.25rem; }
+  .status-actions button { min-width: 140px; font-size: 0.5rem; }
+}

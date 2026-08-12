@@ -1,0 +1,183 @@
+/* =============================================
+   BRIO – Missão Secundária (Triagem de Foco)
+   ============================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 50%, #e7d8c9 100%);
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* ── Introdução ──────────────────────────────── */
+.pixel-quest-intro {
+  font-size: 0.68rem;
+  color: #8b7355;
+  line-height: 1.9;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pixel-empty-text {
+  font-size: 0.68rem;
+  color: #a68a64;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Card genérico ───────────────────────────── */
+.pixel-card {
+  background: #faf8f5;
+  border: 4px solid #e8dfd6;
+  padding: 2rem;
+  box-shadow: 6px 6px 0 #e8dfd6;
+}
+
+/* ── Card de pergunta ────────────────────────── */
+.pixel-question-card {
+  background: #faf8f5;
+  border: 4px solid #e8dfd6;
+  box-shadow: 6px 6px 0 #e8dfd6;
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+.pixel-question-badge {
+  display: inline-block;
+  background: #d9c5b0;
+  color: #5d4e40;
+  border: 2px solid #b8a183;
+  padding: 4px 10px;
+  font-size: 0.46rem;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 0 #b8a183;
+  margin-bottom: 1rem;
+}
+
+.pixel-question-text {
+  font-size: 0.8rem;
+  color: #6f5a42;
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Grupo de escolhas (escala Likert) ───────── */
+.pixel-scale-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pixel-scale-choice {
+  position: relative;
+}
+
+.pixel-scale-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.pixel-scale-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: all 0.12s;
+  box-shadow: 4px 4px 0 #d9c5b0;
+  margin: 0;
+}
+
+.pixel-scale-option:hover {
+  background: #ede0d4;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #d9c5b0;
+}
+
+.pixel-scale-input:checked + .pixel-scale-option {
+  background: #d9c5b0;
+  border-color: #b8a183;
+  color: #5d4e40;
+  box-shadow: 2px 2px 0 #b8a183;
+  transform: translate(2px, 2px);
+}
+
+.pixel-scale-input:focus-visible + .pixel-scale-option {
+  outline: 3px dashed #9d8189;
+  outline-offset: 3px;
+}
+
+.pixel-scale-score {
+  flex: 0 0 auto;
+  min-width: 30px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #9d8189;
+}
+
+.pixel-scale-text {
+  font-size: 0.64rem;
+  color: #7d6b7d;
+  line-height: 1.8;
+}
+
+.pixel-scale-text em {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.5rem;
+  font-style: normal;
+  color: #a68a64;
+}
+
+/* ── Botão cancelar ──────────────────────────── */
+.pixel-btn-cancel {
+  background: #f5ebe0;
+  border: 3px solid #d9c5b0;
+  color: #a68a64;
+  padding: 12px 22px;
+  font-size: 0.65rem;
+  box-shadow: 5px 5px 0 #d9c5b0;
+  transition: all 0.1s;
+}
+
+.pixel-btn-cancel:hover {
+  background: #ede0d4;
+  color: #8b7355;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #d9c5b0;
+}
+
+/* ── Alertas (reaproveitados pelo JS) ────────── */
+.alert {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.55rem;
+  line-height: 1.9;
+  border-radius: 0;
+  border-width: 3px;
+}
+
+.alert-warning {
+  background: #f5ebe0;
+  border-color: #d9c5b0;
+  color: #8b7355;
+}
+
+.alert-danger {
+  background: #fbe3e0;
+  border-color: #e0b0a8;
+  color: #8b4d4d;
+}
+
+/* ── Responsivo ──────────────────────────────── */
+@media (max-width: 768px) {
+  .pixel-question-text { font-size: 0.68rem; }
+  .pixel-scale-score { font-size: 0.8rem; }
+  .pixel-scale-text { font-size: 0.55rem; }
+  .pixel-question-card { padding: 1.25rem 1rem; }
+  .pixel-quest-intro { font-size: 0.58rem; }
+}
