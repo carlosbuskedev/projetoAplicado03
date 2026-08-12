@@ -33,6 +33,15 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10">
 
+                    <div class="mindful-mascot">
+                        <button type="button" class="sound-toggle" id="soundToggle" title="Ativar/desativar som ambiente">🔇</button>
+                        <div class="water-ambience"></div>
+                        <div class="mindful-mascot-frame"><img src="/images/mindfulness-mascot-meditating.png" alt="Mascote Mindfulness meditando"></div>
+                    </div>
+                    <audio id="ambientAudio" loop>
+                        <source src="/audio/mindfulness-ambiente.mp3" type="audio/mpeg">
+                    </audio>
+
                     <div class="diagnostic-card">
                         <div class="week-selector">
                             <label class="pixel-label" for="weekSelect">Semana</label>
@@ -67,5 +76,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/session.js"></script>
     <script src="/js/weekly_diagnostic.js"></script>
+    <script>
+        document.getElementById('soundToggle').addEventListener('click', function () {
+            const audio = document.getElementById('ambientAudio');
+            const btn = this;
+            if (audio.paused) {
+                audio.play().then(() => { btn.textContent = '🔊'; }).catch(() => { btn.textContent = '🔇'; });
+            } else {
+                audio.pause();
+                btn.textContent = '🔇';
+            }
+        });
+    </script>
 </body>
 </html>
