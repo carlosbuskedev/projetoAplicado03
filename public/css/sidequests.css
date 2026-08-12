@@ -1,0 +1,265 @@
+/* =============================================
+   BRIO – Missão Secundária (Triagem de Foco)
+   Paleta calma em tons de azul + mascote
+   ============================================= */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eaf1fa 0%, #dce8f5 50%, #cfe0f2 100%);
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* ── Mascote (mirtilo + brilho de água) ─────── */
+.mindful-mascot {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.75rem;
+  overflow: hidden;
+  padding-top: 0.5rem;
+}
+
+.water-ambience {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, rgba(127,163,201,0.25) 0px, rgba(127,163,201,0.25) 2px, transparent 3px, transparent 14px);
+  animation: waterRipple 4.5s linear infinite;
+  z-index: 0;
+}
+
+@keyframes waterRipple {
+  0%   { transform: translate(-50%,-50%) scale(0.6); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) scale(1.3); opacity: 0; }
+}
+
+.mindful-mascot-frame {
+  position: relative;
+  z-index: 1;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #f2f7fc 0%, #cfe0f2 100%);
+  border: 4px solid #a9c4e0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(169,196,224,0.4), 6px 6px 0 #7fa3c9;
+  animation: mindfulPulse 3.5s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.mindful-mascot-frame img {
+  width: 112%;
+  height: 112%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+@keyframes mindfulPulse {
+  0%, 100% { box-shadow: 0 0 0 6px rgba(169,196,224,0.4), 6px 6px 0 #7fa3c9; transform: translateY(0); }
+  50%      { box-shadow: 0 0 0 14px rgba(169,196,224,0.15), 6px 6px 0 #7fa3c9; transform: translateY(-4px); }
+}
+
+/* ── Botão de som ambiente ───────────────────── */
+.sound-toggle {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid #7fa3c9;
+  background: #e4edf7;
+  color: #4a6485;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #7fa3c9;
+  transition: all 0.1s;
+}
+
+.sound-toggle:hover {
+  background: #c3d4e8;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #7fa3c9;
+}
+
+/* ── Introdução ──────────────────────────────── */
+.pixel-quest-intro {
+  font-size: 0.68rem;
+  color: #5b7699;
+  line-height: 1.9;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pixel-empty-text {
+  font-size: 0.68rem;
+  color: #7fa3c9;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Card genérico ───────────────────────────── */
+.pixel-card {
+  background: #f7fafd;
+  border: 4px solid #d3e0ef;
+  padding: 2rem;
+  box-shadow: 6px 6px 0 #d3e0ef;
+}
+
+/* ── Card de pergunta ────────────────────────── */
+.pixel-question-card {
+  background: #f7fafd;
+  border: 4px solid #d3e0ef;
+  box-shadow: 6px 6px 0 #d3e0ef;
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+.pixel-question-badge {
+  display: inline-block;
+  background: #a9c4e0;
+  color: #2f4a66;
+  border: 2px solid #7fa3c9;
+  padding: 4px 10px;
+  font-size: 0.46rem;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 0 #7fa3c9;
+  margin-bottom: 1rem;
+}
+
+.pixel-question-text {
+  font-size: 0.8rem;
+  color: #33475f;
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Grupo de escolhas (escala Likert) ───────── */
+.pixel-scale-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pixel-scale-choice {
+  position: relative;
+}
+
+.pixel-scale-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.pixel-scale-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #e4edf7;
+  border: 3px solid #c3d4e8;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: all 0.12s;
+  box-shadow: 4px 4px 0 #c3d4e8;
+  margin: 0;
+}
+
+.pixel-scale-option:hover {
+  background: #d6e4f2;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #c3d4e8;
+}
+
+.pixel-scale-input:checked + .pixel-scale-option {
+  background: #a9c4e0;
+  border-color: #7fa3c9;
+  color: #2f4a66;
+  box-shadow: 2px 2px 0 #7fa3c9;
+  transform: translate(2px, 2px);
+}
+
+.pixel-scale-input:focus-visible + .pixel-scale-option {
+  outline: 3px dashed #4a6485;
+  outline-offset: 3px;
+}
+
+.pixel-scale-score {
+  flex: 0 0 auto;
+  min-width: 30px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #4a6485;
+}
+
+.pixel-scale-text {
+  font-size: 0.64rem;
+  color: #4a6485;
+  line-height: 1.8;
+}
+
+.pixel-scale-text em {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.5rem;
+  font-style: normal;
+  color: #7fa3c9;
+}
+
+/* ── Botões ──────────────────────────────────── */
+.pixel-btn-cancel {
+  background: #e4edf7;
+  border: 3px solid #c3d4e8;
+  color: #5b7699;
+  padding: 12px 22px;
+  font-size: 0.65rem;
+  box-shadow: 5px 5px 0 #c3d4e8;
+  transition: all 0.1s;
+}
+
+.pixel-btn-cancel:hover {
+  background: #d6e4f2;
+  color: #2f4a66;
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #c3d4e8;
+}
+
+/* ── Alertas (reaproveitados pelo JS) ────────── */
+.alert {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.55rem;
+  line-height: 1.9;
+  border-radius: 0;
+  border-width: 3px;
+}
+
+.alert-warning {
+  background: #e4edf7;
+  border-color: #c3d4e8;
+  color: #4a6485;
+}
+
+.alert-danger {
+  background: #fbe3e0;
+  border-color: #e0b0a8;
+  color: #8b4d4d;
+}
+
+/* ── Responsivo ──────────────────────────────── */
+@media (max-width: 768px) {
+  .pixel-question-text { font-size: 0.68rem; }
+  .pixel-scale-score { font-size: 0.8rem; }
+  .pixel-scale-text { font-size: 0.55rem; }
+  .pixel-question-card { padding: 1.25rem 1rem; }
+  .pixel-quest-intro { font-size: 0.58rem; }
+  .mindful-mascot-frame { width: 110px; height: 110px; }
+}
